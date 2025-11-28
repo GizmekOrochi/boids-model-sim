@@ -14,9 +14,9 @@ public:
     T y;
 
     Vec2() : x(0), y(0) {}
-    Vec2(T x_, T y_) : x(x_), y(y_) {}
+    Vec2(T newx, T newy) : x(newx), y(newy) {}
 
-    // --- Opérateurs arithmétiques ---
+    // -Opperator
     Vec2 operator+(const Vec2& rhs) const { return Vec2(x + rhs.x, y + rhs.y); }
     Vec2 operator-(const Vec2& rhs) const { return Vec2(x - rhs.x, y - rhs.y); }
     Vec2 operator*(T scalar) const { return Vec2(x * scalar, y * scalar); }
