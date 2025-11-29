@@ -1,2 +1,7 @@
-#include <iostream>
-int main(){ std::cout << "Hello from ModelBoids!\n"; }
+#include "include/Simulation.hpp"
+
+int main() {
+    bd::Simulation sim;
+    sim.run();
+    return 0;
+}

@@ -17,7 +17,7 @@ public:
     virtual Vec2<float> apply(const Boid& boid, const DynamicArray<Boid>& neighbors) const = 0;
 };
 
-} // namespace bd
+}
 
 
 #endif // RULE_HPP

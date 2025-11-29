@@ -3,6 +3,7 @@
 
 #pragma once
 #include "Rule.hpp"
+#include "Vec2.hpp"
 
 namespace bd {
 

@@ -28,7 +28,7 @@ public:
 
     void push_back(const T& value) {
         if (size == capacity) { 
-            grow(value); 
+            grow(); 
         }
         new (data + size) T(value);
         size++;
@@ -38,7 +38,7 @@ public:
     const T& operator[](size_t index) const { return data[index]; }
 
 private:
-    void grow(const T& value) {
+    void grow() {
         // nouvelle capacité: 1 ou * 2
         size_t new_capacity;
 

@@ -16,7 +16,7 @@ public:
     Vec2() : x(0), y(0) {}
     Vec2(T newx, T newy) : x(newx), y(newy) {}
 
-    // -Opperator
+    // Opperators
     Vec2 operator+(const Vec2& rhs) const { return Vec2(x + rhs.x, y + rhs.y); }
     Vec2 operator-(const Vec2& rhs) const { return Vec2(x - rhs.x, y - rhs.y); }
     Vec2 operator*(T scalar) const { return Vec2(x * scalar, y * scalar); }
@@ -30,15 +30,19 @@ public:
     bool operator==(const Vec2& rhs) const { return x == rhs.x && y == rhs.y; }
     bool operator!=(const Vec2& rhs) const { return !(*this == rhs); }
 
+    // dot product
+    T dot(const Vec2& rhs) const { return x*rhs.x + y*rhs.y; }
+
     // norme
     T length() const { return std::sqrt(x*x + y*y); }
 
+    // normatization
     Vec2 normalized() const {
         T len = length();
         return (len != 0) ? Vec2(x/len, y/len) : Vec2();
     }
 };
 
-} // namespace bd
+}
 
 #endif // VEC2_HPP

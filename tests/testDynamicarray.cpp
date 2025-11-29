@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cassert>
-#include "../src/include/DynamicArray.hpp"
+#include "../src/include/model/DynamicArray.hpp"
 
 int main() {
     bd::DynamicArray<int> arr;

@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cassert>
-#include "../src/include/Vec2.hpp"
+#include "../src/include/model/Vec2.hpp"
 
 int main() {
     using bd::Vec2;
