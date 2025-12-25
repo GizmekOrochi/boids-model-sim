@@ -1,5 +1,4 @@
 #include "../../include/model/Cohesion.hpp"
-#include "../../include/model/Vec2.hpp"
 #include "../../include/model/Boid.hpp"
 
 namespace bd {

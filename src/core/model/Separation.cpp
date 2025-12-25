@@ -1,7 +1,5 @@
 #include "../../include/model/Separation.hpp"
-#include "../../include/model/Vec2.hpp"
 #include "../../include/model/Boid.hpp"
-
 
 namespace bd {
 
@@ -19,7 +17,6 @@ Vec2<float> Separation::apply(const Boid& boid, const DynamicArray<Boid>& neighb
             force += diff / distSq;
         }
     }
-
     return force * weight;
 }
 

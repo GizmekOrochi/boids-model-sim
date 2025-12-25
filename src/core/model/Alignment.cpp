@@ -1,7 +1,5 @@
 #include "../../include/model/Alignment.hpp"
-#include "../../include/model/Vec2.hpp"
 #include "../../include/model/Boid.hpp"
-
 
 namespace bd {
 
