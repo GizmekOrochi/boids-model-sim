@@ -8,19 +8,23 @@ namespace bd {
 class Settings {
 public:
     // Window boids
-    float windowWidth  = 800.0f;
-    float windowHeight = 600.0f;
+    static int constexpr windowWidth  = 800;
+    static int constexpr windowHeight = 600;
 
     // Window setting
-    float windowSetWidth  = 400.0f;
-    float windowSetHeight = 600.0f;
+    static int constexpr windowSetWidth  = 200;
+    static int constexpr windowSetHeight = windowHeight;
+
+    // Global window size
+    static int constexpr fullwindowWidth = windowWidth + windowSetWidth;
+    static int constexpr fullwindowHeight = windowHeight;
 
     // Physics
-    float baseSpeed        = 1.0f; // basespeed
+    float baseSpeed = 1.0f; // basespeed
 
-    float maxSpeed        = 4.0f; // vmax
+    float maxSpeed = 4.0f; // vmax
     float maxAcceleration = 0.1f; // amax
-    float deltaTime       = 1.0f; // delta
+    float deltaTime = 1.0f; // delta
 
     float cohesionweight = 0.01f; // CohesionWeight
     float separationweight = 1.0f; // SeparationWeight
@@ -30,7 +34,7 @@ public:
 
     // Boids vision range
     float visionAngleDeg = 90.0f; // default: half circle
-    float visionRange    = 50.0f; // default: same as perceptionRadius
+    float visionRange = 50.0f; // default: same as perceptionRadius
 
     // Boids perception
     float perceptionRadius = 50.0f; // r

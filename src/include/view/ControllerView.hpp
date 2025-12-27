@@ -13,8 +13,6 @@ public:
 
 private:
     const Settings& settings;
-    sf::Font font;
-    sf::Text text;
 };
 
 }

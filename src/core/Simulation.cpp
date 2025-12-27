@@ -4,7 +4,7 @@
 namespace bd {
 
 Simulation::Simulation()
-    : window(sf::VideoMode(1200, 600), "Boids Simulation"),
+    : window(sf::VideoMode(settings.fullwindowWidth, settings.fullwindowHeight), "Boids Simulation"),
       controllerView(settings)
 {
     window.setFramerateLimit(60);
@@ -20,7 +20,7 @@ Simulation::Simulation()
     rightView.setViewport({0.66f, 0.f, 0.34f, 1.f});
 
     for (int i = 0; i < 50; ++i) {
-        flock.addBoid(Boid(rand() % 800, rand() % 600));
+        flock.addBoid(Boid(rand() % settings.windowWidth, rand() % settings.windowHeight));
     }
 
     flock.addRule(new Cohesion());
