@@ -17,7 +17,7 @@ private:
 
 public:
     Simulation();
-    void run();
+    void run(Settings& setting);
 };
 
 }

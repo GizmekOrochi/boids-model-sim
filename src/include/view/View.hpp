@@ -7,10 +7,6 @@
 namespace bd {
 
 class View {
-private:
-    sf::Font font;
-    sf::Text uiText;
-
 public:
     View();
 

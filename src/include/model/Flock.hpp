@@ -16,8 +16,6 @@ private:
     Settings settings;
 
 private:
-    // --- Helper functions ---
-
     DynamicArray<Boid> findNeighbors(size_t index) const;
 
     Vec2<float> computeRuleForces(const Boid& b, const DynamicArray<Boid>& neighbors) const;

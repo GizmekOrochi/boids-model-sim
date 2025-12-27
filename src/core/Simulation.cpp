@@ -3,28 +3,26 @@
 
 namespace bd {
 
-Simulation::Simulation()
-    : window(sf::VideoMode(800, 600), "Boids Simulation")
-{
-    window.setFramerateLimit(60);
+Simulation::Simulation() {}
 
-    // Initialize boids
+
+void Simulation::run(Settings& settings) {
+    window.create(sf::VideoMode(settings.windowWidth, settings.windowHeight),"Boids Simulation");
+    window.setFramerateLimit(60);
+    
+    // Initialize boids only
     for (int i = 0; i < 50; ++i) {
-        float x = rand() % 800;
-        float y = rand() % 600;
+        float x = static_cast<float>(rand()) / RAND_MAX * settings.windowWidth;
+        float y = static_cast<float>(rand()) / RAND_MAX * settings.windowHeight;
         flock.addBoid(Boid(x, y));
     }
 
-    // Add default rules
     flock.addRule(new Cohesion());
     flock.addRule(new Separation());
     flock.addRule(new Alignment());
-}
 
-void Simulation::run() {
     while (window.isOpen()) {
         controller.handleInput(flock, window);
-
         flock.update();
 
         window.clear(sf::Color::Black);

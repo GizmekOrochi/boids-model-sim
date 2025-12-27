@@ -3,16 +3,10 @@
 
 namespace bd {
 
-View::View() {
-    font.loadFromFile("arial.ttf"); // Make sure you include this file
-    uiText.setFont(font);
-    uiText.setCharacterSize(14);
-    uiText.setFillColor(sf::Color::White);
-}
+View::View() {}
 
 void View::draw(sf::RenderWindow& window, const Flock& flock) {
     const auto& boids = flock.getBoids();
-    const Settings& s = flock.getSettings();
 
     // --- Draw each boid ---
     for (size_t i = 0; i < boids.getsize(); ++i) {
@@ -32,15 +26,6 @@ void View::draw(sf::RenderWindow& window, const Flock& flock) {
 
         window.draw(triangle);
     }
-
-    // --- Draw UI parameters ---
-    std::string text;
-    text += "Perception radius (R/F): " + std::to_string(s.perceptionRadius) + "\n";
-    text += "Separation dist (T/G):  " + std::to_string(s.separationDistance) + "\n";
-
-    uiText.setString(text);
-    uiText.setPosition(10, 10);
-    window.draw(uiText);
 }
 
 }
