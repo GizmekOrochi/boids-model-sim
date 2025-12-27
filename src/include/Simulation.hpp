@@ -4,7 +4,9 @@
 #include <SFML/Graphics.hpp>
 #include "model/Flock.hpp"
 #include "view/View.hpp"
+#include "view/ControllerView.hpp"
 #include "controller/Controller.hpp"
+#include "config/Settings.hpp"
 
 namespace bd {
 
@@ -15,15 +17,15 @@ private:
     sf::View leftView;
     sf::View rightView;
 
-    Settings setting;
-    
+    Settings settings;
+
     Flock flock;
     View view;
     Controller controller;
+    ControllerView controllerView;
 
 public:
     Simulation();
-    void drawPanel();
     void run();
 };
 

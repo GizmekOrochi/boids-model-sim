@@ -7,13 +7,8 @@
 namespace bd {
 
 class View {
-private:
-    sf::Font font;
-    sf::Text uiText;
-
 public:
     View();
-
     void draw(sf::RenderWindow& window, const Flock& flock);
 };
 
