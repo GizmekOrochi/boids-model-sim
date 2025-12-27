@@ -11,12 +11,19 @@ namespace bd {
 class Simulation {
 private:
     sf::RenderWindow window;
+
+    sf::View leftView;
+    sf::View rightView;
+
+    Settings setting;
+    
     Flock flock;
     View view;
     Controller controller;
 
 public:
     Simulation();
+    void drawPanel();
     void run();
 };
 

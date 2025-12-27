@@ -62,4 +62,4 @@ public:
 
 }
 
-#endif // FLOCK_HPP
+#endif

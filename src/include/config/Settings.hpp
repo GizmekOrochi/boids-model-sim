@@ -7,9 +7,13 @@ namespace bd {
 
 class Settings {
 public:
-    // Window
+    // Window boids
     float windowWidth  = 800.0f;
     float windowHeight = 600.0f;
+
+    // Window setting
+    float windowSetWidth  = 400.0f;
+    float windowSetHeight = 600.0f;
 
     // Physics
     float baseSpeed        = 1.0f; // basespeed
