@@ -1,5 +1,5 @@
-#include "../../include/model/Separation.hpp"
-#include "../../include/model/Boid.hpp"
+#include "../../../include/model/Boids_rules/Separation.hpp"
+#include "../../../include/model/Boid.hpp"
 
 namespace bd {
 

@@ -2,8 +2,8 @@
 #define RULE_HPP
 
 #pragma once
-#include "Vec2.hpp"
-#include "DynamicArray.hpp"
+#include "../utils/Vec2.hpp"
+#include "../utils/DynamicArray.hpp"
 
 namespace bd {
 

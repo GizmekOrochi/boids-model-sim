@@ -2,7 +2,7 @@
 #define BOID_HPP
 
 #pragma once
-#include "Vec2.hpp"
+#include "utils/Vec2.hpp"
 
 namespace bd {
 

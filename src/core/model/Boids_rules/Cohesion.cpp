@@ -1,5 +1,5 @@
-#include "../../include/model/Cohesion.hpp"
-#include "../../include/model/Boid.hpp"
+#include "../../../include/model/Boids_rules/Cohesion.hpp"
+#include "../../../include/model/Boid.hpp"
 
 namespace bd {
 

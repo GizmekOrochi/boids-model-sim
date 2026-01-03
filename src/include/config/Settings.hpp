@@ -24,12 +24,12 @@ public:
     float alignmentweight = 0.125f; // AlignmentWeight
     float separationDistance = 15.0f; // dmin
 
+    // Boids perception
+    float perceptionRadius = 50.0f; // r
+    
     // Boids vision range
     float visionAngleDeg = 90.0f; // default: half circle
     float visionRange = 50.0f; // default: same as perceptionRadius
-
-    // Boids perception
-    float perceptionRadius = 50.0f; // r
 
     Settings() = default;
 };

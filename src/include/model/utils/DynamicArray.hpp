@@ -37,6 +37,14 @@ public:
     T& operator[](size_t index) { return data[index]; }
     const T& operator[](size_t index) const { return data[index]; }
 
+    void clear() {
+        for (size_t i = 0; i < size; ++i) {
+            data[i].~T();
+        }
+        size = 0;
+    }
+
+
 private:
     void grow() {
         // nouvelle capacité: 1 ou * 2

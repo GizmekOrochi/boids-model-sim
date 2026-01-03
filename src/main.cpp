@@ -1,8 +1,11 @@
-#include "include/Simulation.hpp"
+#include "include/Application.hpp"
 #include "include/config/Settings.hpp"
 
 int main() {
     bd::Settings settings;
-    bd::Simulation sim;
-    sim.run(settings);
+
+    bd::Application app(settings);
+    app.run();
+
+    return 0;
 }

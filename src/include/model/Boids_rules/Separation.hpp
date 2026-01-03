@@ -3,8 +3,8 @@
 
 #pragma once
 #include "Rule.hpp"
-#include "Vec2.hpp"
-#include "../config/Settings.hpp"
+#include "../utils/Vec2.hpp"
+#include "../../config/Settings.hpp"
 
 namespace bd {
 

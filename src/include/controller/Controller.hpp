@@ -1,19 +1,19 @@
 #ifndef CONTROLLER_HPP
 #define CONTROLLER_HPP
 
-#include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
-#include "../model/Flock.hpp"
-#include "../model/Cohesion.hpp"
-#include "../model/Separation.hpp"
-#include "../model/Alignment.hpp"
+#include "../model/Simulation.hpp"
+#include "../model/utils/SaveSystem.hpp"
+#include "../model/Boids_rules/Cohesion.hpp"
+#include "../model/Boids_rules/Separation.hpp"
+#include "../model/Boids_rules/Alignment.hpp"
 
 namespace bd {
 
 class Controller {
 public:
-    void handleInput(Flock& flock, sf::RenderWindow& window);
+    void handleInput(Simulation& simulation, sf::RenderWindow& window);
 };
 
 }
