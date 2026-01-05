@@ -5,7 +5,7 @@
 namespace bd {
 
 View::View() {
-    if (!font.loadFromFile("C:/Windows/Fonts/arial.ttf")) {
+    if (!font.loadFromFile("assets/font/arial.ttf")) {
         std::cerr << "ERREUR: Impossible de charger une police" << std::endl;}
 
 

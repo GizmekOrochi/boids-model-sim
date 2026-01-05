@@ -2,7 +2,6 @@
 *.o
 *.exe
 .vscode
-Makefile
 /libs
 .idea
 CMakeLists.txt
