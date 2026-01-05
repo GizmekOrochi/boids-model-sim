@@ -13,7 +13,7 @@ namespace bd {
 
 class Controller {
 public:
-    explicit Controller(const Settings& settings);
+    explicit Controller();
     void run();
 
 private:

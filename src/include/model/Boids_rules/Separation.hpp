@@ -9,11 +9,9 @@
 namespace bd {
 
 class Separation : public Rule {
-private:
-    Settings settings;
 public:
-    float desiredDistance = settings.desiredDistance;
-    float weight = settings.separationweight;
+    float desiredDistance = settings::desiredDistance;
+    float weight = settings::separationWeight;
 
     Vec2<float> apply(const Boid& boid, const DynamicArray<Boid>& neighbors) const override;
 };

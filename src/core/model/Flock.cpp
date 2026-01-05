@@ -23,24 +23,24 @@ void Flock::enforceBaseSpeed(Boid& b, const DynamicArray<Boid>& neighbors) {
     if (len < 0.0001f) {
         float a = (float(rand()) / RAND_MAX) * 6.283185f;
         b.velocity = Vec2<float>(std::cos(a), std::sin(a))
-                   * settings.baseSpeed;
+                   * settings::baseSpeed;
     }
-    else if (len < settings.baseSpeed) {
-        b.velocity = b.velocity.normalized() * settings.baseSpeed;
+    else if (len < settings::baseSpeed) {
+        b.velocity = b.velocity.normalized() * settings::baseSpeed;
     }
 }
 
 Vec2<float> Flock::clampAcceleration(const Vec2<float>& force) const {
     float len = force.length();
-    if (len > settings.maxAcceleration && len > 0.0f)
-        return force.normalized() * settings.maxAcceleration;
+    if (len > settings::maxAcceleration && len > 0.0f)
+        return force.normalized() * settings::maxAcceleration;
     return force;
 }
 
 Vec2<float> Flock::clampSpeed(const Vec2<float>& v) const {
     float len = v.length();
-    if (len > settings.maxSpeed && len > 0.0f)
-        return v.normalized() * settings.maxSpeed;
+    if (len > settings::maxSpeed && len > 0.0f)
+        return v.normalized() * settings::maxSpeed;
     return v;
 }
 
@@ -64,52 +64,12 @@ DynamicArray<Vec2<float>> Flock::computeNextVelocities() {
 
 
 
-bool analyseTHISBoid(const Boid& b, const Boid& other, const Vec2<float>& forward, float maxDistSq, float cosHalfAngle) {
-    Vec2<float> toNeighbor = other.position - b.position;
-    float distSq = toNeighbor.dot(toNeighbor);
-
-    if (distSq > maxDistSq)
-        return false;
-
-    if (forward.length() < 0.001f)
-        return true;
-
-    float invDist = 1.0f / ( distSq * distSq);
-    float dot = forward.dot(toNeighbor) * invDist;
-
-    return dot >= cosHalfAngle;
-}
-
 DynamicArray<Boid> Flock::findNeighbors(size_t index) const {
     DynamicArray<Boid> neighbors;
     const Boid& b = boids[index];
 
-    float maxDistSq = settings.visionRange * settings.visionRange;
-    float cosHalfAngle = std::cos(settings.visionAngleDeg * 0.5f * (3.1415926f / 180.0f));
-
-    Vec2<float> forward = b.velocity.normalized();
-
-    for (size_t j = 0; j < boids.getsize(); ++j) {
-        if (j == index) continue;
-
-        const Boid& other = boids[j];
-
-        if (analyseTHISBoid(b, other, forward, maxDistSq, cosHalfAngle)) {
-            neighbors.push_back(other);
-        }
-    }
-
-    return neighbors;
-}
-
-/*
-OLD Single threaded function
-DynamicArray<Boid> Flock::findNeighbors(size_t index) const {
-    DynamicArray<Boid> neighbors;
-    const Boid& b = boids[index];
-
-    float maxDistSq = settings.visionRange * settings.visionRange;
-    float visionAngleRad = settings.visionAngleDeg * (3.1415926f / 180.0f);
+    float maxDistSq = settings::visionRange * settings::visionRange;
+    float visionAngleRad = settings::visionAngleDeg * (3.1415926f / 180.0f);
 
     Vec2<float> forward = b.velocity.normalized();
 
@@ -130,14 +90,12 @@ DynamicArray<Boid> Flock::findNeighbors(size_t index) const {
 
         Vec2<float> dir = toNeighbor.normalized();
         float dot = forward.dot(dir);
-        float cosAngle = std::cos(visionAngleRad * 0.5f);
 
-        if (dot >= cosAngle)
+        if (dot >= settings::cosAngle)
             neighbors.push_back(other);
     }
 
     return neighbors;
 }
 
-*/
 }

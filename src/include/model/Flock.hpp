@@ -25,9 +25,6 @@ private:
     /** Container holding pointers to behavioral rules. */
     DynamicArray<Rule*> rules;
 
-    /** Configuration parameters controlling flock behavior. */
-    Settings settings;
-
 private:
     /**
      * @brief Finds neighboring boids for a given boid.
@@ -84,21 +81,7 @@ public:
      * @brief Constructs an empty flock.
      */
     Flock() = default;
-
-    /**
-     * @brief Provides mutable access to the flock settings.
-     *
-     * @return Reference to the settings object.
-     */
-    Settings& getSettings() { return settings; }
-
-    /**
-     * @brief Provides read-only access to the flock settings.
-     *
-     * @return Const reference to the settings object.
-     */
-    const Settings& getSettings() const { return settings; }
-
+    
     /**
      * @brief Provides mutable access to the boid container.
      *

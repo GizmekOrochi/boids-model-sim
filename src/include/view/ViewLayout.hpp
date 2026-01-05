@@ -9,12 +9,10 @@ namespace bd {
 
 class ViewLayout {
 public:
-    float panelWidth = 300.f;
-
     std::vector<Button> buttons;
     std::vector<Slider> sliders;
 
-    void build(Settings& settings);
+    void build();
 };
 
 }

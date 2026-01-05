@@ -2,9 +2,7 @@
 #include "include/config/Settings.hpp"
 
 int main() {
-    bd::Settings settings;
-
-    bd::Controller cont = bd::Controller(settings);
+    bd::Controller cont = bd::Controller();
     cont.run();
 
     return 0;

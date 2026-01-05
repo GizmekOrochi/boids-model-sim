@@ -9,10 +9,8 @@
 namespace bd {
 
 class Alignment : public Rule {
-private:
-    Settings settings;
 public:
-    float weight = settings.alignmentweight;
+    float weight = settings::alignmentWeight;
 
     Vec2<float> apply(const Boid& boid, const DynamicArray<Boid>& neighbors) const override;
 };

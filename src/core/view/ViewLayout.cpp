@@ -2,7 +2,7 @@
 
 namespace bd {
 
-void ViewLayout::build(Settings& s) {
+void ViewLayout::build() {
     buttons.clear();
     sliders.clear();
 
@@ -19,14 +19,14 @@ void ViewLayout::build(Settings& s) {
     };
 
     int i = 0;
-    add("Cohesion", &s.cohesionweight, 0.f, 0.1f, i++);
-    add("Separation", &s.separationweight, 0.f, 5.f, i++);
-    add("Alignment", &s.alignmentweight, 0.f, 0.5f, i++);
-    add("Perception", &s.perceptionRadius, 10.f, 200.f, i++);
-    add("Max Accel", &s.maxAcceleration, 0.01f, 1.f, i++);
-    add("Sep Dist", &s.separationDistance, 5.f, 100.f, i++);
-    add("Max Speed", &s.maxSpeed, 1.f, 10.f, i++);
-    add("Vision Angle", &s.visionAngleDeg, 5.f, 360.f, i++);
+    add("Cohesion", &settings::cohesionWeight, 0.f, 0.1f, i++);
+    add("Separation", &settings::separationWeight, 0.f, 5.f, i++);
+    add("Alignment", &settings::alignmentWeight, 0.f, 0.5f, i++);
+    add("Perception", &settings::perceptionRadius, 10.f, 200.f, i++);
+    add("Max Accel", &settings::maxAcceleration, 0.01f, 1.f, i++);
+    add("Sep Dist", &settings::separationDistance, 5.f, 100.f, i++);
+    add("Max Speed", &settings::maxSpeed, 1.f, 10.f, i++);
+    add("Vision Angle", &settings::visionAngleDeg, 5.f, 360.f, i++);
 }
 
 }

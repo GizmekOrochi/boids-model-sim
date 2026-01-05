@@ -10,21 +10,17 @@
 
 namespace bd {
 
-Controller::Controller(const Settings& settings) : simulation(World(settings.windowWidth, settings.windowHeight), settings.deltaTime), renderer(font) {
+Controller::Controller() : simulation(World(settings::windowWidth, settings::windowHeight), settings::deltaTime), renderer(font) {
     if (!font.loadFromFile("assets/font/arial.ttf")) {
         std::cerr << "ERROR: failed to load font\n";
     }
-
-    simulation.getFlock().getSettings() = settings;
 }
 
 void Controller::run() {
     auto& flock = simulation.getFlock();
-    Settings& s = flock.getSettings();
+    layout.build();
 
-    layout.build(s);
-
-    float panelWidth = layout.panelWidth;
+    float panelWidth = settings::panelWidth;
     float worldW = simulation.getWorld().getWidth();
     float worldH = simulation.getWorld().getHeight();
 
@@ -35,7 +31,7 @@ void Controller::run() {
     window.create(sf::VideoMode(static_cast<unsigned>(worldW + panelWidth), static_cast<unsigned>(worldH)), "Boids Simulation");
     window.setFramerateLimit(60);
 
-    for (int i = 0; i < s.nbboid; ++i) {
+    for (int i = 0; i < settings::nbboid; ++i) {
         float x = rand() / float(RAND_MAX) * worldW;
         float y = rand() / float(RAND_MAX) * worldH;
         flock.addBoid(Boid(static_cast<float>(x), static_cast<float>(y)));
