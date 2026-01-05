@@ -3,12 +3,12 @@
 
 // Your headers
 #include "../src/include/model/Boid.hpp"
-#include "../src/include/model/Cohesion.hpp"
-#include "../src/include/model/Separation.hpp"
-#include "../src/include/model/Alignment.hpp"
+#include "../src/include/model/Boids_rules/Cohesion.hpp"
+#include "../src/include/model/Boids_rules/Separation.hpp"
+#include "../src/include/model/Boids_rules/Alignment.hpp"
 #include "../src/include/model/Flock.hpp"
-#include "../src/include/model/DynamicArray.hpp"
-#include "../src/include/model/Vec2.hpp"
+#include "../src/include/model/utils/DynamicArray.hpp"
+#include "../src/include/model/utils/Vec2.hpp"
 
 using namespace bd;
 

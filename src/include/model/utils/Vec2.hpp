@@ -74,6 +74,26 @@ public:
         if (scalar == T(0)) return Vec2();
         return Vec2(x / scalar, y / scalar);
     }
+    
+    /**
+     * @brief Equality comparison.
+     *
+     * @param rhs Other vector.
+     * @return True if both components are equal.
+     */
+    bool operator==(const Vec2& rhs) const {
+        return x == rhs.x && y == rhs.y;
+    }
+
+    /**
+     * @brief Inequality comparison.
+     *
+     * @param rhs Other vector.
+     * @return True if any component differs.
+     */
+    bool operator!=(const Vec2& rhs) const {
+        return !(*this == rhs);
+    }
 
     /**
      * @brief Adds another vector to this vector in place.

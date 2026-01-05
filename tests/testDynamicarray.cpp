@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cassert>
-#include "../src/include/model/DynamicArray.hpp"
+#include "../src/include/model/utils/DynamicArray.hpp"
 
 int main() {
     bd::DynamicArray<int> arr;
@@ -24,14 +24,29 @@ int main() {
         ~Foo() {}
     };
 
-    bd::DynamicArray<Foo> fooArr;
+    bd::DynamicArray<Foo> Arr;
 
-    fooArr.push_back(Foo(42));
-    fooArr.push_back(Foo(7));
+    Arr.push_back(Foo(42));
+    Arr.push_back(Foo(7));
 
-    assert(fooArr.getsize() == 2);
-    assert(fooArr[0].x == 42);
-    assert(fooArr[1].x == 7);
+    assert(Arr.getsize() == 2);
+    assert(Arr[0].x == 42);
+    assert(Arr[1].x == 7);
+
+    Arr.pop_back();
+    Arr.push_back(Foo(56));
+    assert(Arr[1].x == 56);
+
+    Arr.pop_back();
+    Arr.pop_back();
+
+    bd::DynamicArray<Foo> Arr2;
+
+    Arr.push_back(Foo(1));
+
+    Arr.append(Arr2);
+    assert(Arr[0].x == 42);
+    assert(Arr2[1].x == 1);
 
     std::cout << "DynamicArray tests passed. The class works.\n";
     return 0;

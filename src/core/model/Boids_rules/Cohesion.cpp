@@ -15,7 +15,6 @@ Vec2<float> Cohesion::apply(const Boid& boid, const DynamicArray<Boid>& neighbor
     }
     center /= static_cast<float>(count);
 
-    // Direction from current boid to the center of mass
     Vec2<float> steering = center - boid.position;
     return steering * weight;
 }

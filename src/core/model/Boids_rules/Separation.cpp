@@ -13,7 +13,6 @@ Vec2<float> Separation::apply(const Boid& boid, const DynamicArray<Boid>& neighb
         float distSq = diff.x * diff.x + diff.y * diff.y;
 
         if (distSq > 0.0f && distSq < (desiredDistance * desiredDistance)) {
-            // inverse-square repulsion
             force += diff / distSq;
         }
     }
