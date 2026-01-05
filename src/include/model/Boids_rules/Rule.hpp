@@ -2,7 +2,7 @@
 #define RULE_HPP
 
 #pragma once
-#include "../utils/Vec2.hpp"
+#include "../utils/Vec3.hpp"
 #include "../utils/DynamicArray.hpp"
 
 namespace bd {
@@ -14,7 +14,8 @@ public:
     virtual ~Rule() = default;
 
     // Renvoie un vecteur représentant la force à appliquer au boid
-    virtual Vec2<float> apply(const Boid& boid, const DynamicArray<Boid>& neighbors) const = 0;
+    virtual Vec3<float> apply(const Boid& b, const DynamicArray<size_t>& neighbors, const DynamicArray<Boid>& boids) const = 0;
+
 };
 
 }

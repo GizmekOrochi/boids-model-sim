@@ -1,0 +1,247 @@
+#include "../../include/view/View3D.hpp"
+#include <algorithm>
+#include <cmath>
+
+
+namespace bd {
+
+// ---------- small utility ----------
+static sf::Color shadeFromDepth(float z) {
+    float t = 1.0f - std::min(std::max((z - 50.f) / 600.f, 0.f), 1.f);
+    int v = static_cast<int>(60 + 195 * t);
+    return sf::Color(v, v, v);
+}
+
+// ---------- ctor ----------
+View3D::View3D(int w, int h)
+    : width(w), height(h)
+{}
+
+// ---------- public ----------
+Camera& View3D::getCamera() {
+    return camera;
+}
+
+void View3D::setViewport(int w, int h) {
+    width = w;
+    height = h;
+}
+
+void View3D::draw(sf::RenderWindow& win) {
+    drawBoid(win, {40,0,20}, {0,0,1});
+}
+
+// ---------- projection ----------
+Vec3<float> View3D::worldToCamera(const Vec3<float>& p) const {
+    Vec3<float> rel = p - camera.position;
+
+    // inverse yaw (around Y)
+    float cy = std::cos(-camera.yaw);
+    float sy = std::sin(-camera.yaw);
+    float x1 =  cy * rel.x + sy * rel.z;
+    float y1 =  rel.y;
+    float z1 = -sy * rel.x + cy * rel.z;
+
+    // inverse pitch (around X)
+    float cp = std::cos(-camera.pitch);
+    float sp = std::sin(-camera.pitch);
+    float x2 = x1;
+    float y2 =  cp * y1 - sp * z1;
+    float z2 =  sp * y1 + cp * z1;
+
+    return {x2, y2, z2};
+}
+
+bool View3D::projectToScreen(
+    const Vec3<float>& camP,
+    Vec2<float>& out,
+    float& outZ
+) const {
+    if (camP.z <= nearZ)
+        return false;
+
+    float cx = width  * 0.5f;
+    float cy = height * 0.5f;
+
+    out.x = (camP.x * fovPixels / camP.z) + cx;
+    out.y = (camP.y * fovPixels / camP.z) + cy;
+    outZ  = camP.z;
+
+    return true;
+}
+
+// ---------- geometry ----------
+void View3D::drawLine3D(
+    sf::RenderWindow& win,
+    const Vec3<float>& a,
+    const Vec3<float>& b,
+    sf::Color color
+) {
+    Vec2<float> pa, pb;
+    float za, zb;
+
+    Vec3<float> ca = worldToCamera(a);
+    Vec3<float> cb = worldToCamera(b);
+
+    if (!projectToScreen(ca, pa, za)) return;
+    if (!projectToScreen(cb, pb, zb)) return;
+
+    sf::Vertex line[] = {
+        sf::Vertex({pa.x, pa.y}, color),
+        sf::Vertex({pb.x, pb.y}, color)
+    };
+
+    win.draw(line, 2, sf::Lines);
+}
+
+void View3D::drawWorldCage(sf::RenderWindow& win) {
+    const float W = settings::windowWidth;
+    const float H = settings::windowHeight;
+    const float D = settings::windowDeepth;
+
+    sf::Color edgeColor(200, 200, 200, 180);
+    sf::Color gridColor(100, 100, 100, 120);
+
+    // ---- corners ----
+    Vec3<float> A{0, 0, 0};
+    Vec3<float> B{W, 0, 0};
+    Vec3<float> C{W, H, 0};
+    Vec3<float> D0{0, H, 0};
+
+    Vec3<float> E{0, 0, D};
+    Vec3<float> F{W, 0, D};
+    Vec3<float> G{W, H, D};
+    Vec3<float> H0{0, H, D};
+
+    // ---- edges ----
+    drawLine3D(win, A, B, edgeColor);
+    drawLine3D(win, B, C, edgeColor);
+    drawLine3D(win, C, D0, edgeColor);
+    drawLine3D(win, D0, A, edgeColor);
+
+    drawLine3D(win, E, F, edgeColor);
+    drawLine3D(win, F, G, edgeColor);
+    drawLine3D(win, G, H0, edgeColor);
+    drawLine3D(win, H0, E, edgeColor);
+
+    drawLine3D(win, A, E, edgeColor);
+    drawLine3D(win, B, F, edgeColor);
+    drawLine3D(win, C, G, edgeColor);
+    drawLine3D(win, D0, H0, edgeColor);
+
+    // ---- grids ----
+    constexpr int GRID = 10;
+
+    // XY planes (Z = 0 and Z = D)
+    for (int i = 1; i < GRID; ++i) {
+        float x = W * i / GRID;
+        float y = H * i / GRID;
+
+        drawLine3D(win, {x, 0, 0}, {x, H, 0}, gridColor);
+        drawLine3D(win, {0, y, 0}, {W, y, 0}, gridColor);
+
+        drawLine3D(win, {x, 0, D}, {x, H, D}, gridColor);
+        drawLine3D(win, {0, y, D}, {W, y, D}, gridColor);
+    }
+
+    // XZ planes (Y = 0 and Y = H)
+    for (int i = 1; i < GRID; ++i) {
+        float x = W * i / GRID;
+        float z = D * i / GRID;
+
+        drawLine3D(win, {x, 0, 0}, {x, 0, D}, gridColor);
+        drawLine3D(win, {0, 0, z}, {W, 0, z}, gridColor);
+
+        drawLine3D(win, {x, H, 0}, {x, H, D}, gridColor);
+        drawLine3D(win, {0, H, z}, {W, H, z}, gridColor);
+    }
+
+    // YZ planes (X = 0 and X = W)
+    for (int i = 1; i < GRID; ++i) {
+        float y = H * i / GRID;
+        float z = D * i / GRID;
+
+        drawLine3D(win, {0, y, 0}, {0, y, D}, gridColor);
+        drawLine3D(win, {0, 0, z}, {0, H, z}, gridColor);
+
+        drawLine3D(win, {W, y, 0}, {W, y, D}, gridColor);
+        drawLine3D(win, {W, 0, z}, {W, H, z}, gridColor);
+    }
+}
+
+
+void View3D::drawBoid(
+    sf::RenderWindow& win,
+    const Vec3<float>& position,
+    const Vec3<float>& direction
+) {
+    // ---- parameters ----
+    const float length = 18.f;  // boid length
+    const float width  = 6.f;
+    const float height = 6.f;
+
+    // ---- direction basis ----
+    Vec3<float> forward = direction.normalized();
+    if (forward.lengthSq() < 1e-6f)
+        return;
+
+    Vec3<float> worldUp{0.f, 1.f, 0.f};
+    Vec3<float> right = worldUp.cross(forward).normalized();
+    Vec3<float> up    = forward.cross(right);
+
+    // ---- local boid geometry (pyramid) ----
+    std::vector<Vec3<float>> local = {
+        { 0.f,  0.f,  length },   // tip
+        {-width, -height, 0.f},   // base
+        { width, -height, 0.f},
+        { width,  height, 0.f},
+        {-width,  height, 0.f}
+    };
+
+    // ---- transform to world space ----
+    std::vector<Vec3<float>> world(local.size());
+    for (size_t i = 0; i < local.size(); ++i) {
+        world[i] =
+            position +
+            right   * local[i].x +
+            up      * local[i].y +
+            forward * local[i].z;
+    }
+
+    // ---- faces (4 sides, no base) ----
+    std::vector<Face> faces = {
+        {0,1,2},
+        {0,2,3},
+        {0,3,4},
+        {0,4,1}
+    };
+
+    // ---- project ----
+    std::vector<Vec2<float>> P(world.size());
+    std::vector<float> Z(world.size());
+    std::vector<bool> ok(world.size(), false);
+
+    for (size_t i = 0; i < world.size(); ++i) {
+        Vec3<float> camP = worldToCamera(world[i]);
+        ok[i] = projectToScreen(camP, P[i], Z[i]);
+    }
+
+    // ---- draw faces (painter) ----
+    for (const Face& f : faces) {
+        if (!(ok[f.a] && ok[f.b] && ok[f.c])) continue;
+
+        sf::ConvexShape tri;
+        tri.setPointCount(3);
+        tri.setPoint(0, {P[f.a].x, P[f.a].y});
+        tri.setPoint(1, {P[f.b].x, P[f.b].y});
+        tri.setPoint(2, {P[f.c].x, P[f.c].y});
+
+        float avgZ = (Z[f.a] + Z[f.b] + Z[f.c]) / 3.f;
+        tri.setFillColor(shadeFromDepth(avgZ));
+        tri.setOutlineThickness(1.f);
+        tri.setOutlineColor(sf::Color(30,200,255,120));
+        win.draw(tri);
+    }
+}
+
+} // namespace bd

@@ -3,21 +3,20 @@
 
 namespace bd {
 
-Vec2<float> Alignment::apply(const Boid& boid, const DynamicArray<Boid>& neighbors) const {
-    size_t count = neighbors.getsize();
-    if (count == 0) {
-        return Vec2<float>(0.0f, 0.0f);
+Vec3<float> Alignment::apply( const Boid& b, const DynamicArray<size_t>& neighbors, const DynamicArray<Boid>& boids) const {
+    if (neighbors.getsize() == 0)
+        return Vec3<float>(0.f, 0.f, 0.f);
+
+    Vec3<float> avgVel(0.f, 0.f, 0.f);
+
+    for (size_t i = 0; i < neighbors.getsize(); ++i) {
+        avgVel += boids[neighbors[i]].velocity;
     }
 
-    Vec2<float> avgVelocity(0.0f, 0.0f);
-    for (size_t i = 0; i < count; ++i) {
-        avgVelocity += neighbors[i].velocity;
-    }
-    avgVelocity /= static_cast<float>(count);
+    avgVel /= static_cast<float>(neighbors.getsize());
 
-    // steer toward the average velocity
-    Vec2<float> steering = avgVelocity - boid.velocity;
-    return steering * weight;
+    Vec3<float> steer = avgVel - b.velocity;
+    return steer * weight;
 }
 
 }

@@ -3,20 +3,20 @@
 
 namespace bd {
 
-Vec2<float> Cohesion::apply(const Boid& boid, const DynamicArray<Boid>& neighbors) const {
-    size_t count = neighbors.getsize();
-    if (count == 0) {
-        return Vec2<float>(0.0f, 0.0f);
+Vec3<float> Cohesion::apply(const Boid& b, const DynamicArray<size_t>& neighbors, const DynamicArray<Boid>& boids) const {
+    if (neighbors.getsize() == 0)
+        return Vec3<float>(0.f, 0.f, 0.f);
+
+    Vec3<float> center(0.f, 0.f, 0.f);
+
+    for (size_t i = 0; i < neighbors.getsize(); ++i) {
+        center += boids[neighbors[i]].position;
     }
 
-    Vec2<float> center(0.0f, 0.0f);
-    for (size_t i = 0; i < count; ++i) {
-        center += neighbors[i].position;
-    }
-    center /= static_cast<float>(count);
+    center /= static_cast<float>(neighbors.getsize());
 
-    Vec2<float> steering = center - boid.position;
-    return steering * weight;
+    Vec3<float> steer = center - b.position;
+    return steer * weight;
 }
 
 }

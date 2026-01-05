@@ -3,23 +3,31 @@
 
 #include <SFML/Graphics.hpp>
 #include "ui_types.hpp"
-#include "../model/Flock.hpp"
+#include "View3D.hpp"
+
 
 namespace bd {
 
 class View {
 public:
-    explicit View(sf::Font& font);
+    View(sf::Font& font, int w, int h);
 
-    void drawPanel(sf::RenderWindow& win, float panelWidth);
-    void drawUI(sf::RenderWindow& win, const std::vector<Button>& buttons, const std::vector<Slider>& sliders);
+    Camera& getCamera();
+    View3D getView3D() { return view3D;}
 
-    void drawBoids(sf::RenderWindow& win, const Flock& flock, float panelWidth);
+    void initWorld(sf::RenderWindow& win);
+
+    void drawPanel(sf::RenderWindow& win, float w);
+    void draw(sf::RenderWindow& win, float panelWidth);
+
+    void setViewport(int w, int h);
 
 private:
     sf::Font& font;
+    View3D view3D;
 };
 
 }
 
 #endif
+

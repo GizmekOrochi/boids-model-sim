@@ -2,33 +2,39 @@
 
 namespace bd {
 
-World::World(float w, float h) : width(w), height(h) {}
-
-float World::getWidth() const {
-    return width;
-}
-
-float World::getHeight() const {
-    return height;
-}
+World::World(float w, float h, float d)
+    : width(w), height(h), depth(d)
+{}
 
 void World::handleBoundaries(Boid& b) const {
-    if (b.position.x < 0.0f) {
-        b.position.x = 0.0f;
-        b.velocity.x *= -1.0f;
+    // X axis
+    if (b.position.x < 0.f) {
+        b.position.x = 0.f;
+        b.velocity.x *= -1.f;
     }
-    if (b.position.x > width) {
+    else if (b.position.x > width) {
         b.position.x = width;
-        b.velocity.x *= -1.0f;
+        b.velocity.x *= -1.f;
     }
 
-    if (b.position.y < 0.0f) {
-        b.position.y = 0.0f;
-        b.velocity.y *= -1.0f;
+    // Y axis
+    if (b.position.y < 0.f) {
+        b.position.y = 0.f;
+        b.velocity.y *= -1.f;
     }
-    if (b.position.y > height) {
+    else if (b.position.y > height) {
         b.position.y = height;
-        b.velocity.y *= -1.0f;
+        b.velocity.y *= -1.f;
+    }
+
+    // Z axis
+    if (b.position.z < 0.f) {
+        b.position.z = 0.f;
+        b.velocity.z *= -1.f;
+    }
+    else if (b.position.z > depth) {
+        b.position.z = depth;
+        b.velocity.z *= -1.f;
     }
 }
 

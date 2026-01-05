@@ -44,4 +44,35 @@ void ViewControl::update(const sf::RenderWindow& win, std::vector<Button>& butto
     }
 }
 
+void ViewControl::updateCamera(Camera& cam, float dt) {
+    const float mv = cam.moveSpeed * dt;
+    const float rt = cam.rotSpeed  * dt;
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
+        cam.position += cam.forward() * mv;
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+        cam.position -= cam.forward() * mv;
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+        cam.position -= cam.right() * mv;
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+        cam.position += cam.right() * mv;
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+        cam.yaw -= rt;
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+        cam.yaw += rt;
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+        cam.pitch += rt;
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+        cam.pitch -= rt;
+
+    cam.clampPitch();
+}
+
 }

@@ -3,21 +3,20 @@ CXXFLAGS = -Wall -Wextra -std=c++17 -I./src
 LDFLAGS = -lsfml-graphics -lsfml-window -lsfml-system
 
 SRC = $(shell find src -name '*.cpp')
-OBJ = $(SRC:.cpp=.o)
 
 BIN_DIR = bin
 BIN = $(BIN_DIR)/ModelBoids
 
 all: $(BIN)
 
-$(BIN): $(OBJ)
+$(BIN): $(SRC)
 	@mkdir -p $(BIN_DIR)
-	$(CXX) $(CXXFLAGS) $(OBJ) -o $(BIN) $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) $(SRC) -o $(BIN) $(LDFLAGS)
 
 run: $(BIN)
 	./$(BIN)
 
 clean:
-	rm -f $(OBJ) $(BIN)
+	rm -rf $(BIN_DIR)
 
 .PHONY: all run clean

@@ -1,98 +1,118 @@
 #include "../../include/model/Flock.hpp"
 #include <cmath>
-#include <thread>
+#include <cstdlib>
 
 namespace bd {
 
-Vec2<float> Flock::computeRuleForces(const Boid& b, const DynamicArray<Boid>& neighbors) const {
-    Vec2<float> total(0.0f, 0.0f);
+// ---------------- RULE FORCES ----------------
+
+Vec3<float> Flock::computeRuleForces(
+    const Boid& b,
+    const DynamicArray<size_t>& neighbors
+) const {
+    Vec3<float> total(0.f, 0.f, 0.f);
 
     for (size_t i = 0; i < rules.getsize(); ++i)
         if (rules[i])
-            total += rules[i]->apply(b, neighbors);
+            total += rules[i]->apply(b, neighbors, boids);
 
     return total;
 }
 
-void Flock::enforceBaseSpeed(Boid& b, const DynamicArray<Boid>& neighbors) {
+// ---------------- BASE SPEED ----------------
+
+void Flock::enforceBaseSpeed(
+    Boid& b,
+    const DynamicArray<size_t>& neighbors
+) {
     if (neighbors.getsize() > 0)
         return;
 
     float len = b.velocity.length();
 
     if (len < 0.0001f) {
-        float a = (float(rand()) / RAND_MAX) * 6.283185f;
-        b.velocity = Vec2<float>(std::cos(a), std::sin(a))
-                   * settings::baseSpeed;
+        // random direction on unit sphere
+        float theta = float(rand()) / RAND_MAX * 2.f * 3.1415926f;
+        float phi   = float(rand()) / RAND_MAX * 3.1415926f;
+
+        b.velocity = Vec3<float>(
+            std::sin(phi) * std::cos(theta),
+            std::sin(phi) * std::sin(theta),
+            std::cos(phi)
+        ) * settings::baseSpeed;
     }
     else if (len < settings::baseSpeed) {
         b.velocity = b.velocity.normalized() * settings::baseSpeed;
     }
 }
 
-Vec2<float> Flock::clampAcceleration(const Vec2<float>& force) const {
+// ---------------- CLAMPING ----------------
+
+Vec3<float> Flock::clampAcceleration(const Vec3<float>& force) const {
     float len = force.length();
-    if (len > settings::maxAcceleration && len > 0.0f)
+    if (len > settings::maxAcceleration && len > 0.f)
         return force.normalized() * settings::maxAcceleration;
     return force;
 }
 
-Vec2<float> Flock::clampSpeed(const Vec2<float>& v) const {
+Vec3<float> Flock::clampSpeed(const Vec3<float>& v) const {
     float len = v.length();
-    if (len > settings::maxSpeed && len > 0.0f)
+    if (len > settings::maxSpeed && len > 0.f)
         return v.normalized() * settings::maxSpeed;
     return v;
 }
 
-DynamicArray<Vec2<float>> Flock::computeNextVelocities() {
-    DynamicArray<Vec2<float>> nextVel;
+// ---------------- UPDATE ----------------
+
+DynamicArray<Vec3<float>> Flock::computeNextVelocities() {
+    DynamicArray<Vec3<float>> nextVel;
 
     for (size_t i = 0; i < boids.getsize(); ++i) {
         Boid& b = boids[i];
         auto neighbors = findNeighbors(i);
 
-        Vec2<float> force = computeRuleForces(b, neighbors);
+        Vec3<float> force = computeRuleForces(b, neighbors);
         enforceBaseSpeed(b, neighbors);
-        force = clampAcceleration(force);
 
-        Vec2<float> v = clampSpeed(b.velocity + force);
+        force = clampAcceleration(force);
+        Vec3<float> v = clampSpeed(b.velocity + force);
+
         nextVel.push_back(v);
     }
 
     return nextVel;
 }
 
+// ---------------- NEIGHBOR SEARCH ----------------
 
-
-DynamicArray<Boid> Flock::findNeighbors(size_t index) const {
-    DynamicArray<Boid> neighbors;
+DynamicArray<size_t> Flock::findNeighbors(size_t index) const {
+    DynamicArray<size_t> neighbors;
     const Boid& b = boids[index];
 
-    float maxDistSq = settings::visionRange * settings::visionRange;
-    float visionAngleRad = settings::visionAngleDeg * (3.1415926f / 180.0f);
-
-    Vec2<float> forward = b.velocity.normalized();
+    float maxDistSq = settings::perceptionRadius * settings::perceptionRadius;
+    Vec3<float> forward = b.velocity.normalized();
 
     for (size_t j = 0; j < boids.getsize(); ++j) {
         if (j == index) continue;
 
         const Boid& other = boids[j];
-        Vec2<float> toNeighbor = other.position - b.position;
+        Vec3<float> toNeighbor = other.position - b.position;
 
         float distSq = toNeighbor.dot(toNeighbor);
         if (distSq > maxDistSq)
             continue;
 
-        if (forward.length() < 0.001f) {
-            neighbors.push_back(other);
+        // If boid has no clear direction, see everything
+        if (forward.lengthSq() < 1e-6f) {
+            neighbors.push_back(j);
             continue;
         }
 
-        Vec2<float> dir = toNeighbor.normalized();
+        Vec3<float> dir = toNeighbor.normalized();
         float dot = forward.dot(dir);
 
         if (dot >= settings::cosAngle)
-            neighbors.push_back(other);
+            neighbors.push_back(j);
     }
 
     return neighbors;

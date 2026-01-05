@@ -3,28 +3,26 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "../model/Simulation.hpp"
 #include "../view/View.hpp"
-#include "../view/ViewLayout.hpp"
-#include "../view/ViewControl.hpp"
+#include "../model/Simulation.hpp"
+#include "../model/Boids_rules/Cohesion.hpp"
+#include "../model/Boids_rules/Separation.hpp"
+#include "../model/Boids_rules/Alignment.hpp"
 #include "../config/Settings.hpp"
 
 namespace bd {
 
 class Controller {
 public:
-    explicit Controller();
+    Controller();
     void run();
 
 private:
-    Simulation simulation;
-
     sf::RenderWindow window;
     sf::Font font;
 
-    ViewLayout layout;
-    ViewControl control;
-    View renderer;
+    Simulation simulation;
+    View view;
 };
 
 }

@@ -2,7 +2,7 @@
 #define BOID_HPP
 
 #pragma once
-#include "utils/Vec2.hpp"
+#include "utils/Vec3.hpp"
 
 namespace bd {
 
@@ -16,15 +16,15 @@ namespace bd {
 class Boid {
 public:
     /** Current position of the boid in world space. */
-    Vec2<float> position;
+    Vec3<float> position;
 
     /** Current velocity of the boid. */
-    Vec2<float> velocity;
+    Vec3<float> velocity;
 
     /**
      * @brief Constructs a boid at the origin with zero velocity.
      */
-    Boid() : position(0,0), velocity(0,0) {}
+    Boid() : position(0.0f,0.0f,0.0f), velocity(0.0f,0.0f,0.0f) {}
 
     /**
      * @brief Constructs a boid at a given position with zero velocity.
@@ -32,7 +32,7 @@ public:
      * @param x Initial x-coordinate.
      * @param y Initial y-coordinate.
      */
-    Boid(float x, float y) : position(x,y), velocity(0,0) {}
+    Boid(float x, float y, float z) : position(x,y,z), velocity(0.0f,0.0f,0.0f) {}
 };
 
 }
