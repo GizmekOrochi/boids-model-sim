@@ -4,16 +4,27 @@
 #include <SFML/Graphics.hpp>
 
 #include "../model/Simulation.hpp"
-#include "../model/utils/SaveSystem.hpp"
-#include "../model/Boids_rules/Cohesion.hpp"
-#include "../model/Boids_rules/Separation.hpp"
-#include "../model/Boids_rules/Alignment.hpp"
+#include "../view/View.hpp"
+#include "../view/ViewLayout.hpp"
+#include "../view/ViewControl.hpp"
+#include "../config/Settings.hpp"
 
 namespace bd {
 
 class Controller {
 public:
-    void handleInput(Simulation& simulation, sf::RenderWindow& window);
+    explicit Controller(const Settings& settings);
+    void run();
+
+private:
+    Simulation simulation;
+
+    sf::RenderWindow window;
+    sf::Font font;
+
+    ViewLayout layout;
+    ViewControl control;
+    View renderer;
 };
 
 }

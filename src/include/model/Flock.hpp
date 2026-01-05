@@ -50,10 +50,7 @@ private:
      * @param neighbors The neighboring boids.
      * @return The resulting force vector.
      */
-    Vec2<float> computeRuleForces(
-        const Boid& b,
-        const DynamicArray<Boid>& neighbors
-    ) const;
+    Vec2<float> computeRuleForces(const Boid& b, const DynamicArray<Boid>& neighbors) const;
 
     /**
      * @brief Enforces a minimum base speed for a boid.
@@ -64,10 +61,7 @@ private:
      * @param b The boid to update.
      * @param neighbors The neighboring boids.
      */
-    void enforceBaseSpeed(
-        Boid& b,
-        const DynamicArray<Boid>& neighbors
-    );
+    void enforceBaseSpeed(Boid& b, const DynamicArray<Boid>& neighbors);
 
     /**
      * @brief Clamps the magnitude of an acceleration vector.
@@ -125,6 +119,16 @@ public:
      * @param b The boid to add.
      */
     void addBoid(const Boid& b) { boids.push_back(b); }
+
+    /**
+    * @brief Removes the last boid from the flock.
+    *
+    * Does nothing if the flock is empty.
+    */
+    void removeLastBoid() {
+        if (boids.getsize() > 0)
+            boids.pop_back();
+    }
 
     /**
      * @brief Adds a behavioral rule to the flock.

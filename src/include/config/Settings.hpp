@@ -11,6 +11,8 @@ public:
     float windowWidth = 800.0f;
     float windowHeight = 600.0f;
 
+    int nbboid = 100;
+
     // Physics
     float baseSpeed = 1.0f; // basespeed
 
@@ -28,7 +30,7 @@ public:
     float perceptionRadius = 50.0f; // r
     
     // Boids vision range
-    float visionAngleDeg = 90.0f; // default: half circle
+    float visionAngleDeg = 180.0f; // default: half circle
     float visionRange = 50.0f; // default: same as perceptionRadius
 
     Settings() = default;

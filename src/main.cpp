@@ -1,11 +1,11 @@
-#include "include/Application.hpp"
+#include "include/controller/Controller.hpp"
 #include "include/config/Settings.hpp"
 
 int main() {
     bd::Settings settings;
 
-    bd::Application app(settings);
-    app.run();
+    bd::Controller cont = bd::Controller(settings);
+    cont.run();
 
     return 0;
 }

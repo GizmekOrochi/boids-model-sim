@@ -73,6 +73,19 @@ public:
     }
 
     /**
+    * @brief Removes the last element from the array.
+    *
+    * Does nothing if the array is empty.
+    */
+    void pop_back() {
+        if (size == 0)
+            return;
+
+        size--;
+        data[size].~T();
+    }
+    
+    /**
      * @brief Provides mutable access to an element by index.
      *
      * @param index Index of the element.
