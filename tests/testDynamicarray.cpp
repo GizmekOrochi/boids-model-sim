@@ -37,17 +37,6 @@ int main() {
     Arr.push_back(Foo(56));
     assert(Arr[1].x == 56);
 
-    Arr.pop_back();
-    Arr.pop_back();
-
-    bd::DynamicArray<Foo> Arr2;
-
-    Arr.push_back(Foo(1));
-
-    Arr.append(Arr2);
-    assert(Arr[0].x == 42);
-    assert(Arr2[1].x == 1);
-
     std::cout << "DynamicArray tests passed. The class works.\n";
     return 0;
 }

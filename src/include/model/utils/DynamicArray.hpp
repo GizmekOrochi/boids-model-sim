@@ -84,28 +84,6 @@ public:
         size--;
         data[size].~T();
     }
-    
-    /**
-     * @brief Appends all elements of another DynamicArray to this one.
-     *
-     * @param other The array whose elements will be copied and appended.
-     */
-    void append(const DynamicArray& other) {
-        if (other.size == 0)
-            return;
-
-        // Ensure enough capacity
-        if (size + other.size > capacity) {
-            reserve(size + other.size);
-        }
-
-        // Copy-construct elements
-        for (size_t i = 0; i < other.size; ++i) {
-            new (data + size + i) T(other.data[i]);
-        }
-
-        size += other.size;
-    }
 
     /**
      * @brief Provides mutable access to an element by index.

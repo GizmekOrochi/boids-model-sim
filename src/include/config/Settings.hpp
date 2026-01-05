@@ -11,7 +11,7 @@ public:
     float windowWidth = 800.0f;
     float windowHeight = 600.0f;
 
-    int nbboid = 100;
+    int nbboid = 1000;
 
     // Physics
     float baseSpeed = 1.0f; // basespeed
