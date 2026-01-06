@@ -77,6 +77,12 @@ void Controller::run() {
                         settings::nbobstacle--;
                     }
                     break;
+                case UiAction::AddPredator:
+                    if (simulation.getBoids().getsize() < 200) {
+                        spawnPerdator();
+                        settings::nbobstacle--;
+                    }
+                    break;
                 default:
                     break;
             }
@@ -129,6 +135,26 @@ void Controller::run() {
         
         window.display();
     }
+}
+
+void Controller::spawnPerdator() {
+    // race
+    int r = (rand() % 2);
+    BoidSpecies species = (r == 1) ? BoidSpecies::BLUE : BoidSpecies::RED;
+
+    // location
+    constexpr float SPAWN_RADIUS = 100.0f;
+    float cx = settings::worldWidth * 0.5f;
+    float cy = settings::worldHeight * 0.5f;
+    float cz = settings::worldDeepth * 0.5f;
+
+    simulation.addBoid(Boid(
+        cx + randRange(-SPAWN_RADIUS, SPAWN_RADIUS),
+        cy + randRange(-SPAWN_RADIUS, SPAWN_RADIUS),
+        cz + randRange(-SPAWN_RADIUS, SPAWN_RADIUS),
+        species
+    ));
+
 }
 
 void Controller::spawnRandBoid() {

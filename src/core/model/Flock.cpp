@@ -99,9 +99,10 @@ void Flock::findNeighbors(size_t index, DynamicArray<size_t>& neighbors,DynamicA
             continue;
 
         bool isPredator = fear(b.specie, other.specie);
-        bool isNeighbor = (other.specie == b.specie);
+        bool isNeighbor = ((other.specie == b.specie && speciesTier(b.specie) < 3) || fear(other.specie, b.specie));
 
-        if(!isNeighbor || !isPredator) continue;
+        if (!isNeighbor && !isPredator) continue;
+
 
         if (forward.lengthSq() < 1e-6f) {
             if (isNeighbor) neighbors.push_back(j);

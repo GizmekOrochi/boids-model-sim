@@ -8,10 +8,11 @@ void ViewLayout::build() {
 
     buttons.push_back({"Save", UiAction::Save, {20,20}, {120,30}});
     buttons.push_back({"Load", UiAction::Load, {160,20}, {120,30}});
-    buttons.push_back({"Add Boid", UiAction::AddBoid, {20,540}, {70,30}});
-    buttons.push_back({"Rm Boid", UiAction::RmBoid, {100,540}, {70,30}});
-    buttons.push_back({"Add Obs", UiAction::AddObstacle, {20,490}, {70,30}});
-    buttons.push_back({"Rm Obs", UiAction::RmObstacle, {100,490}, {70,30}});
+    buttons.push_back({"Add Boid", UiAction::AddBoid, {20,480}, {70,30}});
+    buttons.push_back({"Rm Boid", UiAction::RmBoid,  {100,480}, {70,30}});
+    buttons.push_back({"Add Obs", UiAction::AddObstacle, {20,430}, {70,30}});
+    buttons.push_back({"Rm Obs", UiAction::RmObstacle,  {100,430}, {70,30}});
+    buttons.push_back({"Add Predator", UiAction::AddPredator, {20,520},{70,30}});
 
 
     float startY = 80.f;
@@ -26,7 +27,7 @@ void ViewLayout::build() {
     add("Separation", &settings::separationWeight, 0.0f, 1.0f, i++);
     add("Alignment", &settings::alignmentWeight, 0.0f, 1.0f, i++);
     add("Perception", &settings::perceptionRadius, 10.0f, 100.0f, i++);
-    add("Sep Dist", &settings::separationDistance, 5.0f, 50.0f, i++);
+    add("Separation Dist", &settings::separationDistance, 5.0f, 50.0f, i++);
     add("Vision Angle", &settings::visionAngleDeg, 0.0f, 360.f, i++);
     add("flow", &settings::visionAngleDeg, 0.0f, 360.f, i++);
 

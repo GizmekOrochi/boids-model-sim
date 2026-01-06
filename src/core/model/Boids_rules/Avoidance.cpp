@@ -59,8 +59,7 @@ Vec3<float> Avoidance::apply(const Boid& b, const RuleContext& ctx) const{
         Vec3<float> diff = b.position - predator.position;
         float distSq = diff.lengthSq();
 
-        if (distSq < settings::perceptionRadius * settings::perceptionRadius &&
-            distSq > 1e-6f) {
+        if (distSq < settings::perceptionRadius * settings::perceptionRadius && distSq > 1e-6f) {
 
             float dist = std::sqrt(distSq);
             Vec3<float> away = diff / dist;

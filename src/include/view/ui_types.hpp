@@ -13,7 +13,8 @@ enum class UiAction {
     Save,
     Load,
     AddObstacle,
-    RmObstacle
+    RmObstacle,
+    AddPredator
 };
 
 struct Slider {
