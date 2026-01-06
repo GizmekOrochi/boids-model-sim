@@ -19,14 +19,14 @@ void ViewLayout::build() {
     };
 
     int i = 0;
-    add("Cohesion", &settings::cohesionWeight, 0.f, 0.1f, i++);
-    add("Separation", &settings::separationWeight, 0.f, 5.f, i++);
-    add("Alignment", &settings::alignmentWeight, 0.f, 0.5f, i++);
-    add("Perception", &settings::perceptionRadius, 10.f, 200.f, i++);
-    add("Max Accel", &settings::maxAcceleration, 0.01f, 1.f, i++);
-    add("Sep Dist", &settings::separationDistance, 5.f, 100.f, i++);
-    add("Max Speed", &settings::maxSpeed, 1.f, 10.f, i++);
-    add("Vision Angle", &settings::visionAngleDeg, 5.f, 360.f, i++);
+    add("Cohesion", &settings::cohesionWeight, 0.0f, 1.0f, i++);
+    add("Separation", &settings::separationWeight, 0.0f, 1.0f, i++);
+    add("Alignment", &settings::alignmentWeight, 0.0f, 1.0f, i++);
+    add("Perception", &settings::perceptionRadius, 0.0f, 200.0f, i++);
+    add("Max Accel", &settings::maxAcceleration, 0.01f, 1.0f, i++);
+    add("Sep Dist", &settings::separationDistance, 5.0f, 100.0f, i++);
+    add("Max Speed", &settings::maxSpeed, 1.0f, 10.0f, i++);
+    add("Vision Angle", &settings::visionAngleDeg, 0.0f, 360.f, i++);
 
 
 }

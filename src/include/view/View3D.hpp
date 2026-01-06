@@ -30,13 +30,12 @@ private:
     float fovPixels = 520.f;
     float nearZ = 0.1f;
 
-    Vec3<float> worldToCamera(const Vec3<float>& p) const;
-    bool projectToScreen(const Vec3<float>& camP, Vec2<float>& out, float& outZ) const;
-
     void drawLine3D(sf::RenderWindow& win, const Vec3<float>& a, const Vec3<float>& b, sf::Color color);
     void drawTriangle3D(sf::RenderWindow& win, const Vec3<float>& a, const Vec3<float>& b, const Vec3<float>& c,sf::Color color);
 
 public:
+    Vec3<float> worldToCamera(const Vec3<float>& p) const;
+    bool projectToScreen(const Vec3<float>& camP, Vec2<float>& out, float& outZ) const;
     void drawBoid(sf::RenderWindow& win, const Vec3<float>& position, const Vec3<float>& direction, BoidSpecies BoidSpecie);
     void drawWorldCage(sf::RenderWindow& win);
     

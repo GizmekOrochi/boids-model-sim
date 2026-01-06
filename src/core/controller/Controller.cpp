@@ -87,15 +87,24 @@ void Controller::run() {
 
         // --- Render ---
         window.clear(sf::Color(15, 15, 20));
-
-        view.draw(window, panelWidth);
         
         const auto& boids = flock.getBoids();
         for (size_t i = 0; i < boids.getsize(); ++i) {
             const Boid& b = boids[i];
             if (b.velocity.lengthSq() < 1e-6f) continue;
-            view.getView3D().drawBoid(window, b.position, b.velocity, b.specie);
+            Vec3<float> camP = view.getView3D().worldToCamera(b.position);
+            Vec2<float> screen;
+            float z;
+
+            if (view.getView3D().projectToScreen(camP, screen, z)) {
+                if (screen.x >= panelWidth) {
+                    view.getView3D().drawBoid(window, b.position, b.velocity, b.specie);
+                }
+            }
         }
+
+        view.draw(window, panelWidth);
+        
         window.display();
     }
 }

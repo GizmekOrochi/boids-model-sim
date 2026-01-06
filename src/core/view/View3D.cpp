@@ -156,16 +156,13 @@ void View3D::drawBoid(sf::RenderWindow& win, const Vec3<float>& position,const V
     const float height = 6.0f;
 
     Vec3<float> forward = direction.normalized();
-    if (forward.lengthSq() < 1e-6f)
-        return;
-
     Vec3<float> worldUp =
         (std::abs(forward.y) > 0.99f)
             ? Vec3<float>{1.f, 0.f, 0.f}
             : Vec3<float>{0.f, 1.f, 0.f};
 
     Vec3<float> right = worldUp.cross(forward).normalized();
-    Vec3<float> up    = forward.cross(right);
+    Vec3<float> up = forward.cross(right);
 
     std::vector<Vec3<float>> local = {
         { 0.f,  0.f,  length },
