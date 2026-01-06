@@ -56,20 +56,26 @@ void Controller::run() {
                 case UiAction::AddBoid:
                     if (simulation.getBoids().getsize() < 200) {
                         spawnRandBoid();
+                        settings::nbboid++;
                     }
                     break;
 
                 case UiAction::RmBoid:
                     if (simulation.getBoids().getsize() > 10) {
                         simulation.removeLastBoid();
+                        settings::nbboid--;
                     }
                     break;
                 case UiAction::AddObstacle:
                     spawnRandObstacle();
+                    settings::nbobstacle++;
                     break;
 
                 case UiAction::RmObstacle:
-                    simulation.removeLastObstacle();
+                    if (simulation.getObstacles().getsize() > 0 ) {
+                        simulation.removeLastObstacle();
+                        settings::nbobstacle--;
+                    }
                     break;
                 default:
                     break;
@@ -113,7 +119,7 @@ void Controller::run() {
 
             if (view.getView3D().projectToScreen(camP, screen, z)) {
                 if (screen.x >= panelWidth) {
-                    view.getView3D().drawObstacle(window, b.position, b.sizeX, b.sizeY, b.sizeY);
+                    view.getView3D().drawObstacle(window, b.position, b.sizeX, b.sizeY, b.sizeZ);
                 }
             }
         }
@@ -152,7 +158,7 @@ void Controller::spawnRandObstacle() {
 
     simulation.addObstacle(Obstacle(
         randRange(0.0f + obsW, settings::worldWidth - obsW),
-        randRange(0.0f + obsH, settings::windowWidth - obsH),
+        randRange(0.0f + obsH, settings::worldHeight - obsH),
         randRange(0.0f + obsD, settings::worldDeepth - obsD), 
         static_cast<int>(obsW),
         static_cast<int>(obsH),
