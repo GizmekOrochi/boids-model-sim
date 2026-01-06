@@ -39,7 +39,7 @@ void View::drawUI(sf::RenderWindow& win, const std::vector<Button>& buttons, con
         std::string str = "Obs: " + std::to_string(settings::nbobstacle);
         sf::Text countText(str, font, 14);
         countText.setFillColor(sf::Color::White);
-        countText.setPosition(190.f, 495.f);
+        countText.setPosition(190.f, 435.f);
         win.draw(countText);
     }
     {
@@ -48,7 +48,7 @@ void View::drawUI(sf::RenderWindow& win, const std::vector<Button>& buttons, con
         if (settings::nbboid <= 10)  str += " (MIN)";
         sf::Text countText(str,font,14);
         countText.setFillColor(sf::Color::White);
-        countText.setPosition(190.f, 545.f);
+        countText.setPosition(190.f, 485.f);
         win.draw(countText);
     }
     for (const auto& s : sliders) {
