@@ -4,6 +4,7 @@
 #pragma once
 #include "World.hpp"
 #include "Flock.hpp"
+#include "Obstacle.hpp"
 #include "../model/Boids_rules/Cohesion.hpp"
 #include "../model/Boids_rules/Separation.hpp"
 #include "../model/Boids_rules/Alignment.hpp"
@@ -93,6 +94,8 @@ public:
     void clearBoids() { flock.clearBoids(); }
 
     DynamicArray<Boid>& getBoids() { return flock.getBoids(); }
+
+    DynamicArray<Obstacle>& getObstacles() { return flock.getObstacles(); }
 
     Boid& getBoid(size_t index) { return flock.getBoids()[index]; }
 

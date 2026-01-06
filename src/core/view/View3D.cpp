@@ -199,20 +199,21 @@ void View3D::drawBoid(sf::RenderWindow& win, const Vec3<float>& position,const V
 }
 
 
-void View3D::drawObstacle(sf::RenderWindow& win, const Vec3<float>& position) {
-    const float width  = 10.0f;
-    const float height = 10.0f;
-    const float Depth  = 10.0f;
+void View3D::drawObstacle(sf::RenderWindow& win, const Vec3<float>& position, int sizeX, int sizeY, int sizeZ) {
+    const float width  = static_cast<float>(sizeX);
+    const float height = static_cast<float>(sizeY);
+    const float Depth  = static_cast<float>(sizeZ);
 
+    // Cube description
     std::vector<Vec3<float>> local = {
-        {-width/2, -height/2, -Depth/2}, // 0
-        { width/2, -height/2, -Depth/2}, // 1
-        { width/2, -height/2,  Depth/2}, // 2
-        {-width/2, -height/2,  Depth/2}, // 3
-        {-width/2,  height/2, -Depth/2}, // 4
-        { width/2,  height/2, -Depth/2}, // 5
-        { width/2,  height/2,  Depth/2}, // 6
-        {-width/2,  height/2,  Depth/2}, // 7
+        {-width/2, -height/2, -Depth/2},
+        { width/2, -height/2, -Depth/2},
+        { width/2, -height/2,  Depth/2},
+        {-width/2, -height/2,  Depth/2},
+        {-width/2,  height/2, -Depth/2},
+        { width/2,  height/2, -Depth/2},
+        { width/2,  height/2,  Depth/2},
+        {-width/2,  height/2,  Depth/2},
     };
 
     std::vector<Vec3<float>> world(local.size());
@@ -220,7 +221,7 @@ void View3D::drawObstacle(sf::RenderWindow& win, const Vec3<float>& position) {
             world[i] = position + local[i];
         }
 
-    sf::Color color = sf::Color::Black;
+    sf::Color color = sf::Color::White;
 
     // bottom face
     drawLine3D(win, world[0], world[1], color);

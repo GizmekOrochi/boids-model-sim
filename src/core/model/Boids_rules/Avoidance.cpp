@@ -30,7 +30,17 @@ Vec3<float> Avoidance::apply(const Boid& b, const RuleContext& ctx) const{
     for (size_t i = 0; i < ctx.obstacles.getsize(); ++i) {
         const Obstacle& o = ctx.obstacles[i];
 
-        Vec3<float> diff = b.position - o.position;
+        const float hx = o.sizeX * 0.5f;
+        const float hy = o.sizeY * 0.5f;
+        const float hz = o.sizeZ * 0.5f;
+
+        // Closest point on obstacle to the boid
+        Vec3<float> closest;
+        closest.x = std::max(o.position.x - hx, std::min(b.position.x, o.position.x + hx));
+        closest.y = std::max(o.position.y - hy, std::min(b.position.y, o.position.y + hy));
+        closest.z = std::max(o.position.z - hz, std::min(b.position.z, o.position.z + hz));
+
+        Vec3<float> diff = b.position - closest;
         float distSq = diff.lengthSq();
         float minDist = radius + wallMargin;
 

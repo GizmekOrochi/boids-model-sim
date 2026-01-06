@@ -23,6 +23,10 @@ void Controller::run() {
         spawnRandBoid();
     }
 
+    for (int i = 0; i < settings::nbobstacle; ++i) {
+        spawnRandObstacle();
+    }
+
     sf::Clock clock;
 
     while (window.isOpen()) {
@@ -52,15 +56,20 @@ void Controller::run() {
                 case UiAction::AddBoid:
                     if (simulation.getBoids().getsize() < 200) {
                         spawnRandBoid();
-                        std::cout << "Boids: " << simulation.getBoids().getsize() << "\n";
                     }
                     break;
 
                 case UiAction::RmBoid:
                     if (simulation.getBoids().getsize() > 10) {
                         simulation.removeLastBoid();
-                        std::cout << "Boids: " << simulation.getBoids().getsize() << "\n";
                     }
+                    break;
+                case UiAction::AddObstacle:
+                    spawnRandObstacle();
+                    break;
+
+                case UiAction::RmObstacle:
+                    simulation.removeLastObstacle();
                     break;
                 default:
                     break;
@@ -93,6 +102,23 @@ void Controller::run() {
             }
         }
 
+        const auto& obs = simulation.getObstacles();
+
+        for (size_t i = 0; i < obs.getsize(); ++i) {
+            const Obstacle b = obs[i];
+
+            Vec3<float> camP = view.getView3D().worldToCamera(b.position);
+            Vec2<float> screen;
+            float z;
+
+            if (view.getView3D().projectToScreen(camP, screen, z)) {
+                if (screen.x >= panelWidth) {
+                    view.getView3D().drawObstacle(window, b.position, b.sizeX, b.sizeY, b.sizeY);
+                }
+            }
+        }
+
+
         view.draw(window, panelWidth);
         
         window.display();
@@ -105,7 +131,7 @@ void Controller::spawnRandBoid() {
     BoidSpecies species = (r == 0) ? BoidSpecies::RED : (r == 1) ? BoidSpecies::GREEN : BoidSpecies::BLUE;
 
     // location
-    constexpr float SPAWN_RADIUS = 10.0f;
+    constexpr float SPAWN_RADIUS = 100.0f;
     float cx = settings::worldWidth * 0.5f;
     float cy = settings::worldHeight * 0.5f;
     float cz = settings::worldDeepth * 0.5f;
@@ -115,6 +141,22 @@ void Controller::spawnRandBoid() {
         cy + randRange(-SPAWN_RADIUS, SPAWN_RADIUS),
         cz + randRange(-SPAWN_RADIUS, SPAWN_RADIUS),
         species
+    ));
+}
+
+void Controller::spawnRandObstacle() {
+    // Randowm obstacle size
+    float obsW = randRange(20, 100); // X size
+    float obsH = randRange(20, 100); // Y size
+    float obsD = randRange(20, 100); // Z size
+
+    simulation.addObstacle(Obstacle(
+        randRange(0.0f + obsW, settings::worldWidth - obsW),
+        randRange(0.0f + obsH, settings::windowWidth - obsH),
+        randRange(0.0f + obsD, settings::worldDeepth - obsD), 
+        static_cast<int>(obsW),
+        static_cast<int>(obsH),
+        static_cast<int>(obsD)
     ));
 }
  

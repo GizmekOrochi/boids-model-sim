@@ -33,8 +33,8 @@ public:
     DynamicArray<Boid>& getBoids() { return boids; }
     const DynamicArray<Boid>& getBoids() const { return boids; }
 
-    DynamicArray<Obstacle>& getObstacle() { return obstacles; }
-    const DynamicArray<Obstacle>& getObstacle() const { return obstacles; }
+    DynamicArray<Obstacle>& getObstacles() { return obstacles; }
+    const DynamicArray<Obstacle>& getObstacles() const { return obstacles; }
 
     void addBoid(const Boid& b) { boids.push_back(b); }
 
@@ -68,6 +68,7 @@ public:
     void clearObstacles() {
         obstacles.clear();
     }
+    
     DynamicArray<Vec3<float>> computeNextVelocities();
 };
 

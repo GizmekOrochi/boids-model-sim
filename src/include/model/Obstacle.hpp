@@ -16,10 +16,15 @@ class Obstacle {
 public:
     /** Current position of the Obstacle in world space. */
     Vec3<float> position;
+
+    int sizeX;
+    int sizeY;
+    int sizeZ;
+
     /**
      * @brief Constructs a boid at the origin with zero velocity.
      */
-    Obstacle() : position(0.0f,0.0f,0.0f) {}
+    Obstacle() : position(0.0f,0.0f,0.0f), sizeX(10.0f), sizeY(10.0f), sizeZ(10.0f) {}
 
     /**
      * @brief Constructs a boid at a given position with zero velocity.
@@ -27,7 +32,7 @@ public:
      * @param x Initial x-coordinate.
      * @param y Initial y-coordinate.
      */
-    Obstacle(float x, float y, float z) : position(x,y,z) {}
+    Obstacle(float x, float y, float z, int sizeX, int sizeY, int sizeZ) : position(x,y,z), sizeX(sizeX), sizeY(sizeY), sizeZ(sizeZ) {}
 };
 
 } //namespace

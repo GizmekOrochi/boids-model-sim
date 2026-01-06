@@ -27,6 +27,7 @@ private:
 
     float randRange(float min, float max);
     void spawnRandBoid();
+    void spawnRandObstacle();
 };
 
 }
