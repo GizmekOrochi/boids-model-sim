@@ -35,7 +35,22 @@ void View::drawUI(sf::RenderWindow& win, const std::vector<Button>& buttons, con
         t.setPosition(b.pos.x + b.size.x/2, b.pos.y + b.size.y/2);
         win.draw(t);
     }
-
+    {
+        std::string str = "Obs: " + std::to_string(settings::nbobstacle);
+        sf::Text countText(str, font, 14);
+        countText.setFillColor(sf::Color::White);
+        countText.setPosition(190.f, 495.f);
+        win.draw(countText);
+    }
+    {
+        std::string str = "Boids: " + std::to_string(settings::nbboid);
+        if (settings::nbboid >= 200) str += " (MAX)";
+        if (settings::nbboid <= 10)  str += " (MIN)";
+        sf::Text countText(str,font,14);
+        countText.setFillColor(sf::Color::White);
+        countText.setPosition(190.f, 545.f);
+        win.draw(countText);
+    }
     for (const auto& s : sliders) {
         std::ostringstream ss;
         ss.setf(std::ios::fixed);
