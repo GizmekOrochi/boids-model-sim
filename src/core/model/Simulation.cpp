@@ -2,7 +2,14 @@
 
 namespace bd {
 
-Simulation::Simulation(float dt) : world(), deltaTime(dt) {}
+Simulation::Simulation(float dt) : world(), deltaTime(dt) { init(); }
+
+void Simulation::init() {
+    flock.addRule(new Cohesion());
+    flock.addRule(new Separation());
+    flock.addRule(new Alignment());
+    flock.addRule(new Avoidance());
+}
 
 void Simulation::update() {
     auto& boids = flock.getBoids();

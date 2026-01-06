@@ -12,29 +12,15 @@ Controller::Controller() : simulation(settings::deltaTime) , view(font, settings
 }
 
 void Controller::run() {
-    auto& flock = simulation.getFlock();
-
     const float panelWidth = settings::panelWidth;
-    const float worldW = simulation.getWorld().getWidth();
-    const float worldH = simulation.getWorld().getHeight();
-
-    flock.addRule(new Cohesion());
-    flock.addRule(new Separation());
-    flock.addRule(new Alignment());
-    flock.addRule(new Avoidance());
+    const float worldW = settings::windowWidth;
+    const float worldH = settings::windowHeight;
 
     window.create(sf::VideoMode(static_cast<unsigned>(worldW + panelWidth),static_cast<unsigned>(worldH)),"Boids Simulation");
     window.setFramerateLimit(60);
 
     for (int i = 0; i < settings::nbboid; ++i) {
-        float x = rand() / float(RAND_MAX) * settings::worldWidth;
-        float y = rand() / float(RAND_MAX) * settings::worldHeight;
-        float z = rand() / float(RAND_MAX) * settings::worldDeepth;
-
-        int r = (rand() % 3) + 1;
-        if(r == 1) { flock.addBoid(Boid(x, y, z, BoidSpecies::RED)); }
-        else if(r == 2) { flock.addBoid(Boid(x, y, z, BoidSpecies::GREEN)); }
-        else { flock.addBoid(Boid(x, y, z, BoidSpecies::BLUE)); }
+        spawnRandBoid();
     }
 
     sf::Clock clock;
@@ -63,23 +49,19 @@ void Controller::run() {
                     SaveSystem::load(simulation, "bin/save.boids");
                     break;
 
-                case UiAction::AddBoid: {
-                    if (settings::nbboid < 200) {
-                        int r = (rand() % 3) + 1;
-                        if(r == 1) { flock.addBoid(Boid(worldW * 0.5f, worldH * 0.5f, 0.f, BoidSpecies::RED)); settings::nbboid++;}
-                        else if(r == 2) { flock.addBoid(Boid(worldW * 0.5f, worldH * 0.5f, 0.f, BoidSpecies::GREEN)); settings::nbboid++;}
-                        else { flock.addBoid(Boid(worldW * 0.5f, worldH * 0.5f, 0.f, BoidSpecies::BLUE)); settings::nbboid++;}
+                case UiAction::AddBoid:
+                    if (simulation.getBoids().getsize() < 200) {
+                        spawnRandBoid();
+                        std::cout << "Boids: " << simulation.getBoids().getsize() << "\n";
                     }
                     break;
-                }
 
                 case UiAction::RmBoid:
-                    if (settings::nbboid > 10) {
-                        flock.removeLastBoid();
-                        settings::nbboid--;
+                    if (simulation.getBoids().getsize() > 10) {
+                        simulation.removeLastBoid();
+                        std::cout << "Boids: " << simulation.getBoids().getsize() << "\n";
                     }
                     break;
-
                 default:
                     break;
             }
@@ -94,8 +76,9 @@ void Controller::run() {
 
         // --- Render ---
         window.clear(sf::Color(15, 15, 20));
-        
-        const auto& boids = flock.getBoids();
+
+        const auto& boids = simulation.getBoids();
+
         for (size_t i = 0; i < boids.getsize(); ++i) {
             const Boid& b = boids[i];
             if (b.velocity.lengthSq() < 1e-6f) continue;
@@ -114,6 +97,29 @@ void Controller::run() {
         
         window.display();
     }
+}
+
+void Controller::spawnRandBoid() {
+    // race
+    int r = (rand() % 3);
+    BoidSpecies species = (r == 0) ? BoidSpecies::RED : (r == 1) ? BoidSpecies::GREEN : BoidSpecies::BLUE;
+
+    // location
+    constexpr float SPAWN_RADIUS = 10.0f;
+    float cx = settings::worldWidth * 0.5f;
+    float cy = settings::worldHeight * 0.5f;
+    float cz = settings::worldDeepth * 0.5f;
+
+    simulation.addBoid(Boid(
+        cx + randRange(-SPAWN_RADIUS, SPAWN_RADIUS),
+        cy + randRange(-SPAWN_RADIUS, SPAWN_RADIUS),
+        cz + randRange(-SPAWN_RADIUS, SPAWN_RADIUS),
+        species
+    ));
+}
+ 
+float Controller::randRange(float min, float max){
+    return min + static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * (max - min);
 }
 
 }

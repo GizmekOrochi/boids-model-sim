@@ -4,6 +4,10 @@
 #pragma once
 #include "World.hpp"
 #include "Flock.hpp"
+#include "../model/Boids_rules/Cohesion.hpp"
+#include "../model/Boids_rules/Separation.hpp"
+#include "../model/Boids_rules/Alignment.hpp"
+#include "../model/Boids_rules/Avoidance.hpp"
 
 namespace bd {
 
@@ -25,6 +29,11 @@ private:
 
     /** Time step used for advancing the simulation. */
     float deltaTime;
+
+    /**
+     * @brief Init the Flock
+     */
+    void init();
 
 public:
     /**
@@ -70,6 +79,24 @@ public:
      * and applies world constraints using the configured delta time.
      */
     void update();
+
+
+    // ALL thoses are accesser to the flock methodes from the controler
+    void addBoid(const Boid& b) { flock.addBoid(b); }
+
+    void removeLastBoid() { flock.removeLastBoid(); }
+
+    void addObstacle(const Obstacle& o) { flock.addObstacle(o); }
+
+    void removeLastObstacle() { flock.removeLastObstacle(); }
+
+    void clearBoids() { flock.clearBoids(); }
+
+    DynamicArray<Boid>& getBoids() { return flock.getBoids(); }
+
+    Boid& getBoid(size_t index) { return flock.getBoids()[index]; }
+
+    size_t getBoidSize() { return flock.getBoids().getsize(); }
 };
 
 }
