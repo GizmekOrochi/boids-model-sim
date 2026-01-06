@@ -31,8 +31,9 @@ void Controller::run() {
         float y = rand() / float(RAND_MAX) * settings::worldHeight;
         float z = rand() / float(RAND_MAX) * settings::worldDeepth;
 
-        int r = (rand() % 2) + 1;
+        int r = (rand() % 3) + 1;
         if(r == 1) { flock.addBoid(Boid(x, y, z, BoidSpecies::RED)); }
+        if(r == 2) { flock.addBoid(Boid(x, y, z, BoidSpecies::GREEN)); }
         else { flock.addBoid(Boid(x, y, z, BoidSpecies::BLUE)); }
     }
 
@@ -55,16 +56,17 @@ void Controller::run() {
 
             switch (action) {
                 case UiAction::Save:
-                    SaveSystem::save(simulation, "save.boids");
+                    SaveSystem::save(simulation, "bin/save.boids");
                     break;
 
                 case UiAction::Load:
-                    SaveSystem::load(simulation, "save.boids");
+                    SaveSystem::load(simulation, "bin/save.boids");
                     break;
 
                 case UiAction::AddBoid: {
-                    int r = (rand() % 2) + 1;
+                    int r = (rand() % 3) + 1;
                     if(r == 1) { flock.addBoid(Boid(worldW * 0.5f, worldH * 0.5f, 0.f, BoidSpecies::RED)); }
+                    if(r == 2) { flock.addBoid(Boid(worldW * 0.5f, worldH * 0.5f, 0.f, BoidSpecies::GREEN)); }
                     else { flock.addBoid(Boid(worldW * 0.5f, worldH * 0.5f, 0.f, BoidSpecies::BLUE)); }
                     break;
                 }

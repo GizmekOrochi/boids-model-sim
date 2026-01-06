@@ -7,6 +7,7 @@ namespace bd {
 
 enum BoidSpecies {
     RED,
+    GREEN,
     BLUE
 };
 
