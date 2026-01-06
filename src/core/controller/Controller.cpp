@@ -23,6 +23,7 @@ void Controller::run() {
     flock.addRule(new Cohesion());
     flock.addRule(new Separation());
     flock.addRule(new Alignment());
+    flock.addRule(new Avoidance());
 
     window.create(sf::VideoMode(static_cast<unsigned>(worldW + panelWidth),static_cast<unsigned>(worldH)),"Boids Simulation");
     window.setFramerateLimit(60);
@@ -31,7 +32,10 @@ void Controller::run() {
         float x = rand() / float(RAND_MAX) * worldW;
         float y = rand() / float(RAND_MAX) * worldH;
         float z = rand() / float(RAND_MAX) * settings::windowDeepth;
-        flock.addBoid(Boid(x, y, z));
+
+        int r = (rand() % 2) + 1;
+        if(r == 1) { flock.addBoid(Boid(x, y, z, BoidSpecies::RED)); }
+        else { flock.addBoid(Boid(x, y, z, BoidSpecies::BLUE)); }
     }
 
     sf::Clock clock;
@@ -60,9 +64,12 @@ void Controller::run() {
                     SaveSystem::load(simulation, "save.boids");
                     break;
 
-                case UiAction::AddBoid:
-                    flock.addBoid(Boid(worldW * 0.5f, worldH * 0.5f, 0.f));
+                case UiAction::AddBoid: {
+                    int r = (rand() % 2) + 1;
+                    if(r == 1) { flock.addBoid(Boid(worldW * 0.5f, worldH * 0.5f, 0.f, BoidSpecies::RED)); }
+                    else { flock.addBoid(Boid(worldW * 0.5f, worldH * 0.5f, 0.f, BoidSpecies::BLUE)); }
                     break;
+                }
 
                 case UiAction::RmBoid:
                     flock.removeLastBoid();
@@ -92,14 +99,8 @@ void Controller::run() {
         for (size_t i = 0; i < boids.getsize(); ++i) {
             const Boid& b = boids[i];
             if (b.velocity.lengthSq() < 1e-6f) continue;
-
-            view.getView3D().drawBoid(
-                window,
-                b.position,
-                b.velocity
-            );
+            view.getView3D().drawBoid(window, b.position, b.velocity, b.specie);
         }
-
         window.display();
     }
 }

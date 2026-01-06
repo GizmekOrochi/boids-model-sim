@@ -1,4 +1,5 @@
 #include "../../../include/model/utils/SaveSystem.hpp"
+#include "../../../include/model/utils/Species.hpp"
 #include <fstream>
 #include <sstream>
 
@@ -8,7 +9,7 @@ bool SaveSystem::save(const Simulation& simulation, const std::string& filename)
     std::ofstream out(filename);
     if (!out.is_open())
         return false;
-        
+
     const Flock& flock = simulation.getFlock();
     const auto& boids = flock.getBoids();
 
@@ -85,7 +86,7 @@ bool SaveSystem::load(Simulation& simulation, const std::string& filename) {
 
                 iss >> tag >> x >> y >> z >> dx >> dy >> dz;
 
-                Boid b(x, y, z);
+                Boid b(x, y, z, BoidSpecies::RED);
                 b.velocity = Vec3<float>(dx, dy, dz);
                 flock.addBoid(b);
             }

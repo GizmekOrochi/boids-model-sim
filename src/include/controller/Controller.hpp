@@ -7,9 +7,11 @@
 #include "../view/ViewControl.hpp"
 #include "../model/Simulation.hpp"
 #include "../model/utils/SaveSystem.hpp"
+#include "../model/utils/Species.hpp"
 #include "../model/Boids_rules/Cohesion.hpp"
 #include "../model/Boids_rules/Separation.hpp"
 #include "../model/Boids_rules/Alignment.hpp"
+#include "../model/Boids_rules/Avoidance.hpp"
 #include "../config/Settings.hpp"
 
 namespace bd {

@@ -6,6 +6,7 @@
 #include "../config/Settings.hpp"
 #include "utils/Vec2.hpp"
 #include "utils/Vec3.hpp"
+#include "../model/utils/Species.hpp"
 #include "utils/Camera.hpp"
 
 namespace bd {
@@ -21,7 +22,6 @@ public:
     Camera& getCamera();
 
     void setViewport(int w, int h);
-    void draw(sf::RenderWindow& win);
 
 private:
     Camera camera;
@@ -34,10 +34,10 @@ private:
     bool projectToScreen(const Vec3<float>& camP, Vec2<float>& out, float& outZ) const;
 
     void drawLine3D(sf::RenderWindow& win, const Vec3<float>& a, const Vec3<float>& b, sf::Color color);
-    void drawTriangle3D(sf::RenderWindow& win, const Vec3<float>& a, const Vec3<float>& b, const Vec3<float>& c);
+    void drawTriangle3D(sf::RenderWindow& win, const Vec3<float>& a, const Vec3<float>& b, const Vec3<float>& c,sf::Color color);
 
 public:
-    void drawBoid(sf::RenderWindow& win, const Vec3<float>& position, const Vec3<float>& direction);
+    void drawBoid(sf::RenderWindow& win, const Vec3<float>& position, const Vec3<float>& direction, BoidSpecies BoidSpecie);
     void drawWorldCage(sf::RenderWindow& win);
     
 };

@@ -4,6 +4,7 @@
 #pragma once
 #include "utils/DynamicArray.hpp"
 #include "utils/Vec3.hpp"
+#include "utils/Species.hpp"
 #include "Boids_rules/Rule.hpp"
 #include "Boid.hpp"
 #include "../config/Settings.hpp"
@@ -17,10 +18,7 @@ private:
 
     DynamicArray<size_t> findNeighbors(size_t index) const;
 
-    Vec3<float> computeRuleForces(
-        const Boid& b,
-        const DynamicArray<size_t>& neighbors
-    ) const;
+    Vec3<float> computeRuleForces(const Boid& b, const DynamicArray<size_t>& neighbors) const;
 
     void enforceBaseSpeed(
         Boid& b,

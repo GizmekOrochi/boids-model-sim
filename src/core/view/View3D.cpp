@@ -24,10 +24,6 @@ void View3D::setViewport(int w, int h) {
     height = h;
 }
 
-void View3D::draw(sf::RenderWindow& win) {
-    drawBoid(win, {40,0,20}, {0,0,1});
-}
-
 Vec3<float> View3D::worldToCamera(const Vec3<float>& p) const {
     Vec3<float> rel = p - camera.getPosition();
 
@@ -85,32 +81,11 @@ void View3D::drawLine3D(sf::RenderWindow& win, const Vec3<float>& a, const Vec3<
     win.draw(line, 2, sf::Lines);
 }
 
-void View3D::drawTriangle3D(sf::RenderWindow& win, const Vec3<float>& a, const Vec3<float>& b, const Vec3<float>& c) {
-    Vec2<float> pa, pb, pc;
-    float za, zb, zc;
-
-    Vec3<float> ca = worldToCamera(a);
-    Vec3<float> cb = worldToCamera(b);
-    Vec3<float> cc = worldToCamera(c);
-
-    if (!projectToScreen(ca, pa, za)) return;
-    if (!projectToScreen(cb, pb, zb)) return;
-    if (!projectToScreen(cc, pc, zc)) return;
-
-    sf::ConvexShape tri;
-    tri.setPointCount(3);
-    tri.setPoint(0, {pa.x, pa.y});
-    tri.setPoint(1, {pb.x, pb.y});
-    tri.setPoint(2, {pc.x, pc.y});
-
-    float avgZ = (za + zb + zc) / 3.f;
-    tri.setFillColor(shadeFromDepth(avgZ));
-    tri.setOutlineThickness(1.f);
-    tri.setOutlineColor(sf::Color(30, 200, 255, 120));
-
-    win.draw(tri);
+void View3D::drawTriangle3D(sf::RenderWindow& win, const Vec3<float>& a, const Vec3<float>& b, const Vec3<float>& c, sf::Color color) {
+    drawLine3D(win, a, b, color);
+    drawLine3D(win, b, c, color);
+    drawLine3D(win, c, a, color);
 }
-
 
 void View3D::drawWorldCage(sf::RenderWindow& win) {
     const float W = settings::windowWidth;
@@ -183,7 +158,7 @@ void View3D::drawWorldCage(sf::RenderWindow& win) {
 }
 
 
-void View3D::drawBoid(sf::RenderWindow& win, const Vec3<float>& position,const Vec3<float>& direction) {
+void View3D::drawBoid(sf::RenderWindow& win, const Vec3<float>& position,const Vec3<float>& direction, BoidSpecies BoidSpecie) {
     const float length = 18.0f;
     const float width  = 6.0f;
     const float height = 6.0f;
@@ -224,13 +199,15 @@ void View3D::drawBoid(sf::RenderWindow& win, const Vec3<float>& position,const V
         {0,4,1}
     };
 
-    for (const Face& f : faces) {
-        drawTriangle3D(
-            win,
-            world[f.a],
-            world[f.b],
-            world[f.c]
-        );
+    if(BoidSpecie == BoidSpecies::RED) {
+        for (const Face& f : faces) {
+            drawTriangle3D(win, world[f.a], world[f.b], world[f.c], sf::Color::Red);
+        }
+    }
+    else if(BoidSpecie == BoidSpecies::BLUE) {
+        for (const Face& f : faces) {
+            drawTriangle3D(win, world[f.a], world[f.b], world[f.c], sf::Color::Blue);
+        }
     }
 }
 

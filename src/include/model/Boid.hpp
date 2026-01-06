@@ -3,6 +3,7 @@
 
 #pragma once
 #include "utils/Vec3.hpp"
+#include "utils/Species.hpp"
 
 namespace bd {
 
@@ -21,10 +22,12 @@ public:
     /** Current velocity of the boid. */
     Vec3<float> velocity;
 
+    BoidSpecies specie;
+
     /**
      * @brief Constructs a boid at the origin with zero velocity.
      */
-    Boid() : position(0.0f,0.0f,0.0f), velocity(0.0f,0.0f,0.0f) {}
+    Boid(BoidSpecies specie) : position(0.0f,0.0f,0.0f), velocity(0.0f,0.0f,0.0f), specie(specie) {}
 
     /**
      * @brief Constructs a boid at a given position with zero velocity.
@@ -32,7 +35,7 @@ public:
      * @param x Initial x-coordinate.
      * @param y Initial y-coordinate.
      */
-    Boid(float x, float y, float z) : position(x,y,z), velocity(0.0f,0.0f,0.0f) {}
+    Boid(float x, float y, float z, BoidSpecies specie) : position(x,y,z), velocity(0.0f,0.0f,0.0f), specie(specie) {}
 };
 
 }

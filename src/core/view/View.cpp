@@ -63,7 +63,6 @@ void View::initWorld(sf::RenderWindow& win) {
 
 void View::draw(sf::RenderWindow& win, float panelWidth) {
     // 3D first (world)
-    view3D.draw(win);
     view3D.drawWorldCage(win);
 
     // UI overlay

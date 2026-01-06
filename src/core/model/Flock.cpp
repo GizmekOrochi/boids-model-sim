@@ -4,8 +4,6 @@
 
 namespace bd {
 
-// ---------------- RULE FORCES ----------------
-
 Vec3<float> Flock::computeRuleForces(
     const Boid& b,
     const DynamicArray<size_t>& neighbors
@@ -19,8 +17,6 @@ Vec3<float> Flock::computeRuleForces(
     return total;
 }
 
-// ---------------- BASE SPEED ----------------
-
 void Flock::enforceBaseSpeed(
     Boid& b,
     const DynamicArray<size_t>& neighbors
@@ -31,7 +27,6 @@ void Flock::enforceBaseSpeed(
     float len = b.velocity.length();
 
     if (len < 0.0001f) {
-        // random direction on unit sphere
         float theta = float(rand()) / RAND_MAX * 2.f * 3.1415926f;
         float phi   = float(rand()) / RAND_MAX * 3.1415926f;
 
@@ -46,8 +41,6 @@ void Flock::enforceBaseSpeed(
     }
 }
 
-// ---------------- CLAMPING ----------------
-
 Vec3<float> Flock::clampAcceleration(const Vec3<float>& force) const {
     float len = force.length();
     if (len > settings::maxAcceleration && len > 0.f)
@@ -61,8 +54,6 @@ Vec3<float> Flock::clampSpeed(const Vec3<float>& v) const {
         return v.normalized() * settings::maxSpeed;
     return v;
 }
-
-// ---------------- UPDATE ----------------
 
 DynamicArray<Vec3<float>> Flock::computeNextVelocities() {
     DynamicArray<Vec3<float>> nextVel;
@@ -83,8 +74,6 @@ DynamicArray<Vec3<float>> Flock::computeNextVelocities() {
     return nextVel;
 }
 
-// ---------------- NEIGHBOR SEARCH ----------------
-
 DynamicArray<size_t> Flock::findNeighbors(size_t index) const {
     DynamicArray<size_t> neighbors;
     const Boid& b = boids[index];
@@ -96,6 +85,8 @@ DynamicArray<size_t> Flock::findNeighbors(size_t index) const {
         if (j == index) continue;
 
         const Boid& other = boids[j];
+        if(boids[j].specie != boids[index].specie) continue;
+
         Vec3<float> toNeighbor = other.position - b.position;
 
         float distSq = toNeighbor.dot(toNeighbor);
