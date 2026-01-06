@@ -4,6 +4,7 @@
 #pragma once
 #include "utils/Vec3.hpp"
 #include "utils/Species.hpp"
+#include "../config/Settings.hpp"
 
 namespace bd {
 
@@ -25,10 +26,15 @@ public:
     /** Current specie of the boid */
     BoidSpecies specie;
 
+    /** ID of the boid */
+    int ID;
+
     /**
      * @brief Constructs a boid at the origin with zero velocity.
      */
-    Boid(BoidSpecies specie) : position(0.0f,0.0f,0.0f), velocity(0.0f,0.0f,0.0f), specie(specie) {}
+    Boid(BoidSpecies specie) : position(0.0f,0.0f,0.0f), velocity(0.0f,0.0f,0.0f), specie(specie), ID(settings::currentIDAvalible) {
+        settings::currentIDAvalible++;
+    }
 
     /**
      * @brief Constructs a boid at a given position with zero velocity.
@@ -36,7 +42,11 @@ public:
      * @param x Initial x-coordinate.
      * @param y Initial y-coordinate.
      */
-    Boid(float x, float y, float z, BoidSpecies specie) : position(x,y,z), velocity(0.0f,0.0f,0.0f), specie(specie) {}
+    Boid(float x, float y, float z, BoidSpecies specie) : position(x,y,z), velocity(0.0f,0.0f,0.0f), specie(specie), ID(settings::currentIDAvalible) {
+        settings::currentIDAvalible++;
+    }
+
+    ~Boid() { settings::currentIDAvalible--; }
 };
 
 }

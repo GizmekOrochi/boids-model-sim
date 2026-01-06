@@ -18,4 +18,4 @@ Vec3<float> Cohesion::apply(const Boid& b, const RuleContext& ctx) const {
     return steer * weight;
 }
 
-}
+} // namespace

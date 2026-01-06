@@ -4,14 +4,15 @@
 
 namespace bd {
 
-Vec3<float> Flock::computeRuleForces(const Boid& b, const DynamicArray<size_t>& neighbors,const DynamicArray<size_t>& predators) const {
+Vec3<float> Flock::computeRuleForces(const Boid& b, const DynamicArray<size_t>& neighbors,const DynamicArray<size_t>& predators, DynamicArray<int>* eaten) const {
     Vec3<float> total(0.f, 0.f, 0.f);
 
     RuleContext ctx {
         .boids = boids,
         .neighbors = neighbors,
         .predator = predators,
-        .obstacles = obstacles
+        .obstacles = obstacles,
+        .eaten = eaten
     };
 
     for (size_t i = 0; i < rules.getsize(); ++i) {
@@ -53,7 +54,7 @@ Vec3<float> Flock::clampSpeed(const Vec3<float>& v) const {
     return v;
 }
 
-DynamicArray<Vec3<float>> Flock::computeNextVelocities() {
+DynamicArray<Vec3<float>> Flock::computeNextVelocities(DynamicArray<int>* eaten) {
     DynamicArray<Vec3<float>> nextVel;
 
     DynamicArray<size_t> neighbors;
@@ -64,7 +65,7 @@ DynamicArray<Vec3<float>> Flock::computeNextVelocities() {
 
         findNeighbors(i, neighbors, predators);
 
-        Vec3<float> force = computeRuleForces(b, neighbors, predators);
+        Vec3<float> force = computeRuleForces(b, neighbors, predators, eaten);
         enforceBaseSpeed(b, neighbors);
 
         force = clampAcceleration(force);
@@ -76,16 +77,17 @@ DynamicArray<Vec3<float>> Flock::computeNextVelocities() {
     return nextVel;
 }
 
-void Flock::findNeighbors(size_t index, DynamicArray<size_t>& neighbors,DynamicArray<size_t>& predators) const {
+void Flock::findNeighbors(size_t index, DynamicArray<size_t>& neighbors, DynamicArray<size_t>& predators) const{
     neighbors.clear();
     predators.clear();
 
     const Boid& b = boids[index];
+    const float maxDistSq =
+        settings::perceptionRadius * settings::perceptionRadius;
 
-    float maxDistSq = settings::perceptionRadius * settings::perceptionRadius;
-
-    Vec3<float> forward(0.f, 0.f, 0.f);
-    if (b.velocity.lengthSq() > 1e-6f)
+    Vec3<float> forward{};
+    bool hasForward = b.velocity.lengthSq() > 1e-6f;
+    if (hasForward)
         forward = b.velocity.normalized();
 
     for (size_t j = 0; j < boids.getsize(); ++j) {
@@ -93,31 +95,35 @@ void Flock::findNeighbors(size_t index, DynamicArray<size_t>& neighbors,DynamicA
 
         const Boid& other = boids[j];
 
-        Vec3<float> toNeighbor = other.position - b.position;
-        float distSq = toNeighbor.dot(toNeighbor);
+        Vec3<float> toOther = other.position - b.position;
+        float distSq = toOther.dot(toOther);
         if (distSq > maxDistSq)
             continue;
 
-        bool isPredator = fear(b.specie, other.specie);
-        bool isNeighbor = ((other.specie == b.specie && speciesTier(b.specie) < 3) || fear(other.specie, b.specie));
+        bool isThreaten = canEat(other.specie, b.specie);
+        bool isHunting = canEat(b.specie, other.specie);
+        bool sameSpecies  = (other.specie == b.specie);
 
-        if (!isNeighbor && !isPredator) continue;
-
-
-        if (forward.lengthSq() < 1e-6f) {
-            if (isNeighbor) neighbors.push_back(j);
-            else if (isPredator) predators.push_back(j);
+        if (isThreaten) {
+            predators.push_back(j);
             continue;
         }
 
-        Vec3<float> dir = toNeighbor.normalized();
-        float dot = forward.dot(dir);
+        bool isNeighbor = sameSpecies || isHunting;
+        if (!isNeighbor)
+            continue;
 
-        if (dot >= settings::cosAngle) {
-            if (isNeighbor) neighbors.push_back(j);
-            else if (isPredator) predators.push_back(j);
+        if (!hasForward) {
+            neighbors.push_back(j);
+            continue;
         }
+
+        Vec3<float> dir = toOther.normalized();
+        if (forward.dot(dir) >= settings::cosAngle)
+            neighbors.push_back(j);
     }
 }
+
+
 
 }

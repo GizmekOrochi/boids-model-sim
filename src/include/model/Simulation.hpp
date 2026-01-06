@@ -9,6 +9,7 @@
 #include "../model/Boids_rules/Separation.hpp"
 #include "../model/Boids_rules/Alignment.hpp"
 #include "../model/Boids_rules/Avoidance.hpp"
+#include "../model/Boids_rules/Death.hpp"
 
 namespace bd {
 
@@ -31,6 +32,8 @@ private:
     /** Time step used for advancing the simulation. */
     float deltaTime;
 
+    DynamicArray<int>* eaten;
+
     /**
      * @brief Init the Flock
      */
@@ -44,6 +47,11 @@ public:
      * @param dt The time delta used for each simulation update.
      */
     Simulation(float dt);
+
+    /**
+     * @brief Destruct a simulation.
+     */
+    ~Simulation() { delete eaten; };
 
     /**
      * @brief Provides mutable access to the world.
@@ -100,6 +108,8 @@ public:
     Boid& getBoid(size_t index) { return flock.getBoids()[index]; }
 
     size_t getBoidSize() { return flock.getBoids().getsize(); }
+
+    void removeEatenBoids(DynamicArray<Boid>& boids, const DynamicArray<int>& eaten);
 };
 
 }

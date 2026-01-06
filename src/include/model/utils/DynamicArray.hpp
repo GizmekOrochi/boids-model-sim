@@ -86,6 +86,26 @@ public:
     }
 
     /**
+     * @brief Removes the element at the given index.
+     *
+     * Shifts all following elements one position to the left.
+     *
+     * @param index Index of the element to remove.
+     */
+    void erase(size_t index) {
+        if (index >= size)
+            return;
+
+        data[index].~T();
+
+        for (size_t i = index; i < size - 1; ++i) {
+            new (data + i) T(data[i + 1]);
+            data[i + 1].~T();
+        }
+        size--;
+    }
+
+    /**
      * @brief Provides mutable access to an element by index.
      *
      * @param index Index of the element.

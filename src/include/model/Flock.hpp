@@ -21,7 +21,7 @@ private:
 
     void findNeighbors(size_t index, DynamicArray<size_t>& neighbors, DynamicArray<size_t>& predators) const;
 
-    Vec3<float> computeRuleForces(const Boid& b, const DynamicArray<size_t>& neighbors, const DynamicArray<size_t>& predators) const;
+    Vec3<float> computeRuleForces(const Boid& b, const DynamicArray<size_t>& neighbors, const DynamicArray<size_t>& predators, DynamicArray<int>* eaten) const;
 
     void enforceBaseSpeed(Boid& b, const DynamicArray<size_t>& neighbors);
 
@@ -63,7 +63,7 @@ public:
     void clearBoids() { boids.clear(); }
     void clearObstacles() { obstacles.clear(); }
 
-    DynamicArray<Vec3<float>> computeNextVelocities();
+    DynamicArray<Vec3<float>> computeNextVelocities(DynamicArray<int>* eaten);
 };
 
 }

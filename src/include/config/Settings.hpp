@@ -16,7 +16,7 @@ inline float moveSpeed = 250.0f;
 inline float rotSpeed = 1.6f;
 
 //menu size
-inline float panelWidth = 300.f;
+inline float panelWidth = 1.f;
 
 // Physics
 inline float worldWidth  = windowWidth;
@@ -25,6 +25,7 @@ inline float worldDeepth = 600.0f;
 
 //Boid number
 inline int nbboid = 100;
+inline int currentIDAvalible = 1;
 
 //obstacle number
 inline int nbobstacle = 0;
@@ -41,6 +42,7 @@ inline float separationWeight = 1.0f;
 inline float desiredDistance = 20.0f;
 inline float alignmentWeight = 0.125f;
 inline float separationDistance = 15.0f;
+inline float eatDistSq = 10.0f;
 
 // Boids perception / vision
 inline float perceptionRadius = 50.0f;
