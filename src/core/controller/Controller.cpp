@@ -14,8 +14,6 @@ Controller::Controller() : simulation(settings::deltaTime) , view(font, settings
 void Controller::run() {
     auto& flock = simulation.getFlock();
 
-    view.initWorld(window);
-
     const float panelWidth = settings::panelWidth;
     const float worldW = simulation.getWorld().getWidth();
     const float worldH = simulation.getWorld().getHeight();
@@ -29,9 +27,9 @@ void Controller::run() {
     window.setFramerateLimit(60);
 
     for (int i = 0; i < settings::nbboid; ++i) {
-        float x = rand() / float(RAND_MAX) * worldW;
-        float y = rand() / float(RAND_MAX) * worldH;
-        float z = rand() / float(RAND_MAX) * settings::windowDeepth;
+        float x = rand() / float(RAND_MAX) * settings::worldWidth;
+        float y = rand() / float(RAND_MAX) * settings::worldHeight;
+        float z = rand() / float(RAND_MAX) * settings::worldDeepth;
 
         int r = (rand() % 2) + 1;
         if(r == 1) { flock.addBoid(Boid(x, y, z, BoidSpecies::RED)); }
@@ -90,11 +88,8 @@ void Controller::run() {
         // --- Render ---
         window.clear(sf::Color(15, 15, 20));
 
-        view.drawPanel(window, panelWidth);
-        view.drawUI(window, view.getButtons(), view.getSliders());
-
-        view.getView3D().drawWorldCage(window);
-
+        view.draw(window, panelWidth);
+        
         const auto& boids = flock.getBoids();
         for (size_t i = 0; i < boids.getsize(); ++i) {
             const Boid& b = boids[i];

@@ -1,4 +1,5 @@
 #include "../../include/view/View.hpp"
+#include <iostream>
 
 namespace bd {
 
@@ -18,16 +19,11 @@ void View::drawPanel(sf::RenderWindow& win, float w) {
     win.draw(bg);
 }
 
-void View::drawUI(
-    sf::RenderWindow& win,
-    const std::vector<Button>& buttons,
-    const std::vector<Slider>& sliders
-) {
+void View::drawUI(sf::RenderWindow& win, const std::vector<Button>& buttons, const std::vector<Slider>& sliders) {
     for (const auto& b : buttons) {
         sf::RectangleShape r(b.size);
         r.setPosition(b.pos);
-        r.setFillColor(b.hovered ? sf::Color(100,100,100)
-                                 : sf::Color(70,70,70));
+        r.setFillColor(b.hovered ? sf::Color(100,100,100) : sf::Color(70,70,70));
         r.setOutlineThickness(1);
         r.setOutlineColor(sf::Color::White);
         win.draw(r);
@@ -57,17 +53,12 @@ void View::drawUI(
     }
 }
 
-void View::initWorld(sf::RenderWindow& win) {
-    view3D.drawWorldCage(win);
-}
-
 void View::draw(sf::RenderWindow& win, float panelWidth) {
-    // 3D first (world)
     view3D.drawWorldCage(win);
-
     // UI overlay
     drawPanel(win, panelWidth);
     viewlayout.build();
+    drawUI(win, viewlayout.buttons, viewlayout.sliders);
 }
 
 }

@@ -16,8 +16,6 @@ public:
     Camera& getCamera();
     View3D getView3D() { return view3D;}
 
-    void initWorld(sf::RenderWindow& win);
-
     std::vector<Button>& getButtons() { return viewlayout.buttons; };
     std::vector<Slider>& getSliders() { return viewlayout.sliders; };
 

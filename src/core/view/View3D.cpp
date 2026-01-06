@@ -5,15 +5,7 @@
 
 namespace bd {
 
-static sf::Color shadeFromDepth(float z) {
-    float t = 1.0f - std::min(std::max((z - 50.f) / 600.f, 0.f), 1.f);
-    int v = static_cast<int>(60 + 195 * t);
-    return sf::Color(v, v, v);
-}
-
-View3D::View3D(int w, int h)
-    : width(w), height(h)
-{}
+View3D::View3D(int w, int h) : width(w), height(h) {}
 
 Camera& View3D::getCamera() {
     return camera;
@@ -88,9 +80,9 @@ void View3D::drawTriangle3D(sf::RenderWindow& win, const Vec3<float>& a, const V
 }
 
 void View3D::drawWorldCage(sf::RenderWindow& win) {
-    const float W = settings::windowWidth;
-    const float H = settings::windowHeight;
-    const float D = settings::windowDeepth;
+    const float W = settings::worldWidth;
+    const float H = settings::worldHeight;
+    const float D = settings::worldDeepth;
 
     sf::Color edgeColor(200, 200, 200, 180);
     sf::Color gridColor(100, 100, 100, 120);

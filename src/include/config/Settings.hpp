@@ -10,8 +10,18 @@ namespace bd::settings {
 //boids window
 inline float windowWidth  = 800.0f;
 inline float windowHeight = 600.0f;
-inline float windowDeepth = 600.0f;
 
+// Buttons menu location on the window
+inline float uiPaddingX = 0.025f;
+inline float uiPaddingY = 0.033f;
+
+inline float uiButtonW  = 0.15f;
+inline float uiButtonH  = 0.05f;
+
+inline float uiGapX     = 0.025f;
+inline float uiGapY     = 0.02f;
+
+// Camera
 inline float moveSpeed = 250.f;
 inline float rotSpeed = 1.6f;
 
@@ -21,7 +31,7 @@ inline float panelWidth = 300.f;
 // Physics
 inline float worldWidth  = windowWidth;
 inline float worldHeight = windowHeight;
-inline float worldDeepth = windowDeepth;
+inline float worldDeepth = 600.0f;
 
 inline int nbboid = 200;
 
