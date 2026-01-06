@@ -15,13 +15,13 @@ bool SaveSystem::save(const Simulation& simulation, const std::string& filename)
 
     out << "BOIDS_SAVE_V2\n\n";
 
-    // --- World ---
+    // World
     out << "WORLD\n";
     out << "width "  << settings::worldWidth  << "\n";
     out << "height " << settings::worldHeight << "\n";
     out << "depth "  << settings::worldDeepth  << "\n\n";
 
-    // --- Boids ---
+    // Boids
     out << "BOIDS\n";
     out << "count " << boids.getsize() << "\n";
 
@@ -33,7 +33,11 @@ bool SaveSystem::save(const Simulation& simulation, const std::string& filename)
             dir = Vec3<float>(1.f, 0.f, 0.f);
         }
 
-        out << "boid " << b.position.x << " " << b.position.y << " " << b.position.z << " " << dir.x << " " << dir.y << " " << dir.z << "\n";
+        out << "boid "  // type
+            << b.position.x << " " << b.position.y << " " << b.position.z << " "  // position
+            << dir.x << " " << dir.y << " " << dir.z << " "     // direction
+            << static_cast<int>(b.specie) << "\n";      // specie
+
     }
 
     return true;
@@ -83,10 +87,13 @@ bool SaveSystem::load(Simulation& simulation, const std::string& filename) {
                 std::string tag;
                 float x, y, z;
                 float dx, dy, dz;
+                int specieInt = 0;
 
-                iss >> tag >> x >> y >> z >> dx >> dy >> dz;
+                iss >> tag >> x >> y >> z >> dx >> dy >> dz >> specieInt;
 
-                Boid b(x, y, z, BoidSpecies::RED);
+                BoidSpecies specie = static_cast<BoidSpecies>(specieInt);
+
+                Boid b(x, y, z, specie);
                 b.velocity = Vec3<float>(dx, dy, dz);
                 flock.addBoid(b);
             }
