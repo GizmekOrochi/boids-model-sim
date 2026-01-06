@@ -156,29 +156,22 @@ void View3D::drawBoid(sf::RenderWindow& win, const Vec3<float>& position,const V
     const float height = 6.0f;
 
     Vec3<float> forward = direction.normalized();
-    Vec3<float> worldUp =
-        (std::abs(forward.y) > 0.99f)
-            ? Vec3<float>{1.f, 0.f, 0.f}
-            : Vec3<float>{0.f, 1.f, 0.f};
-
+    Vec3<float> worldUp = (std::abs(forward.y) > 0.99f) ? Vec3<float>{1.f, 0.f, 0.f} : Vec3<float>{0.f, 1.f, 0.f};
     Vec3<float> right = worldUp.cross(forward).normalized();
     Vec3<float> up = forward.cross(right);
 
+    // Piramide description ( top vertical then base verticals )
     std::vector<Vec3<float>> local = {
         { 0.f,  0.f,  length },
         {-width, -height, 0.f},
         { width, -height, 0.f},
-        { width,  height, 0.f},
-        {-width,  height, 0.f}
+        { width, height, 0.f},
+        {-width, height, 0.f}
     };
 
     std::vector<Vec3<float>> world(local.size());
     for (size_t i = 0; i < local.size(); ++i) {
-        world[i] =
-            position +
-            right   * local[i].x +
-            up      * local[i].y +
-            forward * local[i].z;
+        world[i] = position + right * local[i].x + up * local[i].y + forward * local[i].z;
     }
 
     static constexpr Face faces[] = {
@@ -203,6 +196,47 @@ void View3D::drawBoid(sf::RenderWindow& win, const Vec3<float>& position,const V
             drawTriangle3D(win, world[f.a], world[f.b], world[f.c], sf::Color::Blue);
         }
     }
+}
+
+
+void View3D::drawObstacle(sf::RenderWindow& win, const Vec3<float>& position) {
+    const float width  = 10.0f;
+    const float height = 10.0f;
+    const float Depth  = 10.0f;
+
+    std::vector<Vec3<float>> local = {
+        {-width/2, -height/2, -Depth/2}, // 0
+        { width/2, -height/2, -Depth/2}, // 1
+        { width/2, -height/2,  Depth/2}, // 2
+        {-width/2, -height/2,  Depth/2}, // 3
+        {-width/2,  height/2, -Depth/2}, // 4
+        { width/2,  height/2, -Depth/2}, // 5
+        { width/2,  height/2,  Depth/2}, // 6
+        {-width/2,  height/2,  Depth/2}, // 7
+    };
+
+    std::vector<Vec3<float>> world(local.size());
+        for (size_t i = 0; i < local.size(); ++i) {
+            world[i] = position + local[i];
+        }
+
+    sf::Color color = sf::Color::Black;
+
+    // bottom face
+    drawLine3D(win, world[0], world[1], color);
+    drawLine3D(win, world[1], world[2], color);
+    drawLine3D(win, world[2], world[3], color);
+    drawLine3D(win, world[3], world[0], color);
+
+    drawLine3D(win, world[4], world[5], color);
+    drawLine3D(win, world[5], world[6], color);
+    drawLine3D(win, world[6], world[7], color);
+    drawLine3D(win, world[7], world[4], color);
+
+    drawLine3D(win, world[0], world[4], color);
+    drawLine3D(win, world[1], world[5], color);
+    drawLine3D(win, world[2], world[6], color);
+    drawLine3D(win, world[3], world[7], color);
 }
 
 

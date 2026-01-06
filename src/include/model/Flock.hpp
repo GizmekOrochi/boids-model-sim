@@ -7,6 +7,7 @@
 #include "utils/Species.hpp"
 #include "Boids_rules/Rule.hpp"
 #include "Boid.hpp"
+#include "Obstacle.hpp"
 #include "../config/Settings.hpp"
 
 namespace bd {
@@ -14,16 +15,14 @@ namespace bd {
 class Flock {
 private:
     DynamicArray<Boid> boids;
+    DynamicArray<Obstacle> obstacles;
     DynamicArray<Rule*> rules;
 
     DynamicArray<size_t> findNeighbors(size_t index) const;
 
     Vec3<float> computeRuleForces(const Boid& b, const DynamicArray<size_t>& neighbors) const;
 
-    void enforceBaseSpeed(
-        Boid& b,
-        const DynamicArray<size_t>& neighbors
-    );
+    void enforceBaseSpeed(Boid& b, const DynamicArray<size_t>& neighbors);
 
     Vec3<float> clampAcceleration(const Vec3<float>& force) const;
     Vec3<float> clampSpeed(const Vec3<float>& v) const;
@@ -34,11 +33,21 @@ public:
     DynamicArray<Boid>& getBoids() { return boids; }
     const DynamicArray<Boid>& getBoids() const { return boids; }
 
+    DynamicArray<Obstacle>& getObstacle() { return obstacles; }
+    const DynamicArray<Obstacle>& getObstacle() const { return obstacles; }
+
     void addBoid(const Boid& b) { boids.push_back(b); }
 
     void removeLastBoid() {
         if (boids.getsize() > 0)
             boids.pop_back();
+    }
+
+    void addObstacle(const Obstacle& o) { obstacles.push_back(o); }
+
+    void removeLastObstacle() {
+        if (obstacles.getsize() > 0)
+            obstacles.pop_back();
     }
 
     void addRule(Rule* rule) { rules.push_back(rule); }
@@ -56,6 +65,9 @@ public:
         boids.clear();
     }
 
+    void clearObstacles() {
+        obstacles.clear();
+    }
     DynamicArray<Vec3<float>> computeNextVelocities();
 };
 

@@ -1,20 +1,16 @@
 #ifndef RULE_HPP
 #define RULE_HPP
 
-#pragma once
-#include "../utils/Vec3.hpp"
-#include "../utils/DynamicArray.hpp"
+#include "RuleContext.hpp"
 
 namespace bd {
-
-class Boid;
 
 class Rule {
 public:
     virtual ~Rule() = default;
 
     // Renvoie un vecteur représentant la force à appliquer au boid
-    virtual Vec3<float> apply(const Boid& b, const DynamicArray<size_t>& neighbors, const DynamicArray<Boid>& boids) const = 0;
+    virtual Vec3<float> apply(const Boid& b, const RuleContext& ctx) const = 0;
 
 };
 

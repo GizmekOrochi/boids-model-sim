@@ -37,6 +37,7 @@ public:
     Vec3<float> worldToCamera(const Vec3<float>& p) const;
     bool projectToScreen(const Vec3<float>& camP, Vec2<float>& out, float& outZ) const;
     void drawBoid(sf::RenderWindow& win, const Vec3<float>& position, const Vec3<float>& direction, BoidSpecies BoidSpecie);
+    void drawObstacle(sf::RenderWindow& win, const Vec3<float>& position);
     void drawWorldCage(sf::RenderWindow& win);
     
 };

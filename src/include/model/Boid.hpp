@@ -22,6 +22,7 @@ public:
     /** Current velocity of the boid. */
     Vec3<float> velocity;
 
+    /** Current specie of the boid */
     BoidSpecies specie;
 
     /**

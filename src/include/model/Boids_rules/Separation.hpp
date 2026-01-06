@@ -3,8 +3,6 @@
 
 #pragma once
 #include "Rule.hpp"
-#include "../utils/Vec3.hpp"
-#include "../../config/Settings.hpp"
 
 namespace bd {
 
@@ -13,7 +11,7 @@ public:
     float desiredDistance = settings::desiredDistance;
     float weight = settings::separationWeight;
 
-    Vec3<float> apply(const Boid& b, const DynamicArray<size_t>& neighbors, const DynamicArray<Boid>& boids) const override;
+    Vec3<float> apply(const Boid& b, const RuleContext& ctx) const override;
 };
 
 }

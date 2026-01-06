@@ -4,23 +4,26 @@
 
 namespace bd {
 
-Vec3<float> Flock::computeRuleForces(
-    const Boid& b,
-    const DynamicArray<size_t>& neighbors
-) const {
+Vec3<float> Flock::computeRuleForces(const Boid& b, const DynamicArray<size_t>& neighbors) const {
     Vec3<float> total(0.f, 0.f, 0.f);
 
-    for (size_t i = 0; i < rules.getsize(); ++i)
+    //List of the informations needed for the rules
+    RuleContext ctx {
+        .boids = boids,
+        .neighbors = neighbors,
+        .obstacles = obstacles
+    };
+
+    for (size_t i = 0; i < rules.getsize(); ++i) {
         if (rules[i])
-            total += rules[i]->apply(b, neighbors, boids);
+            total += rules[i]->apply(b, ctx);
+    }
 
     return total;
 }
 
-void Flock::enforceBaseSpeed(
-    Boid& b,
-    const DynamicArray<size_t>& neighbors
-) {
+
+void Flock::enforceBaseSpeed(Boid& b,const DynamicArray<size_t>& neighbors) {
     if (neighbors.getsize() > 0)
         return;
 
@@ -85,8 +88,7 @@ DynamicArray<size_t> Flock::findNeighbors(size_t index) const {
         if (j == index) continue;
 
         const Boid& other = boids[j];
-        if(boids[j].specie != boids[index].specie) continue;
-
+                if(boids[j].specie != boids[index].specie) continue;
         Vec3<float> toNeighbor = other.position - b.position;
 
         float distSq = toNeighbor.dot(toNeighbor);
