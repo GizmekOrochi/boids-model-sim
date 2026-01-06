@@ -45,34 +45,41 @@ void ViewControl::update(const sf::RenderWindow& win, std::vector<Button>& butto
 }
 
 void ViewControl::updateCamera(Camera& cam, float dt) {
-    const float mv = cam.moveSpeed * dt;
-    const float rt = cam.rotSpeed  * dt;
-
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Z))
-        cam.position += cam.forward() * mv;
+        cam.moveForward(dt);
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-        cam.position -= cam.forward() * mv;
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
-        cam.position -= cam.right() * mv;
+        cam.moveForward(-dt);
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-        cam.position += cam.right() * mv;
+        cam.moveRight(dt);
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
+        cam.moveRight(-dt);
+
+    // the speed factor is reversed because the y = 0 is the top of the world and y = 800 is the bottom 
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        cam.moveUp(-dt);
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+        cam.moveUp(dt);
+
+    float yawDelta = 0.0f;
+    float pitchDelta = 0.0f;
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-        cam.yaw -= rt;
+        yawDelta -= 1.0f;
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-        cam.yaw += rt;
+        yawDelta += 1.0f;
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-        cam.pitch += rt;
+        pitchDelta += 1.0f;
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-        cam.pitch -= rt;
+        pitchDelta -= 1.0f;
 
-    cam.clampPitch();
+    if (yawDelta != 0.0f || pitchDelta != 0.0f)
+        cam.rotate(yawDelta * dt, pitchDelta * dt);
 }
-
 }

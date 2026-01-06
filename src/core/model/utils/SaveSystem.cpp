@@ -4,13 +4,11 @@
 
 namespace bd {
 
-bool SaveSystem::save(const Simulation& simulation,
-                      const std::string& filename) {
+bool SaveSystem::save(const Simulation& simulation, const std::string& filename) {
     std::ofstream out(filename);
     if (!out.is_open())
         return false;
-
-    const World& world = simulation.getWorld();
+        
     const Flock& flock = simulation.getFlock();
     const auto& boids = flock.getBoids();
 
@@ -18,35 +16,29 @@ bool SaveSystem::save(const Simulation& simulation,
 
     // --- World ---
     out << "WORLD\n";
-    out << "width "  << world.getWidth()  << "\n";
-    out << "height " << world.getHeight() << "\n";
-    out << "depth "  << world.getDepth()  << "\n\n";
+    out << "width "  << settings::worldWidth  << "\n";
+    out << "height " << settings::worldHeight << "\n";
+    out << "depth "  << settings::worldDeepth  << "\n\n";
 
     // --- Boids ---
     out << "BOIDS\n";
     out << "count " << boids.getsize() << "\n";
 
-    for (size_t i = 0; i < boids.getsize(); ++i) {
+    for (size_t i = 0; i < boids.getsize() ; ++i) {
         const Boid& b = boids[i];
 
         Vec3<float> dir = b.velocity.normalized();
-        if (dir.lengthSq() < 1e-6f)
+        if (dir.lengthSq() < 1e-6f) {
             dir = Vec3<float>(1.f, 0.f, 0.f);
+        }
 
-        out << "boid "
-            << b.position.x << " "
-            << b.position.y << " "
-            << b.position.z << " "
-            << dir.x << " "
-            << dir.y << " "
-            << dir.z << "\n";
+        out << "boid " << b.position.x << " " << b.position.y << " " << b.position.z << " " << dir.x << " " << dir.y << " " << dir.z << "\n";
     }
 
     return true;
 }
 
-bool SaveSystem::load(Simulation& simulation,
-                      const std::string& filename) {
+bool SaveSystem::load(Simulation& simulation, const std::string& filename) {
     std::ifstream in(filename);
     if (!in.is_open())
         return false;
@@ -62,22 +54,22 @@ bool SaveSystem::load(Simulation& simulation,
 
     flock.clearBoids();
 
-    float w = world.getWidth();
-    float h = world.getHeight();
-    float d = world.getDepth();
+    float width = world.getHeight();
+    float height = world.getHeight();
+    float deepth = world.getDepth();
 
     while (std::getline(in, line)) {
         if (line == "WORLD") {
             std::getline(in, line);
-            w = std::stof(line.substr(6));
+            width = std::stof(line.substr(6));
 
             std::getline(in, line);
-            h = std::stof(line.substr(7));
+            height = std::stof(line.substr(7));
 
             std::getline(in, line);
-            d = std::stof(line.substr(6));
+            deepth = std::stof(line.substr(6));
 
-            world = World(w, h, d);
+            world = World(width, height, deepth);
         }
         else if (line == "BOIDS") {
             std::getline(in, line);

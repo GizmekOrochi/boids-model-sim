@@ -4,7 +4,9 @@
 #include <SFML/Graphics.hpp>
 
 #include "../view/View.hpp"
+#include "../view/ViewControl.hpp"
 #include "../model/Simulation.hpp"
+#include "../model/utils/SaveSystem.hpp"
 #include "../model/Boids_rules/Cohesion.hpp"
 #include "../model/Boids_rules/Separation.hpp"
 #include "../model/Boids_rules/Alignment.hpp"
@@ -23,6 +25,7 @@ private:
 
     Simulation simulation;
     View view;
+    ViewControl viewControl;
 };
 
 }

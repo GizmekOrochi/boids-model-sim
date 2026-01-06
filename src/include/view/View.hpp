@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "ui_types.hpp"
 #include "View3D.hpp"
+#include "ViewLayout.hpp"
 
 
 namespace bd {
@@ -17,7 +18,12 @@ public:
 
     void initWorld(sf::RenderWindow& win);
 
+    std::vector<Button>& getButtons() { return viewlayout.buttons; };
+    std::vector<Slider>& getSliders() { return viewlayout.sliders; };
+
     void drawPanel(sf::RenderWindow& win, float w);
+    void drawUI(sf::RenderWindow& win, const std::vector<Button>& buttons, const std::vector<Slider>& sliders);
+
     void draw(sf::RenderWindow& win, float panelWidth);
 
     void setViewport(int w, int h);
@@ -25,6 +31,7 @@ public:
 private:
     sf::Font& font;
     View3D view3D;
+    ViewLayout viewlayout;
 };
 
 }

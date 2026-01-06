@@ -3,12 +3,14 @@
 
 #pragma once
 #include "Boid.hpp"
+#include "../config/Settings.hpp"
 
 namespace bd {
 
 class World {
 public:
-    World(float w, float h, float d);
+    World() = default;
+    World(float w, float h, float d) : width(w), height(h), depth(d) {}
 
     float getWidth() const { return width; }
     float getHeight() const { return height; }
@@ -17,9 +19,9 @@ public:
     void handleBoundaries(Boid& b) const;
 
 private:
-    float width;
-    float height;
-    float depth;
+    float width = settings::worldWidth;
+    float height = settings::worldHeight;
+    float depth = settings::worldDeepth;
 };
 
 }

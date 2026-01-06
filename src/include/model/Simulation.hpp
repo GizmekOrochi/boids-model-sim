@@ -33,7 +33,7 @@ public:
      * @param w The world instance defining spatial constraints.
      * @param dt The time delta used for each simulation update.
      */
-    Simulation(const World& w, float dt);
+    Simulation(float dt);
 
     /**
      * @brief Provides mutable access to the world.

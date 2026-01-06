@@ -2,7 +2,7 @@
 
 namespace bd {
 
-Simulation::Simulation(const World& w, float dt) : world(w), deltaTime(dt) {}
+Simulation::Simulation(float dt) : world(), deltaTime(dt) {}
 
 void Simulation::update() {
     auto& boids = flock.getBoids();

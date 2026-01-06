@@ -2,10 +2,6 @@
 
 namespace bd {
 
-World::World(float w, float h, float d)
-    : width(w), height(h), depth(d)
-{}
-
 void World::handleBoundaries(Boid& b) const {
     // X axis
     if (b.position.x < 0.f) {

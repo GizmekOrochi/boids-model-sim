@@ -24,40 +24,22 @@ public:
     void draw(sf::RenderWindow& win);
 
 private:
-    // ===== Camera & viewport =====
     Camera camera;
     int width;
     int height;
-
-    // ===== Projection parameters =====
     float fovPixels = 520.f;
     float nearZ = 0.1f;
 
-    // ===== Internal helpers =====
     Vec3<float> worldToCamera(const Vec3<float>& p) const;
-    bool projectToScreen(
-        const Vec3<float>& camP,
-        Vec2<float>& out,
-        float& outZ
-    ) const;
+    bool projectToScreen(const Vec3<float>& camP, Vec2<float>& out, float& outZ) const;
 
-    void drawLine3D(
-        sf::RenderWindow& win,
-        const Vec3<float>& a,
-        const Vec3<float>& b,
-        sf::Color color
-    );
+    void drawLine3D(sf::RenderWindow& win, const Vec3<float>& a, const Vec3<float>& b, sf::Color color);
+    void drawTriangle3D(sf::RenderWindow& win, const Vec3<float>& a, const Vec3<float>& b, const Vec3<float>& c);
 
-    public:
-
-    void drawBoid(
-        sf::RenderWindow& win,
-        const Vec3<float>& position,
-        const Vec3<float>& direction
-    );
-
+public:
+    void drawBoid(sf::RenderWindow& win, const Vec3<float>& position, const Vec3<float>& direction);
     void drawWorldCage(sf::RenderWindow& win);
-
+    
 };
 
 }
