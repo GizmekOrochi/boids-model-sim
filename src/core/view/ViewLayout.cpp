@@ -27,6 +27,8 @@ void ViewLayout::build() {
     add("Sep Dist", &settings::separationDistance, 5.f, 100.f, i++);
     add("Max Speed", &settings::maxSpeed, 1.f, 10.f, i++);
     add("Vision Angle", &settings::visionAngleDeg, 5.f, 360.f, i++);
+
+
 }
 
 }

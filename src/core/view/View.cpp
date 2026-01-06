@@ -1,5 +1,6 @@
 #include "../../include/view/View.hpp"
 #include <iostream>
+#include <sstream>
 
 namespace bd {
 
@@ -36,7 +37,12 @@ void View::drawUI(sf::RenderWindow& win, const std::vector<Button>& buttons, con
     }
 
     for (const auto& s : sliders) {
-        sf::Text t(s.label, font, 14);
+        std::ostringstream ss;
+        ss.setf(std::ios::fixed);
+        ss.precision(3);
+        ss << s.label << ": " << *s.valueRef;
+
+        sf::Text t(ss.str(), font, 14);
         t.setPosition(s.position.x, s.position.y - 20);
         win.draw(t);
 
