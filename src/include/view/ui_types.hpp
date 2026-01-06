@@ -11,7 +11,9 @@ enum class UiAction {
     AddBoid,
     RmBoid,
     Save,
-    Load
+    Load,
+    AddObstacle,
+    RmObstacle
 };
 
 struct Slider {

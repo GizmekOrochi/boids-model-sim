@@ -33,7 +33,7 @@ void Controller::run() {
 
         int r = (rand() % 3) + 1;
         if(r == 1) { flock.addBoid(Boid(x, y, z, BoidSpecies::RED)); }
-        if(r == 2) { flock.addBoid(Boid(x, y, z, BoidSpecies::GREEN)); }
+        else if(r == 2) { flock.addBoid(Boid(x, y, z, BoidSpecies::GREEN)); }
         else { flock.addBoid(Boid(x, y, z, BoidSpecies::BLUE)); }
     }
 
@@ -64,15 +64,20 @@ void Controller::run() {
                     break;
 
                 case UiAction::AddBoid: {
-                    int r = (rand() % 3) + 1;
-                    if(r == 1) { flock.addBoid(Boid(worldW * 0.5f, worldH * 0.5f, 0.f, BoidSpecies::RED)); }
-                    if(r == 2) { flock.addBoid(Boid(worldW * 0.5f, worldH * 0.5f, 0.f, BoidSpecies::GREEN)); }
-                    else { flock.addBoid(Boid(worldW * 0.5f, worldH * 0.5f, 0.f, BoidSpecies::BLUE)); }
+                    if (settings::nbboid < 200) {
+                        int r = (rand() % 3) + 1;
+                        if(r == 1) { flock.addBoid(Boid(worldW * 0.5f, worldH * 0.5f, 0.f, BoidSpecies::RED)); settings::nbboid++;}
+                        else if(r == 2) { flock.addBoid(Boid(worldW * 0.5f, worldH * 0.5f, 0.f, BoidSpecies::GREEN)); settings::nbboid++;}
+                        else { flock.addBoid(Boid(worldW * 0.5f, worldH * 0.5f, 0.f, BoidSpecies::BLUE)); settings::nbboid++;}
+                    }
                     break;
                 }
 
                 case UiAction::RmBoid:
-                    flock.removeLastBoid();
+                    if (settings::nbboid > 10) {
+                        flock.removeLastBoid();
+                        settings::nbboid--;
+                    }
                     break;
 
                 default:
