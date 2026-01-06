@@ -16,6 +16,7 @@ struct RuleContext {
     const DynamicArray<size_t>& neighbors;
     const DynamicArray<size_t>& predator;
     const DynamicArray<Obstacle>& obstacles;
+    DynamicArray<int>* eaten;
 };
 
 } // namespace

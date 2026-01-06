@@ -32,6 +32,23 @@ inline bool fear(BoidSpecies subject, BoidSpecies other) {
     return otherTier > subjectTier;
 }
 
+inline bool canEat(BoidSpecies predator, BoidSpecies prey) {
+    int subjectTier = speciesTier(predator);
+    int otherTier = speciesTier(prey);
+
+    if (subjectTier == 3) {
+        return true; // eats everything
+    }
+    if (subjectTier == 2) {
+        return otherTier == 1;// eats only tier 1
+    }
+    return false;// tier 1 eats nothing
+}
+
+inline bool canBeEatenBy(BoidSpecies prey, BoidSpecies predator) {
+    return canEat(predator, prey);
+}
+
 }
 
 #endif
