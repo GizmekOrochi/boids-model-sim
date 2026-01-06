@@ -33,7 +33,7 @@ void Controller::run() {
 
         int r = (rand() % 3) + 1;
         if(r == 1) { flock.addBoid(Boid(x, y, z, BoidSpecies::RED)); }
-        if(r == 2) { flock.addBoid(Boid(x, y, z, BoidSpecies::GREEN)); }
+        else if(r == 2) { flock.addBoid(Boid(x, y, z, BoidSpecies::GREEN)); }
         else { flock.addBoid(Boid(x, y, z, BoidSpecies::BLUE)); }
     }
 
@@ -67,9 +67,8 @@ void Controller::run() {
                     if (settings::nbboid < 200) {
                         int r = (rand() % 3) + 1;
                         if(r == 1) { flock.addBoid(Boid(worldW * 0.5f, worldH * 0.5f, 0.f, BoidSpecies::RED)); settings::nbboid++;}
-                        if(r == 2) { flock.addBoid(Boid(worldW * 0.5f, worldH * 0.5f, 0.f, BoidSpecies::GREEN)); settings::nbboid++;}
+                        else if(r == 2) { flock.addBoid(Boid(worldW * 0.5f, worldH * 0.5f, 0.f, BoidSpecies::GREEN)); settings::nbboid++;}
                         else { flock.addBoid(Boid(worldW * 0.5f, worldH * 0.5f, 0.f, BoidSpecies::BLUE)); settings::nbboid++;}
-
                     }
                     break;
                 }
