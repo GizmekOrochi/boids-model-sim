@@ -14,6 +14,7 @@ namespace bd {
 struct RuleContext {
     const DynamicArray<Boid>& boids;
     const DynamicArray<size_t>& neighbors;
+    const DynamicArray<size_t>& predator;
     const DynamicArray<Obstacle>& obstacles;
 };
 

@@ -2,6 +2,7 @@
 #define FLOCK_HPP
 
 #pragma once
+
 #include "utils/DynamicArray.hpp"
 #include "utils/Vec3.hpp"
 #include "utils/Species.hpp"
@@ -18,9 +19,9 @@ private:
     DynamicArray<Obstacle> obstacles;
     DynamicArray<Rule*> rules;
 
-    DynamicArray<size_t> findNeighbors(size_t index) const;
+    void findNeighbors(size_t index, DynamicArray<size_t>& neighbors, DynamicArray<size_t>& predators) const;
 
-    Vec3<float> computeRuleForces(const Boid& b, const DynamicArray<size_t>& neighbors) const;
+    Vec3<float> computeRuleForces(const Boid& b, const DynamicArray<size_t>& neighbors, const DynamicArray<size_t>& predators) const;
 
     void enforceBaseSpeed(Boid& b, const DynamicArray<size_t>& neighbors);
 
@@ -37,20 +38,18 @@ public:
     const DynamicArray<Obstacle>& getObstacles() const { return obstacles; }
 
     void addBoid(const Boid& b) { boids.push_back(b); }
+    void addObstacle(const Obstacle& o) { obstacles.push_back(o); }
+    void addRule(Rule* rule) { rules.push_back(rule); }
 
     void removeLastBoid() {
         if (boids.getsize() > 0)
             boids.pop_back();
     }
 
-    void addObstacle(const Obstacle& o) { obstacles.push_back(o); }
-
     void removeLastObstacle() {
         if (obstacles.getsize() > 0)
             obstacles.pop_back();
     }
-
-    void addRule(Rule* rule) { rules.push_back(rule); }
 
     template <typename T>
     T* getRule() {
@@ -61,14 +60,9 @@ public:
         return nullptr;
     }
 
-    void clearBoids() {
-        boids.clear();
-    }
+    void clearBoids() { boids.clear(); }
+    void clearObstacles() { obstacles.clear(); }
 
-    void clearObstacles() {
-        obstacles.clear();
-    }
-    
     DynamicArray<Vec3<float>> computeNextVelocities();
 };
 

@@ -134,7 +134,7 @@ void Controller::run() {
 void Controller::spawnRandBoid() {
     // race
     int r = (rand() % 3);
-    BoidSpecies species = (r == 0) ? BoidSpecies::RED : (r == 1) ? BoidSpecies::GREEN : BoidSpecies::BLUE;
+    BoidSpecies species = (r == 0) ? BoidSpecies::CYAN : (r == 1) ? BoidSpecies::GREEN : BoidSpecies::YELLOW;
 
     // location
     constexpr float SPAWN_RADIUS = 100.0f;

@@ -5,6 +5,7 @@ namespace bd {
 Vec3<float> Avoidance::apply(const Boid& b, const RuleContext& ctx) const{
     constexpr float wallMargin = 30.0f;
     constexpr float obstacleGain = 1.2f;
+    constexpr float predatorGain   = 2.5f;
     constexpr float weight = 1.5f;
     constexpr float radius = 10.0f;
 
@@ -50,6 +51,25 @@ Vec3<float> Avoidance::apply(const Boid& b, const RuleContext& ctx) const{
             steer += away * (1.f - dist / minDist) * obstacleGain;
         }
     }
+
+    // Species-based avoidance (food chain)
+    for (size_t i = 0; i < ctx.predator.getsize(); ++i) {
+        const Boid& predator = ctx.boids[ctx.predator[i]];
+
+        Vec3<float> diff = b.position - predator.position;
+        float distSq = diff.lengthSq();
+
+        if (distSq < settings::perceptionRadius * settings::perceptionRadius &&
+            distSq > 1e-6f) {
+
+            float dist = std::sqrt(distSq);
+            Vec3<float> away = diff / dist;
+
+            float strength = 1.f - dist / settings::perceptionRadius;
+            steer += away * strength * predatorGain;
+        }
+    }
+
 
     if (steer.lengthSq() > 0.f)
         steer = steer.normalized();

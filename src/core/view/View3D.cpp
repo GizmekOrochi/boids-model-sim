@@ -181,9 +181,9 @@ void View3D::drawBoid(sf::RenderWindow& win, const Vec3<float>& position,const V
         {0,4,1}
     };
 
-    if(BoidSpecie == BoidSpecies::RED) {
+    if(BoidSpecie == BoidSpecies::CYAN) {
         for (const Face& f : faces) {
-            drawTriangle3D(win, world[f.a], world[f.b], world[f.c], sf::Color::Red);
+            drawTriangle3D(win, world[f.a], world[f.b], world[f.c], sf::Color::Cyan);
         }
     }
     if(BoidSpecie == BoidSpecies::GREEN) {
@@ -191,9 +191,9 @@ void View3D::drawBoid(sf::RenderWindow& win, const Vec3<float>& position,const V
             drawTriangle3D(win, world[f.a], world[f.b], world[f.c], sf::Color::Green);
         }
     }
-    else if(BoidSpecie == BoidSpecies::BLUE) {
+    else if(BoidSpecie == BoidSpecies::YELLOW) {
         for (const Face& f : faces) {
-            drawTriangle3D(win, world[f.a], world[f.b], world[f.c], sf::Color::Blue);
+            drawTriangle3D(win, world[f.a], world[f.b], world[f.c], sf::Color::Yellow);
         }
     }
 }

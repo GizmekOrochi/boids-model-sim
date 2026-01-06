@@ -24,7 +24,7 @@ inline float worldHeight = windowHeight;
 inline float worldDeepth = 600.0f;
 
 //Boid number
-inline int nbboid = 10;
+inline int nbboid = 100;
 
 //obstacle number
 inline int nbobstacle = 0;
