@@ -40,18 +40,25 @@ void Flock::enforceBaseSpeed(Boid& b, const DynamicArray<size_t>& neighbors) {
     }
 }
 
-Vec3<float> Flock::clampAcceleration(const Vec3<float>& force) const {
+Vec3<float> Flock::clampAcceleration(const Vec3<float>& force, float hungeraccleration) const {
+    float maxAcc = settings::maxAcceleration;
+
     float len = force.length();
-    if (len > settings::maxAcceleration && len > 0.f)
-        return force.normalized() * settings::maxAcceleration;
-    return force;
+    if (len > maxAcc && len > 0.f)
+        return force.normalized() * maxAcc;
+
+    return force * hungeraccleration;
 }
 
-Vec3<float> Flock::clampSpeed(const Vec3<float>& v) const {
-    float len = v.length();
-    if (len > settings::maxSpeed && len > 0.f)
-        return v.normalized() * settings::maxSpeed;
-    return v;
+
+Vec3<float> Flock::clampSpeed(const Vec3<float>& force) const{
+    float maxSpeed = settings::maxSpeed;
+
+    float len = force.length();
+    if (len > maxSpeed && len > 0.f)
+        return force.normalized() * maxSpeed;
+
+    return force;
 }
 
 DynamicArray<Vec3<float>> Flock::computeNextVelocities(DynamicArray<int>* eaten) {
@@ -68,7 +75,10 @@ DynamicArray<Vec3<float>> Flock::computeNextVelocities(DynamicArray<int>* eaten)
         Vec3<float> force = computeRuleForces(b, neighbors, predators, eaten);
         enforceBaseSpeed(b, neighbors);
 
-        force = clampAcceleration(force);
+        // Predator prey hunger boost
+        float hungeraccleration = static_cast<float>(speciesTier(b.specie));
+
+        force = clampAcceleration(force, hungeraccleration);
         Vec3<float> v = clampSpeed(b.velocity + force);
 
         nextVel.push_back(v);

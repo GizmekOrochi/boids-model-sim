@@ -24,9 +24,9 @@ private:
     Vec3<float> computeRuleForces(const Boid& b, const DynamicArray<size_t>& neighbors, const DynamicArray<size_t>& predators, DynamicArray<int>* eaten) const;
 
     void enforceBaseSpeed(Boid& b, const DynamicArray<size_t>& neighbors);
-
-    Vec3<float> clampAcceleration(const Vec3<float>& force) const;
-    Vec3<float> clampSpeed(const Vec3<float>& v) const;
+    
+    Vec3<float> clampAcceleration(const Vec3<float>& force, float hungeraccleration) const;
+    Vec3<float> clampSpeed(const Vec3<float>& force) const;
 
 public:
     Flock() = default;

@@ -42,7 +42,7 @@ inline float separationWeight = 1.0f;
 inline float desiredDistance = 20.0f;
 inline float alignmentWeight = 0.125f;
 inline float separationDistance = 15.0f;
-inline float eatDistSq = 10.0f;
+inline float eatDistSq = 20.0f;
 
 // Boids perception / vision
 inline float perceptionRadius = 50.0f;
