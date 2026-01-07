@@ -77,6 +77,7 @@ private:
      */
     void drawTriangle3D(sf::RenderWindow& win, const Vec3<float>& a, const Vec3<float>& b, const Vec3<float>& c,sf::Color color);
 
+
 public:
     /**
      * @brief Transforme un point de l'espace Monde vers l'espace Caméra.

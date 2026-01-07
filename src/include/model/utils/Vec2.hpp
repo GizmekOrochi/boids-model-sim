@@ -7,125 +7,124 @@
 namespace bd {
 
 /**
- * @brief A generic 2D vector class.
+ * @brief Classe de vecteur 2D générique.
  *
- * @tparam T Numeric type used for vector components.
+ * @tparam T Type numérique utilisé pour les composantes du vecteur.
  *
- * This class represents a two-dimensional vector and provides
- * common vector arithmetic operations, scalar operations, and
- * basic geometric utilities such as normalization and length
- * computation.
+ * Cette classe représente un vecteur à deux dimensions et fournit
+ * les opérations arithmétiques vectorielles courantes, les opérations scalaires,
+ * ainsi que des utilitaires géométriques de base comme la normalisation et le calcul de longueur.
  */
 template <typename T>
 class Vec2 {
 public:
-    /** X, Y component of the vector. */
+    /** Composantes X, Y du vecteur. */
     T x;
     T y;
 
     /**
-     * @brief Constructs a zero-initialized vector.
+     * @brief Construit un vecteur initialisé à zéro (0, 0).
      */
     Vec2() : x(0), y(0) {}
 
     /**
-     * @brief Constructs a vector with given components.
+     * @brief Construit un vecteur avec des composantes données.
      *
-     * @param newx Initial x component.
-     * @param newy Initial y component.
+     * @param newx Composante x initiale.
+     * @param newy Composante y initiale.
      */
     Vec2(T newx, T newy) : x(newx), y(newy) {}
 
-    /* Operators */
+    /* Opérateurs */
 
     /**
-     * @brief Adds two vectors.
+     * @brief Additionne deux vecteurs.
      *
-     * @param rhs Vector to add.
-     * @return Resulting vector.
+     * @param rhs Vecteur à ajouter.
+     * @return Le vecteur résultat.
      */
     Vec2 operator+(const Vec2& rhs) const { return Vec2(x + rhs.x, y + rhs.y); }
 
     /**
-     * @brief Subtracts another vector from this vector.
+     * @brief Soustrait un autre vecteur de ce vecteur.
      *
-     * @param rhs Vector to subtract.
-     * @return Resulting vector.
+     * @param rhs Vecteur à soustraire.
+     * @return Le vecteur résultat.
      */
     Vec2 operator-(const Vec2& rhs) const { return Vec2(x - rhs.x, y - rhs.y); }
 
     /**
-     * @brief Multiplies the vector by a scalar.
+     * @brief Multiplie le vecteur par un scalaire.
      *
-     * @param scalar Scalar value.
-     * @return Scaled vector.
+     * @param scalar Valeur scalaire.
+     * @return Le vecteur mis à l'échelle.
      */
     Vec2 operator*(T scalar) const { return Vec2(x * scalar, y * scalar); }
 
     /**
-     * @brief Divides the vector by a scalar.
+     * @brief Divise le vecteur par un scalaire.
      *
-     * If the scalar is zero, a zero vector is returned.
+     * Si le scalaire est zéro, un vecteur nul est renvoyé.
      *
-     * @param scalar Scalar value.
-     * @return Resulting vector.
+     * @param scalar Valeur scalaire.
+     * @return Le vecteur résultat.
      */
     Vec2 operator/(T scalar) const {
         if (scalar == T(0)) return Vec2();
         return Vec2(x / scalar, y / scalar);
     }
-    
+
     /**
-     * @brief Equality comparison.
+     * @brief Comparaison d'égalité.
      *
-     * @param rhs Other vector.
-     * @return True if both components are equal.
+     * @param rhs Autre vecteur.
+     * @return True si les deux composantes sont égales.
      */
     bool operator==(const Vec2& rhs) const {
         return x == rhs.x && y == rhs.y;
     }
 
     /**
-     * @brief Inequality comparison.
+     * @brief Comparaison d'inégalité.
      *
-     * @param rhs Other vector.
-     * @return True if any component differs.
+     * @param rhs Autre vecteur.
+     * @return True si une des composantes diffère.
      */
     bool operator!=(const Vec2& rhs) const {
         return !(*this == rhs);
     }
 
     /**
-     * @brief Adds another vector to this vector in place.
+     * @brief Ajoute un autre vecteur à ce vecteur (sur place).
      *
-     * @param rhs Vector to add.
-     * @return Reference to this vector.
+     * @param rhs Vecteur à ajouter.
+     * @return Référence vers ce vecteur modifié.
      */
     Vec2& operator+=(const Vec2& rhs) { x += rhs.x; y += rhs.y; return *this; }
 
     /**
-     * @brief Subtracts another vector from this vector in place.
+     * @brief Soustrait un autre vecteur de ce vecteur (sur place).
      *
-     * @param rhs Vector to subtract.
-     * @return Reference to this vector.
+     * @param rhs Vecteur à soustraire.
+     * @return Référence vers ce vecteur modifié.
      */
     Vec2& operator-=(const Vec2& rhs) { x -= rhs.x; y -= rhs.y; return *this; }
 
     /**
-     * @brief Multiplies this vector by a scalar in place.
+     * @brief Multiplie ce vecteur par un scalaire (sur place).
      *
-     * @param s Scalar value.
-     * @return Reference to this vector.
+     * @param s Valeur scalaire.
+     * @return Référence vers ce vecteur modifié.
      */
     Vec2& operator*=(T s) { x *= s; y *= s; return *this; }
 
     /**
-     * @brief Divides this vector by a scalar in place.
+     * @brief Divise ce vecteur par un scalaire (sur place).
      *
-     * If the scalar is zero, the vector is set to zero.
+     * Si le scalaire est zéro, le vecteur est mis à zéro.
      *
-     * @param s Scalar value.
-     * @return Reference to this vector.
+     * @param s Valeur scalaire.
+     * @return Référence vers ce vecteur modifié.
      */
     Vec2& operator/=(T s) {
         if (s != T(0)) {
@@ -138,11 +137,11 @@ public:
     }
 
     /**
-     * @brief Multiplies a vector by a scalar (scalar first).
+     * @brief Multiplie un vecteur par un scalaire (ordre scalaire * vecteur).
      *
-     * @param s Scalar value.
-     * @param v Vector to scale.
-     * @return Scaled vector.
+     * @param s Valeur scalaire.
+     * @param v Vecteur à mettre à l'échelle.
+     * @return Le vecteur mis à l'échelle.
      */
     friend Vec2 operator*(T s, const Vec2& v) {
         return Vec2(v.x * s, v.y * s);
@@ -151,33 +150,33 @@ public:
     /* Math */
 
     /**
-     * @brief Computes the dot product with another vector.
+     * @brief Calcule le produit scalaire (dot product) avec un autre vecteur.
      *
-     * @param rhs Other vector.
-     * @return Dot product value.
+     * @param rhs Autre vecteur.
+     * @return La valeur du produit scalaire.
      */
     T dot(const Vec2& rhs) const { return x * rhs.x + y * rhs.y; }
 
     /**
-     * @brief Returns the squared length of the vector.
+     * @brief Renvoie la longueur au carré du vecteur.
      *
-     * @return Squared magnitude.
+     * @return Magnitude au carré.
      */
     T lengthSq() const { return x * x + y * y; }
 
     /**
-     * @brief Returns the length (magnitude) of the vector.
+     * @brief Renvoie la longueur (magnitude) du vecteur.
      *
-     * @return Vector length.
+     * @return Longueur du vecteur.
      */
     T length() const { return std::sqrt(lengthSq()); }
 
     /**
-     * @brief Returns a normalized copy of the vector.
+     * @brief Renvoie une copie normalisée du vecteur (vecteur unitaire).
      *
-     * If the vector has zero length, a zero vector is returned.
+     * Si le vecteur a une longueur nulle, renvoie un vecteur nul.
      *
-     * @return Normalized vector.
+     * @return Vecteur normalisé.
      */
     Vec2 normalized() const {
         T lenSq = lengthSq();
@@ -187,23 +186,23 @@ public:
     }
 
     /**
-     * @brief Checks whether the vector is approximately zero.
+     * @brief Vérifie si le vecteur est approximativement nul.
      *
-     * @param eps Tolerance value.
-     * @return True if the vector magnitude is below the tolerance.
+     * @param eps Valeur de tolérance (epsilon).
+     * @return True si la magnitude du vecteur est inférieure à la tolérance.
      */
     bool isZero(T eps = T(1e-6)) const {
         return lengthSq() < eps * eps;
     }
 
     /**
-     * @brief Limits the vector magnitude to a maximum value.
+     * @brief Limite la magnitude du vecteur à une valeur maximale.
      *
-     * If the vector length exceeds the given maximum, a scaled
-     * vector with the same direction and limited magnitude is returned.
+     * Si la longueur du vecteur dépasse le maximum donné, un vecteur mis à l'échelle
+     * avec la même direction et une magnitude limitée est renvoyé.
      *
-     * @param max Maximum allowed magnitude.
-     * @return Limited vector.
+     * @param max Magnitude maximale autorisée.
+     * @return Vecteur limité.
      */
     Vec2 limited(T max) const {
         T lenSq = lengthSq();

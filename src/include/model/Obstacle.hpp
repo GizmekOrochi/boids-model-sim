@@ -8,13 +8,15 @@
 namespace bd {
 
 /**
- * @brief Represents a single boid in the simulation.
+ * @class Obstacle
+ * @brief Représente un obstacle statique dans la simulation.
  *
- * A Obstacle is an being in the world that doesn't repsonde to any rule
+ * Un obstacle est une entité physique (généralement cubique) qui ne bouge pas
+ * et n'obéit à aucune règle de comportement, mais que les boids doivent éviter.
  */
 class Obstacle {
 public:
-    /** Current position of the Obstacle in world space. */
+    /** Position actuelle de l'obstacle dans l'espace monde. */
     Vec3<float> position;
 
     int sizeX;
@@ -22,15 +24,19 @@ public:
     int sizeZ;
 
     /**
-     * @brief Constructs a boid at the origin with zero velocity.
+     * @brief Construit un obstacle par défaut à l'origine.
      */
     Obstacle() : position(0.0f,0.0f,0.0f), sizeX(10.0f), sizeY(10.0f), sizeZ(10.0f) {}
 
     /**
-     * @brief Constructs a boid at a given position with zero velocity.
+     * @brief Construit un obstacle avec une position et une taille données.
      *
-     * @param x Initial x-coordinate.
-     * @param y Initial y-coordinate.
+     * @param x Coordonnée X.
+     * @param y Coordonnée Y.
+     * @param z Coordonnée Z.
+     * @param sizeX Largeur.
+     * @param sizeY Hauteur.
+     * @param sizeZ Profondeur.
      */
     Obstacle(float x, float y, float z, int sizeX, int sizeY, int sizeZ) : position(x,y,z), sizeX(sizeX), sizeY(sizeY), sizeZ(sizeZ) {}
 };

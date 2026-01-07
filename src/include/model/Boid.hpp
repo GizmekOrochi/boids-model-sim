@@ -8,46 +8,54 @@
 
 namespace bd {
 
-/**
- * @brief Represents a single boid in the simulation.
- *
- * A Boid encapsulates the minimal physical state required by the
- * simulation: its position in space and its velocity vector.
- * Behavioral rules operate on these values to produce flocking motion.
- */
-class Boid {
-public:
-    /** Current position of the boid in world space. */
-    Vec3<float> position;
-
-    /** Current velocity of the boid. */
-    Vec3<float> velocity;
-
-    /** Current specie of the boid */
-    Species::BoidSpecies specie;
-
-    /** ID of the boid */
-    int ID;
-
     /**
-     * @brief Constructs a boid at the origin with zero velocity.
-     */
-    Boid(Species::BoidSpecies specie) : position(0.0f,0.0f,0.0f), velocity(0.0f,0.0f,0.0f), specie(specie), ID(settings::currentIDAvalible) {
-        settings::currentIDAvalible++;
-    }
-
-    /**
-     * @brief Constructs a boid at a given position with zero velocity.
+     * @brief Représente un agent unique boid dans la simulation.
      *
-     * @param x Initial x-coordinate.
-     * @param y Initial y-coordinate.
+     * Un Boid encapsule l'état physique minimal requis par la simulation :
+     * sa position dans l'espace et son vecteur vitesse.
+     * Les règles comportementales opèrent sur ces valeurs pour produire
+     * le mouvement de nuée.
      */
-    Boid(float x, float y, float z, Species::BoidSpecies specie) : position(x,y,z), velocity(0.0f,0.0f,0.0f), specie(specie), ID(settings::currentIDAvalible) {
-        settings::currentIDAvalible++;
-    }
+    class Boid {
+    public:
+        /** Position actuelle du boid dans l'espace monde. */
+        Vec3<float> position;
 
-    ~Boid() { settings::currentIDAvalible--; }
-};
+        /** Vecteur vitesse actuel du boid. */
+        Vec3<float> velocity;
+
+        /** Espèce actuelle du boid (détermine son comportement et sa couleur). */
+        Species::BoidSpecies specie;
+
+        /** Identifiant unique du boid. */
+        int ID;
+
+        /**
+         * @brief Construit un boid à l'origine (0,0,0) avec une vitesse nulle.
+         * @param specie L'espèce du boid à créer.
+         */
+        Boid(Species::BoidSpecies specie) : position(0.0f,0.0f,0.0f), velocity(0.0f,0.0f,0.0f), specie(specie), ID(settings::currentIDAvalible) {
+            settings::currentIDAvalible++;
+        }
+
+        /**
+         * @brief Construit un boid à une position donnée avec une vitesse nulle.
+         *
+         * @param x Coordonnée X initiale.
+         * @param y Coordonnée Y initiale.
+         * @param z Coordonnée Z initiale.
+         * @param specie L'espèce du boid.
+         */
+        Boid(float x, float y, float z, Species::BoidSpecies specie) : position(x,y,z), velocity(0.0f,0.0f,0.0f), specie(specie), ID(settings::currentIDAvalible) {
+            settings::currentIDAvalible++;
+        }
+
+        /**
+         * @brief Destructeur du boid.
+         * Décrémente le compteur global d'IDs disponibles.
+         */
+        ~Boid() { settings::currentIDAvalible--; }
+    };
 
 }
 

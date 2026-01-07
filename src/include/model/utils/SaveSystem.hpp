@@ -7,41 +7,41 @@
 
 namespace bd {
 
-/**
- * @brief Handles serialization and deserialization of simulation state.
- *
- * The SaveSystem class provides static functions to persist and restore
- * the state of a Simulation. It is responsible for saving and loading
- * world dimensions and boid state (position and orientation) to and from
- * an external file.
- */
-class SaveSystem {
-public:
     /**
-     * @brief Saves the current simulation state to a file.
+     * @brief Gère la sérialisation et la désérialisation de l'état de la simulation.
      *
-     * This function writes the world dimensions and the list of boids
-     * (including their positions and normalized velocity directions)
-     * to the specified file.
-     *
-     * @param simulation The simulation to save.
-     * @param filename Path to the output file.
-     * @return True if the save operation succeeded, false otherwise.
+     * La classe SaveSystem fournit des fonctions statiques pour persister et restaurer
+     * l'état d'une Simulation. Elle est responsable de la sauvegarde et du chargement
+     * des dimensions du monde et de l'état des boids (position et orientation) depuis
+     * et vers un fichier externe.
      */
-    static bool save(const Simulation& simulation, const std::string& filename);
+    class SaveSystem {
+    public:
+        /**
+         * @brief Sauvegarde l'état actuel de la simulation dans un fichier.
+         *
+         * Cette fonction écrit les dimensions du monde et la liste des boids
+         * (incluant leurs positions et directions de vitesse normalisées)
+         * dans le fichier spécifié.
+         *
+         * @param simulation La simulation à sauvegarder.
+         * @param filename Chemin vers le fichier de sortie.
+         * @return True si l'opération de sauvegarde a réussi, false sinon.
+         */
+        static bool save(const Simulation& simulation, const std::string& filename);
 
-    /**
-     * @brief Loads a simulation state from a file.
-     *
-     * This function reads world dimensions and boid data from the
-     * specified file and reconstructs the simulation state.
-     *
-     * @param simulation The simulation to modify with loaded data.
-     * @param filename Path to the input file.
-     * @return True if the load operation succeeded, false otherwise.
-     */
-    static bool load(Simulation& simulation, const std::string& filename);
-};
+        /**
+         * @brief Charge un état de simulation depuis un fichier.
+         *
+         * Cette fonction lit les dimensions du monde et les données des boids depuis le
+         * fichier spécifié et reconstruit l'état de la simulation.
+         *
+         * @param simulation La simulation à modifier avec les données chargées.
+         * @param filename Chemin vers le fichier d'entrée.
+         * @return True si l'opération de chargement a réussi, false sinon.
+         */
+        static bool load(Simulation& simulation, const std::string& filename);
+    };
 
 }
 

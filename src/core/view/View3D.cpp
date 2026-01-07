@@ -150,6 +150,7 @@ void View3D::drawWorldCage(sf::RenderWindow& win) {
 }
 
 
+
 void View3D::drawBoid(sf::RenderWindow& win, const Vec3<float>& position,const Vec3<float>& direction, Species::BoidSpecies BoidSpecie) {
     const float length = 18.0f;
     const float width  = 6.0f;

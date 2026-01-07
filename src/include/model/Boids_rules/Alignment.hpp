@@ -6,12 +6,26 @@
 
 namespace bd {
 
-class Alignment : public Rule {
-public:
-    float weight = settings::alignmentWeight;
+    /**
+     * @class Alignment
+     * @brief Règle d'Alignement.
+     * * Cette règle incite le boid à aligner sa direction et sa vitesse sur celle
+     * de la moyenne de ses voisins. Cela permet au groupe de se déplacer de manière coordonnée.
+     */
+    class Alignment : public Rule {
+    public:
+        /** Facteur de pondération de la règle. */
+        float weight = settings::alignmentWeight;
 
-    Vec3<float> apply(const Boid& b, const RuleContext& ctx) const override;
-};
+        /**
+         * @brief Applique la règle d'alignement.
+         * * Calcule la vitesse moyenne des voisins et génère une force pour s'y conformer.
+         * * @param b Le boid courant.
+         * @param ctx Le contexte contenant les voisins.
+         * @return Vec3<float> Vecteur de force d'alignement.
+         */
+        Vec3<float> apply(const Boid& b, const RuleContext& ctx) const override;
+    };
 
 }
 
