@@ -21,7 +21,7 @@ public:
 
     void drawUI(sf::RenderWindow& win, const std::vector<Button>& buttons, const std::vector<Slider>& sliders);
 
-    void draw(sf::RenderWindow& win, float panelWidth);
+    void draw(sf::RenderWindow& win);
 
     void setViewport(int w, int h);
 

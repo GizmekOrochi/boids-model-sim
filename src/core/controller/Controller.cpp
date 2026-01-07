@@ -108,9 +108,7 @@ void Controller::run() {
             float z;
 
             if (view.getView3D().projectToScreen(camP, screen, z)) {
-                if (screen.x >= panelWidth) {
-                    view.getView3D().drawBoid(window, b.position, b.velocity, b.specie);
-                }
+                view.getView3D().drawBoid(window, b.position, b.velocity, b.specie);
             }
         }
 
@@ -124,14 +122,12 @@ void Controller::run() {
             float z;
 
             if (view.getView3D().projectToScreen(camP, screen, z)) {
-                if (screen.x >= panelWidth) {
-                    view.getView3D().drawObstacle(window, b.position, b.sizeX, b.sizeY, b.sizeZ);
-                }
+                view.getView3D().drawObstacle(window, b.position, b.sizeX, b.sizeY, b.sizeZ);
             }
         }
 
 
-        view.draw(window, panelWidth);
+        view.draw(window);
         
         window.display();
     }
