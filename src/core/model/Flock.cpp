@@ -92,8 +92,7 @@ void Flock::findNeighbors(size_t index, DynamicArray<size_t>& neighbors, Dynamic
     predators.clear();
 
     const Boid& b = boids[index];
-    const float maxDistSq =
-        settings::perceptionRadius * settings::perceptionRadius;
+    const float maxDistSq = settings::perceptionRadius * settings::perceptionRadius;
 
     Vec3<float> forward{};
     bool hasForward = b.velocity.lengthSq() > 1e-6f;
@@ -104,7 +103,6 @@ void Flock::findNeighbors(size_t index, DynamicArray<size_t>& neighbors, Dynamic
         if (j == index) continue;
 
         const Boid& other = boids[j];
-
         Vec3<float> toOther = other.position - b.position;
         float distSq = toOther.dot(toOther);
         if (distSq > maxDistSq)
@@ -112,7 +110,7 @@ void Flock::findNeighbors(size_t index, DynamicArray<size_t>& neighbors, Dynamic
 
         bool isThreaten = canEat(other.specie, b.specie);
         bool isHunting = canEat(b.specie, other.specie);
-        bool sameSpecies  = (other.specie == b.specie);
+        bool sameSpecies = (other.specie == b.specie);
 
         if (isThreaten) {
             predators.push_back(j);

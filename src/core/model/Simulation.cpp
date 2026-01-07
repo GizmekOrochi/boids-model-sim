@@ -25,6 +25,7 @@ void Simulation::update() {
         world.handleBoundaries(boids[i]);
         removeEatenBoids(boids, *eaten);
     }
+    settings::nbboid = flock.getBoids().getsize();
 }
 
 void Simulation::removeEatenBoids(DynamicArray<Boid>& boids, const DynamicArray<int>& eaten) {
