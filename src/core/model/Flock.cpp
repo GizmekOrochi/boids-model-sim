@@ -108,8 +108,8 @@ void Flock::findNeighbors(size_t index, DynamicArray<size_t>& neighbors, Dynamic
         if (distSq > maxDistSq)
             continue;
 
-        bool isThreaten = canEat(other.specie, b.specie);
-        bool isHunting = canEat(b.specie, other.specie);
+        bool isThreaten = Species::canEat(other.specie, b.specie);
+        bool isHunting = Species::canEat(b.specie, other.specie);
         bool sameSpecies = (other.specie == b.specie);
 
         if (isThreaten) {

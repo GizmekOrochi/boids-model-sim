@@ -24,7 +24,7 @@ public:
     Vec3<float> velocity;
 
     /** Current specie of the boid */
-    BoidSpecies specie;
+    Species::BoidSpecies specie;
 
     /** ID of the boid */
     int ID;
@@ -32,7 +32,7 @@ public:
     /**
      * @brief Constructs a boid at the origin with zero velocity.
      */
-    Boid(BoidSpecies specie) : position(0.0f,0.0f,0.0f), velocity(0.0f,0.0f,0.0f), specie(specie), ID(settings::currentIDAvalible) {
+    Boid(Species::BoidSpecies specie) : position(0.0f,0.0f,0.0f), velocity(0.0f,0.0f,0.0f), specie(specie), ID(settings::currentIDAvalible) {
         settings::currentIDAvalible++;
     }
 
@@ -42,7 +42,7 @@ public:
      * @param x Initial x-coordinate.
      * @param y Initial y-coordinate.
      */
-    Boid(float x, float y, float z, BoidSpecies specie) : position(x,y,z), velocity(0.0f,0.0f,0.0f), specie(specie), ID(settings::currentIDAvalible) {
+    Boid(float x, float y, float z, Species::BoidSpecies specie) : position(x,y,z), velocity(0.0f,0.0f,0.0f), specie(specie), ID(settings::currentIDAvalible) {
         settings::currentIDAvalible++;
     }
 

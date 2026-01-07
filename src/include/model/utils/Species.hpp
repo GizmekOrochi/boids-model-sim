@@ -3,7 +3,7 @@
 
 #pragma once
 
-namespace bd {
+namespace bd::Species {
 
 enum BoidSpecies {
     CYAN = 1,

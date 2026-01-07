@@ -91,7 +91,7 @@ bool SaveSystem::load(Simulation& simulation, const std::string& filename) {
 
                 iss >> tag >> x >> y >> z >> dx >> dy >> dz >> specieInt;
 
-                BoidSpecies specie = static_cast<BoidSpecies>(specieInt);
+                Species::BoidSpecies specie = static_cast<Species::BoidSpecies>(specieInt);
 
                 Boid b(x, y, z, specie);
                 b.velocity = Vec3<float>(dx, dy, dz);

@@ -136,7 +136,7 @@ void Controller::run() {
 void Controller::spawnPerdator() {
     // race
     int r = (rand() % 2);
-    BoidSpecies species = (r == 1) ? BoidSpecies::BLUE : BoidSpecies::RED;
+    Species::BoidSpecies species = (r == 1) ? Species::BoidSpecies::BLUE : Species::BoidSpecies::RED;
 
     // location
     constexpr float SPAWN_RADIUS = 100.0f;
@@ -156,7 +156,7 @@ void Controller::spawnPerdator() {
 void Controller::spawnRandBoid() {
     // race
     int r = (rand() % 3);
-    BoidSpecies species = (r == 0) ? BoidSpecies::CYAN : (r == 1) ? BoidSpecies::GREEN : BoidSpecies::YELLOW;
+    Species::BoidSpecies species = (r == 0) ? Species::BoidSpecies::CYAN : (r == 1) ? Species::BoidSpecies::GREEN : Species::BoidSpecies::YELLOW;
 
     // location
     constexpr float SPAWN_RADIUS = 100.0f;
