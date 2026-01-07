@@ -13,7 +13,7 @@ bool SaveSystem::save(const Simulation& simulation, const std::string& filename)
     const Flock& flock = simulation.getFlock();
     const auto& boids = flock.getBoids();
 
-    out << "BOIDS_SAVE_V2\n\n";
+    out << "BOIDS_SAVE\n\n";
 
     // World
     out << "WORLD\n";

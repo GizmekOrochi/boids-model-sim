@@ -15,11 +15,11 @@ inline float windowHeight = 600.0f;
 inline float moveSpeed = 250.0f;
 inline float rotSpeed = 1.6f;
 
-//menu size
-inline float panelWidth = 1.f;
+//menu sizesettings::visionAngleRad()
+inline float panelWidth = 1.0f;
 
 // Physics
-inline float worldWidth  = windowWidth;
+inline float worldWidth = windowWidth;
 inline float worldHeight = windowHeight;
 inline float worldDeepth = 600.0f;
 
@@ -49,8 +49,13 @@ inline float perceptionRadius = 50.0f;
 inline float visionAngleDeg = 180.0f;
 
 // Derived values
-inline float visionAngleRad = visionAngleDeg * (3.1415926535f / 180.0f);
-inline float cosAngle = std::cos(visionAngleRad * 0.5f);
+inline float visionAngleRad() {
+    return visionAngleDeg * (3.1415926535f / 180.0f);
+}
+
+inline float cosVisionHalfAngle() {
+    return std::cos(visionAngleRad() * 0.5f);
+}
 
 } // namespace bd and settings
 

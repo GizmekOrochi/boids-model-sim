@@ -44,7 +44,7 @@ Vec3<float> Flock::clampAcceleration(const Vec3<float>& force, float hungeraccle
     float maxAcc = settings::maxAcceleration;
 
     float len = force.length();
-    if (len > maxAcc && len > 0.f)
+    if (len > maxAcc && len > 0.0f)
         return force.normalized() * maxAcc;
 
     return force * hungeraccleration;
@@ -129,7 +129,7 @@ void Flock::findNeighbors(size_t index, DynamicArray<size_t>& neighbors, Dynamic
         }
 
         Vec3<float> dir = toOther.normalized();
-        if (forward.dot(dir) >= settings::cosAngle)
+        if (forward.dot(dir) >= settings::cosVisionHalfAngle())
             neighbors.push_back(j);
     }
 }
