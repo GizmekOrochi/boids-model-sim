@@ -15,7 +15,7 @@ Vec3<float> Alignment::apply(const Boid& b, const RuleContext& ctx) const {
     avgVel /= static_cast<float>(ctx.neighbors.getsize());
 
     Vec3<float> steer = avgVel - b.velocity;
-    return steer * weight;
+    return steer * settings::alignmentWeight;
 }
 
 }

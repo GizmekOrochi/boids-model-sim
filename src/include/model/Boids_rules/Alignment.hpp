@@ -14,9 +14,6 @@ namespace bd {
      */
     class Alignment : public Rule {
     public:
-        /** Facteur de pondération de la règle. */
-        float weight = settings::alignmentWeight;
-
         /**
          * @brief Applique la règle d'alignement.
          * * Calcule la vitesse moyenne des voisins et génère une force pour s'y conformer.

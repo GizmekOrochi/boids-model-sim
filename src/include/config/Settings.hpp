@@ -24,7 +24,7 @@ inline float worldHeight = windowHeight;
 inline float worldDeepth = 600.0f;
 
 //Boid number
-inline int nbboid = 100;
+inline int nbboid = 50;
 inline int currentIDAvalible = 1;
 
 //obstacle number
@@ -38,7 +38,7 @@ inline float deltaTime = 1.0f;
 
 // Rules Weight
 inline float cohesionWeight = 0.01f;
-inline float separationWeight = 1.0f;
+inline float separationWeight = 0.05f;
 inline float desiredDistance = 20.0f;
 inline float alignmentWeight = 0.125f;
 inline float separationDistance = 15.0f;

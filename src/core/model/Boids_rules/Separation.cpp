@@ -18,7 +18,7 @@ Vec3<float> Separation::apply(const Boid& b, const RuleContext& ctx) const {
             steer += diff.normalized() / dist;
     }
 
-    return steer * weight;
+    return steer * settings::separationWeight;
 }
 
 }

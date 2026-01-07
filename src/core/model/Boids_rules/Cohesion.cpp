@@ -28,7 +28,7 @@ Vec3<float> Cohesion::apply(const Boid& b, const RuleContext& ctx) const {
     center /= totalWeight;
 
     Vec3<float> steer = center - b.position;
-    return steer * weight;
+    return steer * settings::cohesionWeight;
 }
 
 } // namespace

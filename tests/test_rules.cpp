@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cassert>
 
-// Your headers
 #include "../src/include/model/Boid.hpp"
 #include "../src/include/model/Boids_rules/Cohesion.hpp"
 #include "../src/include/model/Boids_rules/Separation.hpp"
@@ -10,9 +9,10 @@
 #include "../src/include/model/utils/DynamicArray.hpp"
 #include "../src/include/model/utils/Vec2.hpp"
 
-using namespace bd;
 
+// WARINNING THOSES TEST USED THE MODEL IMPLEMENTATION WITh vec2
 int main() {
+    using namespace bd;
 
     // test Boid structure
     {

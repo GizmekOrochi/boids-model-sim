@@ -3,7 +3,7 @@
 #include "../src/include/model/utils/Vec2.hpp"
 
 int main() {
-    using bd::Vec2;
+    using namespace bd;
 
     // Test constructor
     Vec2<float> a;

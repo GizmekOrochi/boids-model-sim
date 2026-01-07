@@ -3,7 +3,9 @@
 #include "../src/include/model/utils/DynamicArray.hpp"
 
 int main() {
-    bd::DynamicArray<int> arr;
+    using namespace bd;
+
+    DynamicArray<int> arr;
 
     // Test push_back and size methods
     for (int i = 1; i <= 5; i++) {
@@ -24,7 +26,7 @@ int main() {
         ~Foo() {}
     };
 
-    bd::DynamicArray<Foo> Arr;
+    DynamicArray<Foo> Arr;
 
     Arr.push_back(Foo(42));
     Arr.push_back(Foo(7));

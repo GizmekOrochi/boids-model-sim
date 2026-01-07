@@ -14,12 +14,6 @@ namespace bd {
      */
     class Separation : public Rule {
     public:
-        /** Distance minimale souhaitée entre deux boids. */
-        float desiredDistance = settings::desiredDistance;
-
-        /** Facteur de pondération de la règle (importance par rapport aux autres règles). */
-        float weight = settings::separationWeight;
-
         /**
          * @brief Applique la règle de séparation.
          * * @param b Le boid courant.

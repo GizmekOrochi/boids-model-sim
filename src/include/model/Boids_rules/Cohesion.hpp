@@ -14,9 +14,6 @@ namespace bd {
      */
     class Cohesion : public Rule {
     public:
-        /** Facteur de pondération de la règle. */
-        float weight = settings::cohesionWeight;
-
         /**
          * @brief Applique la règle de cohésion.
          * * Calcule la position moyenne des voisins et génère une force attractive vers ce point.
