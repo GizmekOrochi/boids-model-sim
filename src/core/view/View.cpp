@@ -68,10 +68,9 @@ void View::drawUI(sf::RenderWindow& win, const std::vector<Button>& buttons, con
     }
 }
 
-void View::draw(sf::RenderWindow& win, float panelWidth) {
+void View::draw(sf::RenderWindow& win) {
     view3D.drawWorldCage(win);
     // UI overlay
-    //drawPanel(win, panelWidth);
     viewlayout.build();
     drawUI(win, viewlayout.buttons, viewlayout.sliders);
 }
