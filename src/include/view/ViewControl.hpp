@@ -2,7 +2,7 @@
 #define VIEW_CONTROL_HPP
 
 #include <SFML/Graphics.hpp>
-#include "ui_types.hpp"
+#include "utils/ui_types.hpp"
 #include "utils/Camera.hpp"
 
 namespace bd {

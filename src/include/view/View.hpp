@@ -2,7 +2,7 @@
 #define VIEW_HPP
 
 #include <SFML/Graphics.hpp>
-#include "ui_types.hpp"
+#include "utils/ui_types.hpp"
 #include "View3D.hpp"
 #include "ViewLayout.hpp"
 
@@ -76,6 +76,7 @@ public:
      * @param h Nouvelle hauteur.
      */
     void setViewport(int w, int h);
+
 
 private:
     sf::Font& font;         ///< Référence vers la ressource de police .

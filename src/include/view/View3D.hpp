@@ -2,8 +2,8 @@
 #define VIEW3D_HPP
 
 #include <SFML/Graphics.hpp>
-#include "utils/Vec2.hpp"
-#include "utils/Vec3.hpp"
+#include "../model/utils/Vec2.hpp"
+#include "../model/utils/Vec3.hpp"
 #include "../model/utils/Species.hpp"
 #include "utils/Camera.hpp"
 
