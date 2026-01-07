@@ -80,7 +80,7 @@ void Controller::run() {
                 case UiAction::AddPredator:
                     if (simulation.getBoids().getsize() < 200) {
                         spawnPerdator();
-                        settings::nbobstacle--;
+                        settings::nbboid++;
                     }
                     break;
                 default:

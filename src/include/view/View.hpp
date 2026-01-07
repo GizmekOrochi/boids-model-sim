@@ -19,7 +19,6 @@ public:
     std::vector<Button>& getButtons() { return viewlayout.buttons; };
     std::vector<Slider>& getSliders() { return viewlayout.sliders; };
 
-    void drawPanel(sf::RenderWindow& win, float w);
     void drawUI(sf::RenderWindow& win, const std::vector<Button>& buttons, const std::vector<Slider>& sliders);
 
     void draw(sf::RenderWindow& win, float panelWidth);

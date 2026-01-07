@@ -14,12 +14,6 @@ void View::setViewport(int w, int h) {
     view3D.setViewport(w, h);
 }
 
-void View::drawPanel(sf::RenderWindow& win, float w) {
-    sf::RectangleShape bg({w, (float)win.getSize().y});
-    bg.setFillColor(sf::Color(50,50,50));
-    win.draw(bg);
-}
-
 void View::drawUI(sf::RenderWindow& win, const std::vector<Button>& buttons, const std::vector<Slider>& sliders) {
     for (const auto& b : buttons) {
         sf::RectangleShape r(b.size);
@@ -77,7 +71,7 @@ void View::drawUI(sf::RenderWindow& win, const std::vector<Button>& buttons, con
 void View::draw(sf::RenderWindow& win, float panelWidth) {
     view3D.drawWorldCage(win);
     // UI overlay
-    drawPanel(win, panelWidth);
+    //drawPanel(win, panelWidth);
     viewlayout.build();
     drawUI(win, viewlayout.buttons, viewlayout.sliders);
 }
