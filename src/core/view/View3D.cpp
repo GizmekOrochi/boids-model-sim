@@ -16,41 +16,39 @@ void View3D::setViewport(int w, int h) {
     height = h;
 }
 
+// Transforme un point du repere monde vers le repere caméra
 Vec3<float> View3D::worldToCamera(const Vec3<float>& p) const {
     Vec3<float> rel = p - camera.getPosition();
 
-    float yaw   = camera.getYaw();
+    float yaw = camera.getYaw();
     float pitch = camera.getPitch();
 
     float cy = std::cos(-yaw);
     float sy = std::sin(-yaw);
     float x1 =  cy * rel.x + sy * rel.z;
-    float y1 =  rel.y;
+    float y1 = rel.y;
     float z1 = -sy * rel.x + cy * rel.z;
 
     float cp = std::cos(-pitch);
     float sp = std::sin(-pitch);
     float x2 = x1;
-    float y2 =  cp * y1 - sp * z1;
-    float z2 =  sp * y1 + cp * z1;
+    float y2 = cp * y1 - sp * z1;
+    float z2 = sp * y1 + cp * z1;
 
     return {x2, y2, z2};
 }
 
-bool View3D::projectToScreen(
-    const Vec3<float>& camP,
-    Vec2<float>& out,
-    float& outZ
-) const {
+// Projette un point de l'espace caméra sur l'ecran
+bool View3D::projectToScreen(const Vec3<float>& camP, Vec2<float>& out, float& outZ) const {
     if (camP.z <= nearZ)
         return false;
 
-    float cx = width  * 0.5f;
+    float cx = width * 0.5f;
     float cy = height * 0.5f;
 
     out.x = (camP.x * fovPixels / camP.z) + cx;
     out.y = (camP.y * fovPixels / camP.z) + cy;
-    outZ  = camP.z;
+    outZ = camP.z;
 
     return true;
 }
@@ -153,7 +151,7 @@ void View3D::drawWorldCage(sf::RenderWindow& win) {
 
 void View3D::drawBoid(sf::RenderWindow& win, const Vec3<float>& position,const Vec3<float>& direction, Species::BoidSpecies BoidSpecie) {
     const float length = 18.0f;
-    const float width  = 6.0f;
+    const float width = 6.0f;
     const float height = 6.0f;
 
     Vec3<float> forward = direction.normalized();
@@ -163,7 +161,7 @@ void View3D::drawBoid(sf::RenderWindow& win, const Vec3<float>& position,const V
 
     // Piramide description ( top vertical then base verticals )
     std::vector<Vec3<float>> local = {
-        { 0.f,  0.f,  length },
+        { 0.f, 0.f, length },
         {-width, -height, 0.f},
         { width, -height, 0.f},
         { width, height, 0.f},
@@ -219,12 +217,12 @@ void View3D::drawObstacle(sf::RenderWindow& win, const Vec3<float>& position, in
     std::vector<Vec3<float>> local = {
         {-width/2, -height/2, -Depth/2},
         { width/2, -height/2, -Depth/2},
-        { width/2, -height/2,  Depth/2},
-        {-width/2, -height/2,  Depth/2},
-        {-width/2,  height/2, -Depth/2},
-        { width/2,  height/2, -Depth/2},
-        { width/2,  height/2,  Depth/2},
-        {-width/2,  height/2,  Depth/2},
+        { width/2, -height/2, Depth/2},
+        {-width/2, -height/2, Depth/2},
+        {-width/2, height/2, -Depth/2},
+        { width/2, height/2, -Depth/2},
+        { width/2, height/2, Depth/2},
+        {-width/2, height/2, Depth/2},
     };
 
     std::vector<Vec3<float>> world(local.size());

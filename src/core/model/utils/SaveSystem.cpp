@@ -51,7 +51,7 @@ bool SaveSystem::load(Simulation& simulation, const std::string& filename) {
     std::string line;
     std::getline(in, line);
 
-    if (line != "BOIDS_SAVE_V2")
+    if (line != "BOIDS_SAVE")
         return false;
 
     World& world = simulation.getWorld();
