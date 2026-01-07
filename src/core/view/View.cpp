@@ -4,7 +4,7 @@
 
 namespace bd {
 
-View::View(sf::Font& f, int w, int h) : font(f) , view3D(w, h), viewlayout() {}
+View::View(sf::Font& f, int w, int h) : font(f) , view3D(w, h) {}
 
 Camera& View::getCamera() {
     return view3D.getCamera();
@@ -70,7 +70,6 @@ void View::drawUI(sf::RenderWindow& win, const std::vector<Button>& buttons, con
 
 void View::draw(sf::RenderWindow& win) {
     view3D.drawWorldCage(win);
-    // UI overlay
     viewlayout.build();
     drawUI(win, viewlayout.buttons, viewlayout.sliders);
 }

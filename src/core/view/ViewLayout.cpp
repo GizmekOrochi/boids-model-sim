@@ -29,8 +29,6 @@ void ViewLayout::build() {
     add("Perception", &settings::perceptionRadius, 10.0f, 100.0f, i++);
     add("Separation Dist", &settings::separationDistance, 5.0f, 50.0f, i++);
     add("Vision Angle", &settings::visionAngleDeg, 0.0f, 360.f, i++);
-    add("flow", &settings::visionAngleDeg, 0.0f, 360.f, i++);
-
 
 }
 
