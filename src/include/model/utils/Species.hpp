@@ -4,6 +4,7 @@
 #pragma once
 
 namespace bd::Species {
+    
 /**
  * @enum BoidSpecies
  * @brief Définit les différentes espèces d'agents disponibles dans la simulation.
@@ -30,9 +31,7 @@ enum BoidSpecies {
  */
 inline int speciesTier(BoidSpecies s) {
     int v = static_cast<int>(s);
-    if (v < 10) return 1;
-    if (v < 100) return 2;
-    return 3;
+    return (v < 10) ? 1 : (v < 100) ? 2 : 3;
 }
 
 /**
@@ -46,11 +45,7 @@ inline int speciesTier(BoidSpecies s) {
 inline bool fear(BoidSpecies subject, BoidSpecies other) {
     int subjectTier = speciesTier(subject);
     int otherTier = speciesTier(other);
-
-    if (subjectTier == otherTier)
-        return false;
-
-    return otherTier > subjectTier;
+    return (subjectTier == otherTier) ? false : (otherTier > subjectTier);
 }
 
 /**
@@ -66,14 +61,7 @@ inline bool fear(BoidSpecies subject, BoidSpecies other) {
 inline bool canEat(BoidSpecies predator, BoidSpecies prey) {
     int subjectTier = speciesTier(predator);
     int otherTier = speciesTier(prey);
-
-    if (subjectTier == 3) {
-        return true; // eats everything
-    }
-    if (subjectTier == 2) {
-        return otherTier == 1;// eats only tier 1
-    }
-    return false;// tier 1 eats nothing
+    return (subjectTier == 3) ? true : (subjectTier == 2) ? otherTier == 1 : false;
 }
 
 /**

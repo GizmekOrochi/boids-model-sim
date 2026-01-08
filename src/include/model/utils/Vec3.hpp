@@ -135,7 +135,9 @@ public:
      */
     Vec3& operator/=(T s) {
         if (s != T(0)) {
-            x /= s; y /= s; z /= s;
+            x /= s; 
+            y /= s; 
+            z /= s;
         } else {
             x = y = z = T(0);
         }
@@ -169,11 +171,7 @@ public:
      * @return Le vecteur résultant (perpendiculaire aux deux autres).
      */
     Vec3 cross(const Vec3& rhs) const {
-        return Vec3(
-            y * rhs.z - z * rhs.y,
-            z * rhs.x - x * rhs.z,
-            x * rhs.y - y * rhs.x
-        );
+        return Vec3(y * rhs.z - z * rhs.y, z * rhs.x - x * rhs.z, x * rhs.y - y * rhs.x);
     }
 
     /**

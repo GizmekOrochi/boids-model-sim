@@ -4,6 +4,8 @@
 #pragma once
 #include <string>
 #include "utils/Vec3.hpp"
+#include "utils/MathsVector.hpp"
+
 
 namespace bd {
 

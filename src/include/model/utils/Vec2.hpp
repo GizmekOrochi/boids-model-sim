@@ -126,7 +126,7 @@ public:
      * @param s Valeur scalaire.
      * @return Référence vers ce vecteur modifié.
      */
-    Vec2& operator/=(T s) {
+    Vec2& operator/=(T s) { 
         if (s != T(0)) {
             x /= s;
             y /= s;

@@ -21,7 +21,7 @@ public:
      * * Initialise les dimensions du monde en utilisant les valeurs définies
      * dans les paramètres globaux.
      */
-    World() = default;
+    World() : width(settings::worldWidth), height(settings::worldHeight), depth(settings::worldDeepth) {};
 
     /**
      * @brief Constructeur avec dimensions personnalisées.
@@ -59,13 +59,13 @@ public:
 
 private:
     /** Largeur du monde (limite sur l'axe X). */
-    float width = settings::worldWidth;
+    float width;
 
     /** Hauteur du monde (limite sur l'axe Y). */
-    float height = settings::worldHeight;
+    float height;
 
     /** Profondeur du monde (limite sur l'axe Z). */
-    float depth = settings::worldDeepth;
+    float depth;
 };
 
 }
