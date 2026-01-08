@@ -4,33 +4,33 @@ namespace bd {
 
 void World::handleBoundaries(Boid& b) const {
     // X axis
-    if (b.position.x < 0.f) {
-        b.position.x = 0.f;
-        b.velocity.x *= -1.f;
+    if (b.position[0] < 0.0f) {
+        b.position[0] = 0.0f;
+        b.velocity[0] *= -1.0f;
     }
-    else if (b.position.x > width) {
-        b.position.x = width;
-        b.velocity.x *= -1.f;
+    else if (b.position[0] > getWidth()) {
+        b.position[0] = getWidth();
+        b.velocity[0] *= -1.0f;
     }
 
     // Y axis
-    if (b.position.y < 0.f) {
-        b.position.y = 0.f;
-        b.velocity.y *= -1.f;
+    if (b.position[1] < 0.0f) {
+        b.position[1] = 0.0f;
+        b.velocity[1] *= -1.0f;
     }
-    else if (b.position.y > height) {
-        b.position.y = height;
-        b.velocity.y *= -1.f;
+    else if (b.position[1] > getHeight()) {
+        b.position[1] = getHeight();
+        b.velocity[1] *= -1.0f;
     }
 
     // Z axis
-    if (b.position.z < 0.f) {
-        b.position.z = 0.f;
-        b.velocity.z *= -1.f;
+    if (b.position[2] < 0.0f) {
+        b.position[2] = 0.0f;
+        b.velocity[2] *= -1.0f;
     }
-    else if (b.position.z > depth) {
-        b.position.z = depth;
-        b.velocity.z *= -1.f;
+    else if (b.position[2] > getDepth()) {
+        b.position[2] = getDepth();
+        b.velocity[2] *= -1.f;
     }
 }
 

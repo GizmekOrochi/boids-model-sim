@@ -1,7 +1,7 @@
 #ifndef CAMERA_HPP
 #define CAMERA_HPP
 
-#include "../../model/utils/Vec3.hpp"
+#include "../../model/utils/MathsVector.hpp"
 #include "../../config/Settings.hpp"
 #include <algorithm>
 #include <cmath>
@@ -18,24 +18,22 @@ public:
 
     void rotate(float deltaYaw, float deltaPitch);
 
-    const Vec3<float>& getPosition() const;
+    const MathsVector<float, 3>& getPosition() const;
     float getYaw() const;
     float getPitch() const;
 
-    Vec3<float> forward() const;
-    Vec3<float> right() const;
-    Vec3<float> up() const;
+    MathsVector<float, 3> forward() const;
+    MathsVector<float, 3> right() const;
+    MathsVector<float, 3> up() const;
 
 private:
+    MathsVector<float, 3> position{{0.0f, 0.0f, -250.0f}};
+    MathsVector<float, 2> rotation{};
+
+    float moveSpeed{settings::moveSpeed};
+    float rotSpeed{settings::rotSpeed};
+
     void clampPitch();
-
-private:
-    Vec3<float> position {0.f, 0.f, -250.f};
-    float yaw = 0.f;
-    float pitch = 0.f;
-
-    float moveSpeed = settings::moveSpeed;
-    float rotSpeed  = settings::rotSpeed;
 };
 
 } // namespace bd

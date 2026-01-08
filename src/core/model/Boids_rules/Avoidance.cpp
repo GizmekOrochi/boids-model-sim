@@ -8,92 +8,91 @@ constexpr float predatorGain = 2.5f;
 constexpr float weight = 1.5f;
 constexpr float radius = 10.0f;
 
-Vec3<float> Avoidance::apply(const Boid& b, const RuleContext& ctx) const {
-    Vec3<float> steer(0.f, 0.f, 0.f);
+MathsVector<float, 3> Avoidance::apply(const Boid& b, const RuleContext& ctx) const {
+    MathsVector<float, 3> null{};
 
-    steer += avoidWorldBounds(b);
-    steer += avoidObstacles(b, ctx);
-    steer += avoidPredators(b, ctx);
+    null += avoidWorldBounds(b);
+    null += avoidObstacles(b, ctx);
+    null += avoidPredators(b, ctx);
 
-    if (steer.lengthSq() > 0.f)
-        return steer.normalized() * weight;
-    return steer;
+    if (null.lengthSq() > 0.f)
+        return null.normalized() * weight;
+    return null;
 }
 
 
-Vec3<float> Avoidance::avoidWorldBounds(const Boid& b) const {
-    Vec3<float> steer(0.f, 0.f, 0.f);
+MathsVector<float, 3> Avoidance::avoidWorldBounds(const Boid& b) const {
+    MathsVector<float, 3> null{};
 
     // X
-    if (b.position.x < wallMargin)
-        steer.x += (wallMargin - b.position.x) / wallMargin;
-    else if (b.position.x > settings::worldWidth - wallMargin)
-        steer.x -= (b.position.x - (settings::worldWidth - wallMargin)) / wallMargin;
+    if (b.position[0] < wallMargin)
+        null[0] += (wallMargin - b.position[0]) / wallMargin;
+    else if (b.position[0] > settings::worldWidth - wallMargin)
+        null[0] -= (b.position[0] - (settings::worldWidth - wallMargin)) / wallMargin;
 
     // Y
-    if (b.position.y < wallMargin)
-        steer.y += (wallMargin - b.position.y) / wallMargin;
-    else if (b.position.y > settings::worldHeight - wallMargin)
-        steer.y -= (b.position.y - (settings::worldHeight - wallMargin)) / wallMargin;
+    if (b.position[1] < wallMargin)
+        null[1] += (wallMargin - b.position[1]) / wallMargin;
+    else if (b.position[1] > settings::worldHeight - wallMargin)
+        null[1] -= (b.position[1] - (settings::worldHeight - wallMargin)) / wallMargin;
 
     // Z
-    if (b.position.z < wallMargin)
-        steer.z += (wallMargin - b.position.z) / wallMargin;
-    else if (b.position.z > settings::worldDeepth - wallMargin)
-        steer.z -= (b.position.z - (settings::worldDeepth - wallMargin)) / wallMargin;
+    if (b.position[2] < wallMargin)
+        null[2] += (wallMargin - b.position[2]) / wallMargin;
+    else if (b.position[2] > settings::worldDeepth - wallMargin)
+        null[2] -= (b.position[2] - (settings::worldDeepth - wallMargin)) / wallMargin;
 
-    return steer;
+    return null;
 }
 
-Vec3<float> Avoidance::avoidObstacles(const Boid& b, const RuleContext& ctx) const {
-    Vec3<float> steer(0.f, 0.f, 0.f);
-    const float minDist = radius + wallMargin;
+MathsVector<float, 3> Avoidance::avoidObstacles(const Boid& b, const RuleContext& ctx) const {
+    MathsVector<float, 3> null{};
+    const float minDist{radius + wallMargin};
 
     for (size_t i = 0; i < ctx.obstacles.getsize(); ++i) {
-        const Obstacle& obs = ctx.obstacles[i];
+        const Obstacle& obs{ctx.obstacles[i]};
 
-        const float hx = obs.sizeX * 0.5f;
-        const float hy = obs.sizeY * 0.5f;
-        const float hz = obs.sizeZ * 0.5f;
+        const float hx{obs.size[0] * 0.5f};
+        const float hy{obs.size[1] * 0.5f};
+        const float hz{obs.size[2] * 0.5f};
 
-        Vec3<float> closest {
-            std::max(obs.position.x - hx, std::min(b.position.x, obs.position.x + hx)),
-            std::max(obs.position.y - hy, std::min(b.position.y, obs.position.y + hy)),
-            std::max(obs.position.z - hz, std::min(b.position.z, obs.position.z + hz))
-        };
+        MathsVector<float, 3> closest{{
+            std::max(obs.position[0] - hx, std::min(b.position[0], obs.position[0] + hx)),
+            std::max(obs.position[1] - hy, std::min(b.position[1], obs.position[1] + hy)),
+            std::max(obs.position[2] - hz, std::min(b.position[2], obs.position[2] + hz))
+        }};
 
-        Vec3<float> diff = b.position - closest;
-        float distSq = diff.lengthSq();
-
-        if (distSq < minDist * minDist && distSq > 1e-6f) {
-            float dist = std::sqrt(distSq);
-            Vec3<float> away = diff / dist;
-            steer += away * (1.f - dist / minDist) * obstacleGain;
+        MathsVector<float, 3> diff{b.position - closest};
+        float distSq{diff.lengthSq()};
+        
+        // Faire gaff à diff.isZero(distSq), c'est peu être faux
+        if (distSq < minDist * minDist && diff.isZero(distSq)) {
+            float dist{std::sqrt(distSq)};
+            null +=  (diff / dist) * (1.f - dist / minDist) * obstacleGain;
         }
     }
 
-    return steer;
+    return null;
 }
 
-Vec3<float> Avoidance::avoidPredators(const Boid& b, const RuleContext& ctx) const {
-    Vec3<float> steer(0.f, 0.f, 0.f);
-    const float perceptionSq = settings::perceptionRadius * settings::perceptionRadius;
+MathsVector<float, 3> Avoidance::avoidPredators(const Boid& b, const RuleContext& ctx) const {
+    MathsVector<float, 3> null{};
+    const float perceptionSq{settings::perceptionRadius * settings::perceptionRadius};
 
     for (size_t i = 0; i < ctx.predator.getsize(); ++i) {
-        const Boid& predator = ctx.boids[ctx.predator[i]];
+        const Boid& predator{ctx.boids[ctx.predator[i]]};
 
-        Vec3<float> diff = b.position - predator.position;
-        float distSq = diff.lengthSq();
+        MathsVector<float, 3> diff{b.position - predator.position};
+        float distSq{diff.lengthSq()};
 
         if (distSq < perceptionSq && distSq > 1e-6f) {
             float dist = std::sqrt(distSq);
-            Vec3<float> away = diff / dist;
-            float strength = 1.f - dist / settings::perceptionRadius;
-            steer += away * strength * predatorGain;
+            float strength = 1.0f - dist / settings::perceptionRadius;
+            null += (diff / dist) * strength * predatorGain;
         }
     }
 
-    return steer;
+    return null;
 }
 
-} // namespace bd
+} // namespace

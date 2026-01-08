@@ -17,61 +17,61 @@ void View3D::setViewport(int w, int h) {
 }
 
 // Transforme un point du repere monde vers le repere caméra
-Vec3<float> View3D::worldToCamera(const Vec3<float>& p) const {
-    Vec3<float> rel = p - camera.getPosition();
+MathsVector<float, 3> View3D::worldToCamera(const MathsVector<float, 3>& position) const {
+    MathsVector<float, 3> rel{position - camera.getPosition()};
 
     float yaw = camera.getYaw();
     float pitch = camera.getPitch();
 
-    float cy = std::cos(-yaw);
-    float sy = std::sin(-yaw);
-    float x1 =  cy * rel.x + sy * rel.z;
-    float y1 = rel.y;
-    float z1 = -sy * rel.x + cy * rel.z;
+    float cy{std::cos(-yaw)};
+    float sy{std::sin(-yaw)};
+    float x1 = cy * rel[0] + sy * rel[2];
+    float y1 = rel[1];
+    float z1 = -sy * rel[0] + cy * rel[2];
 
-    float cp = std::cos(-pitch);
-    float sp = std::sin(-pitch);
-    float x2 = x1;
-    float y2 = cp * y1 - sp * z1;
-    float z2 = sp * y1 + cp * z1;
+    float cp{std::cos(-pitch)};
+    float sp{std::sin(-pitch)};
+    float x2{x1};
+    float y2{cp * y1 - sp * z1};
+    float z2{sp * y1 + cp * z1};
 
-    return {x2, y2, z2};
+    return MathsVector<float, 3>{{x2, y2, z2}};
 }
 
 // Projette un point de l'espace caméra sur l'ecran
-bool View3D::projectToScreen(const Vec3<float>& camP, Vec2<float>& out, float& outZ) const {
-    if (camP.z <= nearZ)
+bool View3D::projectToScreen(const MathsVector<float, 3>& camP, MathsVector<float, 2>& out, float& outZ) const {
+    if (camP[2] <= nearZ)
         return false;
 
-    float cx = width * 0.5f;
-    float cy = height * 0.5f;
+    float cx{width * 0.5f};
+    float cy{height * 0.5f};
 
-    out.x = (camP.x * fovPixels / camP.z) + cx;
-    out.y = (camP.y * fovPixels / camP.z) + cy;
-    outZ = camP.z;
+    out[0] = (camP[0] * fovPixels / camP[2]) + cx;
+    out[1] = (camP[1] * fovPixels / camP[2]) + cy;
+    outZ = camP[2];
 
     return true;
 }
 
-void View3D::drawLine3D(sf::RenderWindow& win, const Vec3<float>& a, const Vec3<float>& b,sf::Color color) {
-    Vec2<float> pa, pb;
+void View3D::drawLine3D(sf::RenderWindow& win, const MathsVector<float, 3>& a, const MathsVector<float, 3>& b,sf::Color color) {
+    MathsVector<float, 2> pa, pb;
     float za, zb;
 
-    Vec3<float> ca = worldToCamera(a);
-    Vec3<float> cb = worldToCamera(b);
+    MathsVector<float, 3> ca{worldToCamera(a)};
+    MathsVector<float, 3> cb{worldToCamera(b)};
 
     if (!projectToScreen(ca, pa, za)) return;
     if (!projectToScreen(cb, pb, zb)) return;
 
-    sf::Vertex line[] = {
-        sf::Vertex({pa.x, pa.y}, color),
-        sf::Vertex({pb.x, pb.y}, color)
+    sf::Vertex line[]{
+        sf::Vertex({pa[0], pa[1]}, color),
+        sf::Vertex({pb[0], pb[1]}, color)
     };
 
     win.draw(line, 2, sf::Lines);
 }
 
-void View3D::drawTriangle3D(sf::RenderWindow& win, const Vec3<float>& a, const Vec3<float>& b, const Vec3<float>& c, sf::Color color) {
+void View3D::drawTriangle3D(sf::RenderWindow& win, const MathsVector<float, 3>& a, const MathsVector<float, 3>& b, const MathsVector<float, 3>& c, sf::Color color) {
     drawLine3D(win, a, b, color);
     drawLine3D(win, b, c, color);
     drawLine3D(win, c, a, color);
@@ -86,15 +86,15 @@ void View3D::drawWorldCage(sf::RenderWindow& win) {
     sf::Color gridColor(100, 100, 100, 120);
 
     // ---- corners ----
-    Vec3<float> A{0, 0, 0};
-    Vec3<float> B{W, 0, 0};
-    Vec3<float> C{W, H, 0};
-    Vec3<float> D0{0, H, 0};
+    MathsVector<float, 3> A{{0.0f, 0.0f, 0.0f}};
+    MathsVector<float, 3> B{{W, 0.0f, 0.0f}};
+    MathsVector<float, 3> C{{W, H, 0.0f}};
+    MathsVector<float, 3> D0{{0.0f, H, 0.0f}};
 
-    Vec3<float> E{0, 0, D};
-    Vec3<float> F{W, 0, D};
-    Vec3<float> G{W, H, D};
-    Vec3<float> H0{0, H, D};
+    MathsVector<float, 3> E{{0.0f, 0.0f, D}};
+    MathsVector<float, 3> F{{W, 0.0f, D}};
+    MathsVector<float, 3> G{{W, H, D}};
+    MathsVector<float, 3> H0{{0.0f, H, D}};
 
     drawLine3D(win, A, B, edgeColor);
     drawLine3D(win, B, C, edgeColor);
@@ -117,60 +117,60 @@ void View3D::drawWorldCage(sf::RenderWindow& win) {
         float x = W * i / GRID;
         float y = H * i / GRID;
 
-        drawLine3D(win, {x, 0, 0}, {x, H, 0}, gridColor);
-        drawLine3D(win, {0, y, 0}, {W, y, 0}, gridColor);
+        drawLine3D(win, MathsVector<float, 3>{{x, 0.0f, 0.0f}}, MathsVector<float, 3>{{x, H, 0.0f}}, gridColor);
+        drawLine3D(win, MathsVector<float, 3>{{0.0f, y, 0.0f}}, MathsVector<float, 3>{{W, y, 0.0f}}, gridColor);
 
-        drawLine3D(win, {x, 0, D}, {x, H, D}, gridColor);
-        drawLine3D(win, {0, y, D}, {W, y, D}, gridColor);
+        drawLine3D(win, MathsVector<float, 3>{{x, 0.0f, D}}, MathsVector<float, 3>{{x, H, D}}, gridColor);
+        drawLine3D(win, MathsVector<float, 3>{{0.0f, y, D}}, MathsVector<float, 3>{{W, y, D}}, gridColor);
     }
 
     for (int i = 1; i < GRID; ++i) {
         float x = W * i / GRID;
         float z = D * i / GRID;
 
-        drawLine3D(win, {x, 0, 0}, {x, 0, D}, gridColor);
-        drawLine3D(win, {0, 0, z}, {W, 0, z}, gridColor);
+        drawLine3D(win, MathsVector<float, 3>{{x, 0.0f, 0.0f}}, MathsVector<float, 3>{{x, 0.0f, D}}, gridColor);
+        drawLine3D(win, MathsVector<float, 3>{{0.0f, 0, z}}, MathsVector<float, 3>{{W, 0.0f, z}}, gridColor);
 
-        drawLine3D(win, {x, H, 0}, {x, H, D}, gridColor);
-        drawLine3D(win, {0, H, z}, {W, H, z}, gridColor);
+        drawLine3D(win, MathsVector<float, 3>{{x, H, 0.0f}}, MathsVector<float, 3>{{x, H, D}}, gridColor);
+        drawLine3D(win, MathsVector<float, 3>{{0.0f, H, z}}, MathsVector<float, 3>{{W, H, z}}, gridColor);
     }
 
     for (int i = 1; i < GRID; ++i) {
         float y = H * i / GRID;
         float z = D * i / GRID;
 
-        drawLine3D(win, {0, y, 0}, {0, y, D}, gridColor);
-        drawLine3D(win, {0, 0, z}, {0, H, z}, gridColor);
+        drawLine3D(win, MathsVector<float, 3>{{0.0f, y, 0.0f}}, MathsVector<float, 3>{{0.0f, y, D}}, gridColor);
+        drawLine3D(win, MathsVector<float, 3>{{0.0f, 0.0f, z}}, MathsVector<float, 3>{{0.0f, H, z}}, gridColor);
 
-        drawLine3D(win, {W, y, 0}, {W, y, D}, gridColor);
-        drawLine3D(win, {W, 0, z}, {W, H, z}, gridColor);
+        drawLine3D(win, MathsVector<float, 3>{{W, y, 0.0f}}, MathsVector<float, 3>{{W, y, D}}, gridColor);
+        drawLine3D(win, MathsVector<float, 3>{{W, 0.0f, z}}, MathsVector<float, 3>{{W, H, z}}, gridColor);
     }
 }
 
 
 
-void View3D::drawBoid(sf::RenderWindow& win, const Vec3<float>& position,const Vec3<float>& direction, Species::BoidSpecies BoidSpecie) {
-    const float length = 18.0f;
-    const float width = 6.0f;
-    const float height = 6.0f;
+void View3D::drawBoid(sf::RenderWindow& win, const MathsVector<float, 3>& position,const MathsVector<float, 3>& direction, Species::BoidSpecies BoidSpecie) {
+    const float length{18.0f};
+    const float width{6.0f};
+    const float height{6.0f};
 
-    Vec3<float> forward = direction.normalized();
-    Vec3<float> worldUp = (std::abs(forward.y) > 0.99f) ? Vec3<float>{1.f, 0.f, 0.f} : Vec3<float>{0.f, 1.f, 0.f};
-    Vec3<float> right = worldUp.cross(forward).normalized();
-    Vec3<float> up = forward.cross(right);
+    MathsVector<float, 3> forward{direction.normalized()};
+    MathsVector<float, 3> worldUp{(std::abs(forward[1]) > 0.99f) ? MathsVector<float, 3>{{1.0f, 0.0f, 0.0f}} : MathsVector<float, 3>{{0.0f, 1.0f, 0.0f}}};
+    MathsVector<float, 3> right{worldUp.cross(forward).normalized()};
+    MathsVector<float, 3> up{forward.cross(right)};
 
     // Piramide description ( top vertical then base verticals )
-    std::vector<Vec3<float>> local = {
-        { 0.f, 0.f, length },
-        {-width, -height, 0.f},
-        { width, -height, 0.f},
-        { width, height, 0.f},
-        {-width, height, 0.f}
-    };
+    std::vector<MathsVector<float, 3>> local{{
+        MathsVector<float, 3>{{ 0.0f, 0.0f, length }},
+        MathsVector<float, 3>{{-width, -height, 0.0f}},
+        MathsVector<float, 3>{{ width, -height, 0.0f}},
+        MathsVector<float, 3>{{ width, height, 0.0f}},
+        MathsVector<float, 3>{{-width, height, 0.0f}}
+    }};
 
-    std::vector<Vec3<float>> world(local.size());
+    std::vector<MathsVector<float, 3>> world(local.size());
     for (size_t i = 0; i < local.size(); ++i) {
-        world[i] = position + right * local[i].x + up * local[i].y + forward * local[i].z;
+        world[i] = position + right * local[i][0] + up * local[i][1] + forward * local[i][2];
     }
 
     static constexpr Face faces[] = {
@@ -180,11 +180,10 @@ void View3D::drawBoid(sf::RenderWindow& win, const Vec3<float>& position,const V
         {0,4,1}
     };
 
-    if(BoidSpecie == Species::BoidSpecies::CYAN) {
-        for (const Face& f : faces) {
+    if(BoidSpecie == Species::BoidSpecies::CYAN) 
+        for (const Face& f : faces)
             drawTriangle3D(win, world[f.a], world[f.b], world[f.c], sf::Color::Cyan);
-        }
-    }
+            
     else if(BoidSpecie == Species::BoidSpecies::GREEN) {
         for (const Face& f : faces) {
             drawTriangle3D(win, world[f.a], world[f.b], world[f.c], sf::Color::Green);
@@ -208,24 +207,24 @@ void View3D::drawBoid(sf::RenderWindow& win, const Vec3<float>& position,const V
 }
 
 
-void View3D::drawObstacle(sf::RenderWindow& win, const Vec3<float>& position, int sizeX, int sizeY, int sizeZ) {
-    const float width  = static_cast<float>(sizeX);
-    const float height = static_cast<float>(sizeY);
-    const float Depth  = static_cast<float>(sizeZ);
+void View3D::drawObstacle(sf::RenderWindow& win, const MathsVector<float, 3>& position, int sizeX, int sizeY, int sizeZ) {
+    const float width{static_cast<float>(sizeX)};
+    const float height{static_cast<float>(sizeY)};
+    const float Depth{static_cast<float>(sizeZ)};
 
     // Cube description
-    std::vector<Vec3<float>> local = {
-        {-width/2, -height/2, -Depth/2},
-        { width/2, -height/2, -Depth/2},
-        { width/2, -height/2, Depth/2},
-        {-width/2, -height/2, Depth/2},
-        {-width/2, height/2, -Depth/2},
-        { width/2, height/2, -Depth/2},
-        { width/2, height/2, Depth/2},
-        {-width/2, height/2, Depth/2},
-    };
+    std::vector<MathsVector<float, 3>> local{{
+        MathsVector<float, 3>{{-width, -height, -Depth}} / 2.0f,
+        MathsVector<float, 3>{{ width, -height, -Depth}} / 2.0f,
+        MathsVector<float, 3>{{ width, -height, Depth}} / 2.0f,
+        MathsVector<float, 3>{{-width, -height, Depth}} / 2.0f,
+        MathsVector<float, 3>{{-width, height, -Depth}} / 2.0f,
+        MathsVector<float, 3>{{ width, height, -Depth}} / 2.0f,
+        MathsVector<float, 3>{{ width, height, Depth}} / 2.0f,
+        MathsVector<float, 3>{{-width, height, Depth}} / 2.0f,
+    }};
 
-    std::vector<Vec3<float>> world(local.size());
+    std::vector<MathsVector<float, 3>> world(local.size());
         for (size_t i = 0; i < local.size(); ++i) {
             world[i] = position + local[i];
         }

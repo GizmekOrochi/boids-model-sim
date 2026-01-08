@@ -1,5 +1,6 @@
 #include "../../../include/model/utils/SaveSystem.hpp"
 #include "../../../include/model/utils/Species.hpp"
+#include "../../../include/model/utils/MathsVector.hpp"
 #include <fstream>
 #include <sstream>
 
@@ -10,8 +11,8 @@ bool SaveSystem::save(const Simulation& simulation, const std::string& filename)
     if (!out.is_open())
         return false;
 
-    const Flock& flock = simulation.getFlock();
-    const auto& boids = flock.getBoids();
+    const Flock& flock{simulation.getFlock()};
+    const auto& boids{flock.getBoids()};
 
     out << "BOIDS_SAVE\n\n";
 
@@ -28,14 +29,15 @@ bool SaveSystem::save(const Simulation& simulation, const std::string& filename)
     for (size_t i = 0; i < boids.getsize() ; ++i) {
         const Boid& b = boids[i];
 
-        Vec3<float> dir = b.velocity.normalized();
-        if (dir.lengthSq() < 1e-6f) {
-            dir = Vec3<float>(1.f, 0.f, 0.f);
+        MathsVector<float, 3> dir{b.velocity.normalized()};
+        // ATTENTION PEUT ETRE QUE isZero merde
+        if (!dir.isZero(dir.lengthSq())) {
+            dir = MathsVector<float, 3>{};
         }
 
         out << "boid "  // type
-            << b.position.x << " " << b.position.y << " " << b.position.z << " "  // position
-            << dir.x << " " << dir.y << " " << dir.z << " "     // direction
+            << b.position[0] << " " << b.position[1] << " " << b.position[12] << " "  // position
+            << dir[0] << " " << dir[1] << " " << dir[2] << " "     // direction
             << static_cast<int>(b.specie) << "\n";      // specie
 
     }
@@ -74,7 +76,7 @@ bool SaveSystem::load(Simulation& simulation, const std::string& filename) {
             std::getline(in, line);
             deepth = std::stof(line.substr(6));
 
-            world = World(width, height, deepth);
+            world = World(MathsVector<float, 3>{{width, height, deepth}});
         }
         else if (line == "BOIDS") {
             std::getline(in, line);
@@ -92,9 +94,8 @@ bool SaveSystem::load(Simulation& simulation, const std::string& filename) {
                 iss >> tag >> x >> y >> z >> dx >> dy >> dz >> specieInt;
 
                 Species::BoidSpecies specie = static_cast<Species::BoidSpecies>(specieInt);
-
-                Boid b(x, y, z, specie);
-                b.velocity = Vec3<float>(dx, dy, dz);
+                Boid b(MathsVector<float, 3>{{x, y, z}}, specie);
+                b.velocity = MathsVector<float, 3>{{dx, dy, dz}};
                 flock.addBoid(b);
             }
         }

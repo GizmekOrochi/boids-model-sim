@@ -22,7 +22,9 @@ public:
     MathsVector(const std::array<T, Dimension_>& dimensions) : dimensions_{dimensions} {}
     //MathsVector(const MathsVector& other) : dimensions_(other.dimensions_) {}
 
-    const T& operator[](size_t index) const { return dimensions_[index]; }        
+    const T& operator[](size_t index) const { return dimensions_[index]; }  
+    T& operator[](size_t index) { return dimensions_[index]; }  
+          
 
     MathsVector operator+(const MathsVector& other) const { 
     	std::array<T, Dimension_> newDim{dimensions_};

@@ -4,6 +4,14 @@ namespace bd {
 
 Camera::Camera() = default;
 
+float Camera::getYaw() const {
+    return rotation[0];
+}
+
+float Camera::getPitch() const {
+    return rotation[1];
+}
+
 void Camera::moveForward(float dt) {
     position += forward() * (moveSpeed * dt);
 }
@@ -13,44 +21,38 @@ void Camera::moveRight(float dt) {
 }
 
 void Camera::moveUp(float dt) {
-    position.y += moveSpeed * dt;
+    position[1] += moveSpeed * dt;
 }
 
 void Camera::rotate(float dyaw, float dpitch) {
-    yaw   += dyaw * rotSpeed;
-    pitch += dpitch * rotSpeed;
+    rotation[0] += dyaw * rotSpeed;
+    rotation[1] += dpitch * rotSpeed;
     clampPitch();
 }
 
 void Camera::clampPitch() {
-    pitch = std::clamp(pitch, -1.45f, 1.45f);
+    rotation[0] = std::clamp(rotation[0], -1.45f, 1.45f);
 }
 
-const Vec3<float>& Camera::getPosition() const {
+const MathsVector<float, 3>& Camera::getPosition() const {
     return position;
 }
 
-float Camera::getYaw() const {
-    return yaw;
+MathsVector<float, 3> Camera::forward() const {
+    float cy{std::cos(rotation[0])}; 
+    float sy{std::sin(rotation[0])};
+    float cp{std::cos(rotation[1])};
+    float sp{std::sin(rotation[1])};
+    return MathsVector<float, 3>{{sy * cp, -sp, cy * cp}};
 }
 
-float Camera::getPitch() const {
-    return pitch;
+MathsVector<float, 3> Camera::right() const {
+    float cy = std::cos(rotation[0]), sy = std::sin(rotation[0]);
+    return MathsVector<float, 3>{{cy, 0.0f, -sy}};
 }
 
-Vec3<float> Camera::forward() const {
-    float cy = std::cos(yaw), sy = std::sin(yaw);
-    float cp = std::cos(pitch), sp = std::sin(pitch);
-    return { sy * cp, -sp, cy * cp };
-}
-
-Vec3<float> Camera::right() const {
-    float cy = std::cos(yaw), sy = std::sin(yaw);
-    return { cy, 0.f, -sy };
-}
-
-Vec3<float> Camera::up() const {
-    return {0.f, 1.f, 0.f};
+MathsVector<float, 3> Camera::up() const {
+    return MathsVector<float, 3>{{0.0f, 1.0f, 0.0f}};
 }
 
 } // namespace bd

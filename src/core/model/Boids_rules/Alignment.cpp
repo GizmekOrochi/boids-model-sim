@@ -2,20 +2,20 @@
 
 namespace bd {
 
-Vec3<float> Alignment::apply(const Boid& b, const RuleContext& ctx) const {
+MathsVector<float, 3> Alignment::apply(const Boid& b, const RuleContext& ctx) const {
+    MathsVector<float, 3> null{};
     if (ctx.neighbors.getsize() == 0)
-        return Vec3<float>(0.f, 0.f, 0.f);
-
-    Vec3<float> avgVel(0.f, 0.f, 0.f);
+        return null;
+;
 
     for (size_t i = 0; i < ctx.neighbors.getsize(); ++i) {
-        avgVel += ctx.boids[ctx.neighbors[i]].velocity;
+        null += ctx.boids[ctx.neighbors[i]].velocity;
     }
 
-    avgVel /= static_cast<float>(ctx.neighbors.getsize());
+    null /= static_cast<float>(ctx.neighbors.getsize());
 
-    Vec3<float> steer = avgVel - b.velocity;
+    MathsVector<float, 3> steer{null - b.velocity};
     return steer * settings::alignmentWeight;
 }
 
-}
+} //namepace

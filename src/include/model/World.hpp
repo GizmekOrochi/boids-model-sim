@@ -4,68 +4,24 @@
 #pragma once
 #include "Boid.hpp"
 #include "../config/Settings.hpp"
+#include "utils/MathsVector.hpp"
 
 namespace bd {
 
-/**
- * @class World
- * @brief Définit les limites spatiales de la simulation.
- * * Le monde est représenté par un volume rectangulaire  défini par sa largeur,
- * sa hauteur et sa profondeur. Cette classe est responsable de la gestion des limites,
- * en s'assurant que les boids restent à l'intérieur ou rebondissent contre les parois.
- */
 class World {
 public:
-    /**
-     * @brief Constructeur par défaut.
-     * * Initialise les dimensions du monde en utilisant les valeurs définies
-     * dans les paramètres globaux.
-     */
-    World() : width(settings::worldWidth), height(settings::worldHeight), depth(settings::worldDeepth) {};
 
-    /**
-     * @brief Constructeur avec dimensions personnalisées.
-     * @param w Largeur du monde (axe X).
-     * @param h Hauteur du monde (axe Y).
-     * @param d Profondeur du monde (axe Z).
-     */
-    World(float w, float h, float d) : width(w), height(h), depth(d) {}
+    World() : size{{settings::worldWidth, settings::worldHeight, settings::worldDeepth}} {};
+    World(MathsVector<float, 3> size) : size{size} {}
 
-    /**
-     * @brief Récupère la largeur du monde.
-     * @return La largeur (axe X).
-     */
-    float getWidth() const { return width; }
+    float getWidth() const { return size[0]; }
+    float getHeight() const { return size[1]; }
+    float getDepth() const { return size[2]; }
 
-    /**
-     * @brief Récupère la hauteur du monde.
-     * @return La hauteur (axe Y).
-     */
-    float getHeight() const { return height; }
-
-    /**
-     * @brief Récupère la profondeur du monde.
-     * @return La profondeur (axe Z).
-     */
-    float getDepth() const { return depth; }
-
-    /**
-     * @brief Applique les contraintes de bordure au boid.
-     * * Vérifie si le boid sort des limites du monde. Si c'est le cas, cette méthode
-     * corrige sa position et inverse sa vitesse pour le maintenir à l'intérieur.
-     * @param b Le boid à vérifier et corriger.
-     */
     void handleBoundaries(Boid& b) const;
 
 private:
-    /** Largeur du monde (limite sur l'axe X). */
-    float width;
-
-    /** Hauteur du monde (limite sur l'axe Y). */
-    float height;
-
-    /** Profondeur du monde (limite sur l'axe Z). */
-    float depth;
+    MathsVector<float, 3> size;
 };
 
 }
