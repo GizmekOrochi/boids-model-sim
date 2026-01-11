@@ -22,6 +22,13 @@ public:
 
     void setViewport(int w, int h);
 
+    Vec3<float> worldToCamera(const Vec3<float>& p) const;
+    bool projectToScreen(const Vec3<float>& camP, Vec2<float>& out, float& outZ) const;
+
+    void drawBoid(sf::RenderWindow& win, const Vec3<float>& position, const Vec3<float>& direction, Species::BoidSpecies BoidSpecie);
+    void drawObstacle(sf::RenderWindow& win, const Vec3<float>& position, int sizeX, int sizeY, int sizeZ);
+    void drawWorldCage(sf::RenderWindow& win);
+
 private:
     Camera camera;
     int width;
@@ -32,14 +39,6 @@ private:
 
     void drawLine3D(sf::RenderWindow& win, const Vec3<float>& a, const Vec3<float>& b, sf::Color color);
     void drawTriangle3D(sf::RenderWindow& win, const Vec3<float>& a, const Vec3<float>& b, const Vec3<float>& c,sf::Color color);
-
-    Vec3<float> worldToCamera(const Vec3<float>& p) const;
-    bool projectToScreen(const Vec3<float>& camP, Vec2<float>& out, float& outZ) const;
-
-    void drawBoid(sf::RenderWindow& win, const Vec3<float>& position, const Vec3<float>& direction, Species::BoidSpecies BoidSpecie);
-    void drawObstacle(sf::RenderWindow& win, const Vec3<float>& position, int sizeX, int sizeY, int sizeZ);
-    void drawWorldCage(sf::RenderWindow& win);
-
 };
 
 }
