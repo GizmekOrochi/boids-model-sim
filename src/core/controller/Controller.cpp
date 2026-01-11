@@ -91,7 +91,7 @@ void Controller::run() {
             const Boid& boid = boids[i];
             MathsVector<float, 2> screen;
 
-            if (!screen.isZero(boid.velocity.lengthSq())) continue;
+            if (screen.isZero(boid.velocity.lengthSq())) continue;
             MathsVector<float, 3> camP{view.getView3D().worldToCamera(boid.position)};
             float z;
 
