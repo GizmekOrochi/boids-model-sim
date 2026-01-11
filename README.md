@@ -12,10 +12,9 @@ BOIDS-MODEL-SIM/
 │   └── html/      # Doxygen HTML output
 │       └── index.html
 ├── src/
-│   ├── core/      # Core simulation logic (boids, rules, math)
+│   ├── core/      # Core simulation MVC logic (boids, rules, math)
 │   ├── include/   # Public headers
 │   └── main.cpp   # Application entry point
-├── tests/         # Unit tests
 ├── Doxyfile       # Doxygen configuration
 ├── Makefile       # Build system
 ├── Project-Info

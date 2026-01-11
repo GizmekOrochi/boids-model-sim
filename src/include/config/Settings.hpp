@@ -38,7 +38,7 @@ inline float deltaTime = 1.0f;
 
 // Rules Weight
 inline float cohesionWeight = 0.01f;
-inline float separationWeight = 0.05f;
+inline float separationWeight = 0.8f;
 inline float desiredDistance = 20.0f;
 inline float alignmentWeight = 0.125f;
 inline float separationDistance = 15.0f;
